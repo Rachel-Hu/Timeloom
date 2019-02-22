@@ -1,9 +1,9 @@
 <?php include 'includes/db.php'?>
-<?php session_start(); ?>
-<?
+<?php
     $css = 'public/stylesheets/welcome.css';
     require_once('includes/header.php'); 
 ?>
+<?php session_start(); ?>
 
         </div>
     </div>

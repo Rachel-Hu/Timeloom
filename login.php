@@ -34,6 +34,7 @@
             if($username == $db_username && $password == $db_password) {
                 $_SESSION['message'] = '<div class="alert alert-success" role="alert">Sucessfully logged in!</div>';
                 $_SESSION['isLoggedIn'] = true;
+                $_SESSION['username'] = $username;
                 header('Location: dashboard.php');
             }
             else {

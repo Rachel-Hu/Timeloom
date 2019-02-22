@@ -1,6 +1,6 @@
 <?php 
 
-$db['db_host'] = 'timeloom';
+$db['db_host'] = 'localhost';
 $db['db_user'] = 'timeloom';
 $db['db_password'] = '1qazxsw2';
 $db['db_name'] = 'timeloom';
