@@ -1,9 +1,9 @@
 <?php 
 
-$db['db_host'] = 'localhost';
-$db['db_user'] = 'root';
-$db['db_password'] = '';
-$db['db_name'] = 'task_list';
+$db['db_host'] = 'timeloom';
+$db['db_user'] = 'timeloom';
+$db['db_password'] = '1qazxsw2';
+$db['db_name'] = 'timeloom';
 
 foreach($db as $key => $value){
     define(strtoupper($key), $value);
