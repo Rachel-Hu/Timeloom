@@ -8,8 +8,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6" id="list">
-                    <h1>Task List</h1>
-                    <input type="text" placeholder="Add new task">
+                    <form action="src/add_task.php" method="post">
+                        <h1>Task List <button id="add-task" name="add-task"><i class="fas fa-plus"></i></button></h1>
+                        <input type="text" placeholder="Add new task" name="task">
+                    </form>
                     <ul>
                         <?php
                             $username = $_SESSION['username'];
@@ -22,7 +24,8 @@
 
                             while($row = mysqli_fetch_assoc($tasks)) {
                                 $task = $row['taskname'];
-                                echo '<li><span><i class="fas fa-trash"></i></span> '.$task.'<span class="change-rank"><i class="fas fa-arrow-circle-up"></i><i class="fas fa-arrow-circle-down"></i></span></li> ';
+                                $id = $row['taskid'];
+                                echo '<li><a class="delete-btn" href="src/delete_task.php?id='.$id.'"><i class="fas fa-trash"></i></a> '.$task.'<span class="change-rank"><i class="fas fa-arrow-circle-up"></i><i class="fas fa-arrow-circle-down"></i></span></li> ';
                             }
                         ?>
                     </ul>
