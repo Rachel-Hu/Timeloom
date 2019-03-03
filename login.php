@@ -2,12 +2,11 @@
 <?php include 'includes/header.php'; ?>
 <?php session_start(); ?>
 
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="register.php"><i class="fas fa-user-plus"></i> Register</a>
-                </li>
-            </ul>
-        </div>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="register.php"><i class="fas fa-user-plus"></i> Register</a>
+            </li>
+        </ul>
     </div>
 </nav>
 
