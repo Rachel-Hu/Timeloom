@@ -1,6 +1,10 @@
 <?php include 'includes/db.php'; ?>
+<?php
+    $css = 'public/stylesheets/login.css';
+    $js = 'public/js/login.js';
+    $login = true;
+?>
 <?php include 'includes/header.php'; ?>
-<?php session_start(); ?>
 
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
@@ -12,11 +16,11 @@
 
 <!-- The login form -->
 
-    <div class="container" style="margin: 20px auto;">
+    <div class="container" id="login-form">
         <?php if(isset($_SESSION['message'])) {
             echo $_SESSION['message'];
         }?>
-        <h1 class="form-header text-center">Login</h1>
+        <h1 class="form-header text-center" id="title">Login</h1>
         <div class="row">
             <div class="col-sm-6 mx-auto">
                 <form method="post" action="src/login_authen.php">
@@ -36,6 +40,11 @@
                         <button type="submit" class="btn btn-danger" name="login">Submit</button>
                     </div>
                 </form>
+
+                <div class="mx-auto" id="g-signin">
+                    Or, sign in with Google
+                    <div class="g-signin2" data-onsuccess="onSignIn" id="g-signin-btn"></div>
+                </div>
             </div>
         </div>
     </div>

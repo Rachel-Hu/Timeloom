@@ -1,0 +1,16 @@
+#title {
+    margin: 1em;
+}
+
+#login-form {
+    margin: 1em auto;
+}
+
+#g-signin {
+    margin: 1em auto;
+    text-align: center;
+}
+
+#g-signin-btn {
+    display: inline-block;
+}

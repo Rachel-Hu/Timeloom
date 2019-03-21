@@ -28,6 +28,12 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label for="email" class="col-lg-3 col-form-label">Email: </label>
+                        <div class="col-lg-9">
+                            <input type="email" class="form-control" placeholder="Email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label for="birthdate" class="col-lg-3 col-form-label">Birth Date: </label>
                         <div class="col-lg-9">
                             <input type="date" class="form-control" placeholder="Birth Date" name="birthdate" required>
