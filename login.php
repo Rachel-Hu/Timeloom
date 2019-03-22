@@ -5,6 +5,7 @@
     $login = true;
 ?>
 <?php include 'includes/header.php'; ?>
+<?php session_start(); ?>
 
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
@@ -17,6 +18,7 @@
 <!-- The login form -->
 
     <div class="container" id="login-form">
+        <!-- To prompt the message if there is an error. -->
         <?php if(isset($_SESSION['message'])) {
             echo $_SESSION['message'];
         }?>
@@ -40,7 +42,7 @@
                         <button type="submit" class="btn btn-danger" name="login">Submit</button>
                     </div>
                 </form>
-
+                <!-- The button to log in with Google account. -->
                 <div class="mx-auto" id="g-signin">
                     Or, sign in with Google
                     <div class="g-signin2" data-onsuccess="onSignIn" id="g-signin-btn"></div>

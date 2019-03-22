@@ -19,11 +19,12 @@
 
         while($row = mysqli_fetch_array($select_user_query)) {
             // print_r($row);
-            $id = $row['user_id'];
+            $id = $row['userid'];
             $username = $row['username'];            
             $_SESSION['message'] = '<div class="alert alert-success" role="alert">Sucessfully logged in!</div>';
             $_SESSION['isLoggedIn'] = true;
             $_SESSION['username'] = $username;
+            $_SESSION['userid'] = $id;
             $redirectURL = 'dashboard.php';
             echo $redirectURL;
         }

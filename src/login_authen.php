@@ -19,13 +19,14 @@
 
 
         while($row = mysqli_fetch_array($select_user_query)) {
-            $db_id = $row['user_id'];
+            $db_id = $row['userid'];
             $db_username = $row['username'];
             $db_password = $row['password'];
             if($username == $db_username && $password == $db_password) {
                 $_SESSION['message'] = '<div class="alert alert-success" role="alert">Sucessfully logged in!</div>';
                 $_SESSION['isLoggedIn'] = true;
                 $_SESSION['username'] = $username;
+                $_SESSION['userid'] = $db_id;
                 header('Location: ../dashboard.php');
             }
             else {
