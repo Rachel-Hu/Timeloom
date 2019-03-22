@@ -1,8 +1,13 @@
-## Todo list 
-- Considering the task form is a multi-input one, maybe a pop-up form is worth trying;
-- Think about how pressing the arrow will make a change in the score behind the scene;
-- How to switch between different task lists;
-- Improve UI design.
+## Todo list for next week
+- Carefully merge two database
+- Encrypt password 
+## Todo list in the future 
+- Enable Google account registeration
+- Rearrange project file system structure
+- Handle errors correctly
+- Design a pop-up form to add tasks
+- Switch between different task lists
+- Improve UI design
 - Avoid HTML injection
-- Password encryption.
+
 
