@@ -6,7 +6,7 @@
     if(isset($_GET['id'])) {
         $id = $_GET['id'];
         
-        $query = "DELETE FROM tasks WHERE taskid = '{$id}' ";
+        $query = "DELETE FROM task WHERE id = '{$id}' ";
         $delete_task_query = mysqli_query($connect, $query);
         if(!$delete_task_query) {
             die("QUERY FAILED ".mysqli.error($connect)).' '.msqli_errno($connect);

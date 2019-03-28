@@ -11,7 +11,7 @@
         $username = mysqli_real_escape_string($connect, $username);
         $password = mysqli_real_escape_string($connect, $password);
 
-        $query = "SELECT * FROM users WHERE username = '{$username}' ";
+        $query = "SELECT * FROM user WHERE username = '{$username}' ";
         $select_user_query = mysqli_query($connect, $query);
         if(!$select_user_query) {
             die("QUERY FAILED ".mysqli.error($connect));
@@ -19,7 +19,7 @@
 
 
         while($row = mysqli_fetch_array($select_user_query)) {
-            $db_id = $row['userid'];
+            $db_id = $row['id'];
             $db_username = $row['username'];
             $db_password = $row['password'];
             if($username == $db_username && $password == $db_password) {

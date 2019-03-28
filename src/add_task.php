@@ -6,19 +6,20 @@
     if(isset($_POST['task'])){
         if($_POST['task'] != ""){
             $task = $_POST['task'];
-
-            $username = $_SESSION['username'];
+            $userid = $_SESSION['userid'];
+            // $username = $_SESSION['username'];
 
             // Find the userid of current user.
             $userid_query = "SELECT *
-                        FROM users
-                        WHERE users.username = '$username'";
+                        FROM user
+                        WHERE user.id = '$userid'";
             $user_result = mysqli_query($connect, $userid_query);
             if(!$user_result) {
                 die("QUERY FAILED ".mysqli.error($connect));
             }
-            $userid = mysqli_fetch_assoc($user_result)['userid'];
-            $add_task_query = "INSERT INTO tasks (userid, taskname, display_score, hint) VALUES (".$userid.", '{$task}', 0, 0)";
+            print_r($user_result);
+            $userid = mysqli_fetch_assoc($user_result)['id'];
+            $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id) VALUES ('{$task}', 0, 0, 0, 2, ".$userid.")";
             $add_result = mysqli_query($connect, $add_task_query);
             if(!$add_result) {
                 echo "Failed!";

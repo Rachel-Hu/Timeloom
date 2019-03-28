@@ -19,10 +19,18 @@
                     </form>
                     <ul>
                         <?php
-                            $userid = $_SESSION['userid'];
-                            $query = "SELECT *
-                                        FROM tasks
-                                        WHERE tasks.userid = '$userid'";
+                            if(isset($_SESSION['userid'])){
+                                $userid = $_SESSION['userid'];
+                                $query = "SELECT *
+                                            FROM task
+                                            WHERE task.user_id = '$userid'";
+                            }
+                            else {
+                                $username = $_SESSION['username'];
+                                $query = "SELECT *
+                                            FROM task
+                                            INNER JOIN user ON user.id = task.user_id WHERE user.username = '$username'";
+                            }
                             $tasks = mysqli_query($connect, $query);
                             $rows = [];
 
@@ -33,9 +41,21 @@
                                 return -($a['display_score'] <=> $b['display_score']);
                             });
                             foreach($rows as $row){
-                                $task = $row['taskname'];
-                                $id = $row['taskid'];
+                                $task = $row['display_label'];
+                                $id = $row['id'];
                                 echo '<li><span class="task-main"><a class="delete-btn" href="src/delete_task.php?id='.$id.'"><i class="fas fa-trash"></i></a> '.$task.'</span><span class="change-rank"><i class="fas fa-arrow-circle-up" onclick="rankUp('.$id.');"></i><i class="fas fa-arrow-circle-down" onclick="rankDown('.$id.');"></i></span></li> ';
+                            }
+                            // Fetch the user id if not in session.
+                            if(!isset($_SESSION['userid'])){
+                                $userid_query = "SELECT *
+                                                FROM user
+                                                WHERE user.username = '$username'";
+                                $user_result = mysqli_query($connect, $userid_query);
+                                if(!$user_result) {
+                                    die("QUERY FAILED ".mysqli.error($connect));
+                                }
+                                $userid = mysqli_fetch_assoc($user_result)['id'];
+                                $_SESSION['userid'] = $userid;
                             }
                         ?>
                     </ul>

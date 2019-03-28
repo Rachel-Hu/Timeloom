@@ -41,12 +41,6 @@
                     </div>
                     <!-- editable: name, gender, time zone (updated at every start) -->
                     <div class="form-group row">
-                        <label for="name" class="col-lg-3 col-form-label">Name: </label>
-                        <div class="col-lg-9">
-                            <input type="text" class="form-control" placeholder="Name" name="name">
-                        </div>
-                    </div>
-                    <div class="form-group row">
                         <label for="gender" class="col-lg-3 col-form-label">Gender: </label>
                         <div class="col-lg-9">
                             <input type="text" class="form-control" placeholder="Gender" name="gender">

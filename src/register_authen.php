@@ -7,8 +7,7 @@
         $user_info['username'] = $_POST['username'];
         $user_info['password'] = $_POST['password'];
         $user_info['email'] = $_POST['email'];
-        $user_info['birthdate'] = $_POST['birthdate'];
-        $user_info['name'] = $_POST['name'];
+        $user_info['birthday'] = $_POST['birthdate'];
         $user_info['gender'] = $_POST['gender'];
         $user_info['timezone'] = $_POST['timezone'];
         
@@ -19,7 +18,7 @@
         
         // print_r($user_info);
 
-        $query_1 = "INSERT INTO users (";
+        $query_1 = "INSERT INTO user (";
         $query_2 = "VALUES (";
         
         foreach($user_info as $key => $value) {
@@ -31,9 +30,9 @@
         $query = $query_1.") ".$query_2.");";
         echo $query;
 
-        // $query = "SELECT * FROM users WHERE username = '{$username}' ";
         $register_query = mysqli_query($connect, $query);
         if(!$register_query) {
+            echo "Dead!";
             die("QUERY FAILED ".mysqli.error($connect)).' '.msqli_errno($connect);
         }
 

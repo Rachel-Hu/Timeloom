@@ -11,7 +11,7 @@
     // print_r($payload);
     if ($payload) {
         $useremail = $payload["email"];
-        $query = "SELECT * FROM users WHERE email = '{$useremail}' ";
+        $query = "SELECT * FROM user WHERE email = '{$useremail}' ";
         $select_user_query = mysqli_query($connect, $query);
         if(!$select_user_query) {
             die("QUERY FAILED ".mysqli.error($connect));
@@ -19,7 +19,7 @@
 
         while($row = mysqli_fetch_array($select_user_query)) {
             // print_r($row);
-            $id = $row['userid'];
+            $id = $row['id'];
             $username = $row['username'];            
             $_SESSION['message'] = '<div class="alert alert-success" role="alert">Sucessfully logged in!</div>';
             $_SESSION['isLoggedIn'] = true;

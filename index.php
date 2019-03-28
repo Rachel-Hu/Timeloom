@@ -20,7 +20,7 @@
                             else $url = "dashboard.php";
                         ?>
                         <!-- <button class="btn btn-danger"><i class="fas fa-stopwatch"></i> Get Started!</button> -->
-                        <a class="btn btn-danger" href=<?php echo $url ?> role="button"><i class="fas fa-stopwatch"></i> Get Started!</a>
+                        <a class="btn btn-lg btn-danger" href=<?php echo $url ?> role="button"><i class="fas fa-stopwatch"></i> Get Started!</a>
                     </div>
                 </div>
             </div>
