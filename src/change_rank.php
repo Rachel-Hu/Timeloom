@@ -7,14 +7,41 @@
 
     // Find the task and change its display score.
     $task_query = "SELECT *
-                FROM tasks
-                WHERE tasks.taskid = $id";
+                FROM task
+                WHERE task.id = $id";
     $task_result = mysqli_query($connect, $task_query);
     $task = mysqli_fetch_assoc($task_result);
-    $score = $task['display_score'] + $add_display_score;
-    $update_task_query = "UPDATE tasks 
-                         SET display_score = $score, hint = 1
-                         WHERE taskid = $id";
+    $curr_score = $task['display_score'];
+    $new_score = $curr_score;
+    // If it is to promote the rank, then we need to obtain its neighbor's  
+    // display score whose rank is higher than it.
+    if($add_display_score > 0){
+        $neighbor_query = "SELECT display_score FROM task 
+                            WHERE task.display_score > $curr_score AND task.user_id = $userid";
+        $neighbor_score_result = mysqli_query($connect, $neighbor_query);
+        $neighbor_score = mysqli_fetch_assoc($neighbor_score_result)['display_score'];
+        while($row = mysqli_fetch_assoc($neighbor_score_result)) {
+            if($row['display_score'] < $neighbor_score) {
+                $neighbor_score = $row['display_score'];
+            }
+        }
+        $new_score = $neighbor_score + 1;
+    }
+    else {
+        $neighbor_query = "SELECT display_score FROM task 
+                            WHERE task.display_score < $curr_score AND task.user_id = $userid";
+        $neighbor_score_result = mysqli_query($connect, $neighbor_query);
+        $neighbor_score = mysqli_fetch_assoc($neighbor_score_result)['display_score'];
+        while($row = mysqli_fetch_assoc($neighbor_score_result)) {
+            if($row['display_score'] > $neighbor_score) {
+                $neighbor_score = $row['display_score'];
+            }
+        }
+        $new_score = $neighbor_score - 1;
+    }
+    $update_task_query = "UPDATE task 
+                         SET display_score = $new_score, hint = 1
+                         WHERE id = $id";
     echo $update_task_query;
     $update_result = mysqli_query($connect, $update_task_query);
     if(!$update_result) {
