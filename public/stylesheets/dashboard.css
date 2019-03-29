@@ -12,19 +12,28 @@ h1 {
     font-weight: 400;
 }
 
+#tab {
+    padding: 0;
+}
+
+#tab li {
+    margin: 10px;
+    padding: 10px;
+}
+
 ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-li {
+#list-item li {
     background-color: #fff;
     height: 40px;
     line-height: 40px;
 }
 
-li:nth-child(2n) {
+#list-item li:nth-child(2n) {
     background-color: #f7f7f7;
     height: 40px;
 }

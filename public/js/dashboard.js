@@ -26,3 +26,15 @@ function rankDown(id) {
     location.reload();
 }
 
+function switchList(list) {
+    var listId = list;
+    $.ajax({
+        url: "src/switch_list.php",
+        type: "POST",
+        data: {
+            list: listId,
+        },
+        dataType: "json"
+    });
+    location.reload();
+}

@@ -3,7 +3,7 @@
 <?php
     $css = 'public/stylesheets/dashboard.css';
     $js = 'public/js/dashboard.js';
-    require_once('includes/dropdown.php'); 
+    include 'includes/dropdown.php'; 
 ?>
 
         <div class="container">
@@ -13,24 +13,48 @@
             }?>
             <div class="row">
                 <div class="col-lg-6" id="list">
+                    <div id="tab" class="container">	
+                        <ul class="nav nav-tabs flex-row justify-content-center">
+                            <li class="active mx-auto">
+                                <a href="#" onclick="switchList(2);">Active</a>
+                            </li>
+                            <li class="mx-auto">
+                                <a href="#" onclick="switchList(1);">Latent</a>
+                            </li>
+                            <li class="mx-auto">
+                                <a href="#" onclick="switchList(3);">Completed</a>
+                            </li>
+                            <li class="mx-auto">
+                                <a href="#" onclick="switchList(4);">Expired</a>
+                            </li>
+                        </ul>
+                    </div>
                     <form action="src/add_task.php" method="post">
                         <h1>Task List <button id="add-task"><i class="fas fa-plus"></i></button></h1>
                         <input type="text" placeholder="Add new task" name="task">
                     </form>
-                    <ul>
+                    <ul id="list-item">
                         <?php
-                            if(isset($_SESSION['userid'])){
-                                $userid = $_SESSION['userid'];
-                                $query = "SELECT *
-                                            FROM task
-                                            WHERE task.user_id = '$userid'";
+                            // Fetch the user id if not in session.
+                            if(!isset($_SESSION['listid'])){
+                                $_SESSION['listid'] = 2;
                             }
-                            else {
-                                $username = $_SESSION['username'];
-                                $query = "SELECT *
-                                            FROM task
-                                            INNER JOIN user ON user.id = task.user_id WHERE user.username = '$username'";
+                            $task_id = $_SESSION['listid'];
+                            if(!isset($_SESSION['userid'])){
+                                $userid_query = "SELECT *
+                                                FROM user
+                                                WHERE user.username = '$username'";
+                                $user_result = mysqli_query($connect, $userid_query);
+                                if(!$user_result) {
+                                    die("QUERY FAILED ".mysqli.error($connect));
+                                }
+                                $userid = mysqli_fetch_assoc($user_result)['id'];
+                                $_SESSION['userid'] = $userid;
                             }
+                            $userid = $_SESSION['userid'];
+                            $query = "SELECT *
+                                        FROM task
+                                        WHERE task.user_id = '$userid' AND task.task_list_id = $task_id";
                             $tasks = mysqli_query($connect, $query);
                             $rows = [];
 
@@ -44,18 +68,6 @@
                                 $task = $row['display_label'];
                                 $id = $row['id'];
                                 echo '<li><span class="task-main"><a class="delete-btn" href="src/delete_task.php?id='.$id.'"><i class="fas fa-trash"></i></a> '.$task.'</span><span class="change-rank"><i class="fas fa-arrow-circle-up" onclick="rankUp('.$id.');"></i><i class="fas fa-arrow-circle-down" onclick="rankDown('.$id.');"></i></span></li> ';
-                            }
-                            // Fetch the user id if not in session.
-                            if(!isset($_SESSION['userid'])){
-                                $userid_query = "SELECT *
-                                                FROM user
-                                                WHERE user.username = '$username'";
-                                $user_result = mysqli_query($connect, $userid_query);
-                                if(!$user_result) {
-                                    die("QUERY FAILED ".mysqli.error($connect));
-                                }
-                                $userid = mysqli_fetch_assoc($user_result)['id'];
-                                $_SESSION['userid'] = $userid;
                             }
                         ?>
                     </ul>
