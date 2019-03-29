@@ -28,11 +28,20 @@
             $redirectURL = 'dashboard.php';
             echo $redirectURL;
         }
-
-        if(!isset($_SESSION['message'])) {
-            $_SESSION['message'] = '<div class="alert alert-danger" role="alert">Sorry, the user does not exist.</div>';
-            $redirectURL = 'login.php';
-            echo $redirectURL;  
+        if(!isset($_SESSION['isLoggedIn'])) {
+            $username = $payload["given_name"];
+            $password = '123456';
+            $query = "INSERT INTO user (username, password, email) VALUES ('{$username}', '{$password}', '{$useremail}')";
+            $register_query = mysqli_query($connect, $query);
+            if(!$register_query) {
+                echo "QUERY FAILED!";
+                die("QUERY FAILED ".mysqli.error($connect));
+            }
+            $_SESSION['isLoggedIn'] = true;
+            $_SESSION['username'] = $username;
+            $_SESSION['message'] = '<div class="alert alert-success" role="alert">Sucessfully Registered!</div>';
+            $redirectURL = 'resetpw.php';
+            echo $redirectURL;
         }
 
     }
