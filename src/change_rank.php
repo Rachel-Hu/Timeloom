@@ -19,7 +19,7 @@
     // display score whose rank is higher than it.
     if($add_display_score > 0){
         $neighbor_query = "SELECT display_score FROM task 
-                            WHERE task.display_score >= $curr_score AND task.user_id = $userid";
+                            WHERE task.display_score > $curr_score AND task.user_id = $userid";
         $neighbor_score_result = mysqli_query($connect, $neighbor_query);
         $neighbor_score = mysqli_fetch_assoc($neighbor_score_result)['display_score'];
         while($row = mysqli_fetch_assoc($neighbor_score_result)) {
@@ -31,7 +31,7 @@
     }
     else {
         $neighbor_query = "SELECT display_score FROM task 
-                            WHERE task.display_score <= $curr_score AND task.user_id = $userid";
+                            WHERE task.display_score < $curr_score AND task.user_id = $userid";
         $neighbor_score_result = mysqli_query($connect, $neighbor_query);
         $neighbor_score = mysqli_fetch_assoc($neighbor_score_result)['display_score'];
         while($row = mysqli_fetch_assoc($neighbor_score_result)) {
