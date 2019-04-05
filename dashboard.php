@@ -39,7 +39,7 @@
                             if(!isset($_SESSION['listid'])){
                                 $_SESSION['listid'] = 2;
                             }
-                            $task_id = $_SESSION['listid'];
+                            $list_id = $_SESSION['listid'];
                             if(!isset($_SESSION['userid'])){
                                 $userid_query = "SELECT *
                                                 FROM user
@@ -54,7 +54,7 @@
                             $userid = $_SESSION['userid'];
                             $query = "SELECT *
                                         FROM task
-                                        WHERE task.user_id = '$userid' AND task.task_list_id = $task_id";
+                                        WHERE task.user_id = '$userid' AND task.task_list_id = $list_id";
                             $tasks = mysqli_query($connect, $query);
                             $rows = [];
 
@@ -64,10 +64,22 @@
                             usort($rows, function($a, $b) {
                                 return -($a['display_score'] <=> $b['display_score']);
                             });
+
                             foreach($rows as $row){
                                 $task = $row['display_label'];
                                 $id = $row['id'];
-                                echo '<li><span class="task-main"><a class="delete-btn" href="src/delete_task.php?id='.$id.'"><i class="fas fa-trash"></i></a> '.$task.'</span><span class="change-rank"><i class="fas fa-arrow-circle-up" onclick="rankUp('.$id.');"></i><i class="fas fa-arrow-circle-down" onclick="rankDown('.$id.');"></i></span></li> ';
+                                // Design different buttons for different lists.
+                                $finish_button = '<a class="btn btn-sm list-btn" href="src/move_task.php?id='.$id.'&list=3"><i class="fas fa-check"></i></a>';
+                                $delay_button = '<a class="btn btn-sm btn-outline-danger list-btn text-btn" href="src/move_task.php?id='.$id.'&list=1">Delay</a>';
+                                $resume_button = '<a class="btn btn-sm btn-outline-danger list-btn text-btn" href="src/move_task.php?id='.$id.'&list=2">Resume</a>';
+                                $button = $finish_button.$delay_button;
+                                if($list_id == 1){
+                                    $button = $finish_button;
+                                }
+                                else if($list_id == 3){
+                                    $button = $resume_button;
+                                }
+                                echo '<li><span class="task-main"><a class="delete-btn" href="src/delete_task.php?id='.$id.'"><i class="fas fa-trash"></i></a> '.$task.'</span><span class="manipulation"><span class="change-rank"><i class="fas fa-arrow-circle-up" onclick="rankUp('.$id.');"></i><i class="fas fa-arrow-circle-down" onclick="rankDown('.$id.');"></i></span>'.$button.'</span></li> ';
                             }
                         ?>
                     </ul>
