@@ -38,3 +38,12 @@ function switchList(list) {
     });
     location.reload();
 }
+
+$(document).ready(function() {
+	$('.open-form').click(function() {
+		$('.form-popup').show();
+	});
+	$('.close-form').click(function() {
+		$('.form-popup').hide();
+	});
+});

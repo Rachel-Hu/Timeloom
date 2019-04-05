@@ -29,10 +29,29 @@
                             </li>
                         </ul>
                     </div>
-                    <form action="src/add_task.php" method="post">
-                        <h1>Task List <button id="add-task"><i class="fas fa-plus"></i></button></h1>
-                        <input type="text" placeholder="Add new task" name="task">
-                    </form>
+                    <h1>Task List <button id="add-task" class="open-form"><i class="fas fa-plus"></i></button></h1>
+                        <div class="form-popup">
+                            <div class="container form-wrapper">
+                                <button class="btn close-form"><i class="fas fa-times"></i></button>
+                                <form action="src/add_task.php" method="post" id="my-form">
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <h1 class="form-title">Add Task</h1>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="task" class="col-sm-3 form-label">Task</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" placeholder="Add new task" name="task"> 
+                                        </div>
+                                    </div> 
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-danger btn-lg add-btn">Add</button>
+                                    </div>                      
+                                </form>
+                            </div>
+                        </div>
+                    
                     <ul id="list-item">
                         <?php
                             // Fetch the user id if not in session.
