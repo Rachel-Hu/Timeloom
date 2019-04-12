@@ -1,10 +1,12 @@
-function rankUp(id) {
+function rankUp(id, listNumber) {
     var task = id;
+    var list = listNumber;
     $.ajax({
         url: "src/change_rank.php",
         type: "POST",
         data: {
             taskId: task,
+            listId: list,
             addDisplayScore: 1
         },
         dataType: "json",
@@ -12,13 +14,15 @@ function rankUp(id) {
     location.reload();
 }
 
-function rankDown(id) {
+function rankDown(id, listNumber) {
     var task = id;
+    var list = listNumber;
     $.ajax({
         url: "src/change_rank.php",
         type: "POST",
         data: {
             taskId: task,
+            listId: list,
             addDisplayScore: -1
         },
         dataType: "json"
@@ -40,10 +44,14 @@ function switchList(list) {
 }
 
 $(document).ready(function() {
-	$('.open-form').click(function() {
-		$('.form-popup').show();
-	});
-	$('.close-form').click(function() {
-		$('.form-popup').hide();
-	});
+    $(".add-task-btn").click(function () {
+        // console.log($(this).attr('id'));
+        var id = String($(this).attr('id'));
+        var prev_taskid = id.split('-')[6];
+        // console.log(prev_taskid);
+        var taskid = id.split('-')[3];
+        // console.log(taskid);
+        // console.log($(".add-submit-btn"));
+        $(".add-submit-btn").val(prev_taskid + "and" + taskid);
+    });
 });

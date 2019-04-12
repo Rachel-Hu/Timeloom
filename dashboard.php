@@ -29,30 +29,32 @@
                             </li>
                         </ul>
                     </div>
-                    <h1>Task List <button id="add-task" class="open-form"><i class="fas fa-plus"></i></button></h1>
-                        <div class="form-popup">
-                            <div class="container form-wrapper">
-                                <button class="btn close-form"><i class="fas fa-times"></i></button>
-                                <form action="src/add_task.php" method="post" id="my-form">
-                                    <div class="row">
-                                        <div class="col-md-12 text-center">
-                                            <h1 class="form-title">Add Task</h1>
-                                        </div>
+                    <h1>Task List</h1>                  
+                    <ul id="list-item">
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Add Task</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
-                                    <div class="form-group row">
-                                        <label for="task" class="col-sm-3 form-label">Task</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" placeholder="Add new task" name="task"> 
+                                    <form action="src/add_task.php" method="post">
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="task-label" class="col-form-label">New Task:</label>
+                                                <input type="text" class="form-control" id="task-label" placeholder="Add new task" name="task">
+                                            </div>  
                                         </div>
-                                    </div> 
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-danger btn-lg add-btn">Add</button>
-                                    </div>                      
-                                </form>
+                                        <div class="modal-footer">
+                                            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                                            <button type="submit" class="btn btn-primary add-submit-btn" name="add-submit-btn" value="">Add</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    
-                    <ul id="list-item">
                         <?php
                             // Fetch the user id if not in session.
                             if(!isset($_SESSION['listid'])){
@@ -84,21 +86,26 @@
                                 return -($a['display_score'] <=> $b['display_score']);
                             });
 
+                            $prev_id = 0;
                             foreach($rows as $row){
                                 $task = $row['display_label'];
                                 $id = $row['id'];
                                 // Design different buttons for different lists.
+                                $add_button = '<a id="add-task-before-'.$id.'-and-after-'.$prev_id.'" class="btn list-btn text-btn add-task-btn" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus fa-lg add-task-btn"></i></a>';
                                 $finish_button = '<a class="btn btn-sm list-btn" href="src/move_task.php?id='.$id.'&list=3"><i class="fas fa-check"></i></a>';
-                                $delay_button = '<a class="btn btn-sm btn-outline-danger list-btn text-btn" href="src/move_task.php?id='.$id.'&list=1">Delay</a>';
+                                $delay_button = '<a class="btn btn-sm btn-outline-danger list-btn text-btn" href="src/move_task.php?id='.$id.'&list=1">Postpone</a>';
                                 $resume_button = '<a class="btn btn-sm btn-outline-danger list-btn text-btn" href="src/move_task.php?id='.$id.'&list=2">Resume</a>';
-                                $button = $finish_button.$delay_button;
+                                $rank_up_button = '<i class="fas fa-arrow-circle-up" onclick="rankUp('.$id.', '.$list_id.');"></i>';
+                                $rank_down_button = '<i class="fas fa-arrow-circle-down" onclick="rankDown('.$id.', '.$list_id.');"></i>';
+                                $button = $finish_button.$add_button.$delay_button;
                                 if($list_id == 1){
                                     $button = $finish_button;
                                 }
                                 else if($list_id == 3){
                                     $button = $resume_button;
                                 }
-                                echo '<li><span class="task-main"><a class="delete-btn" href="src/delete_task.php?id='.$id.'"><i class="fas fa-trash"></i></a> '.$task.'</span><span class="manipulation"><span class="change-rank"><i class="fas fa-arrow-circle-up" onclick="rankUp('.$id.');"></i><i class="fas fa-arrow-circle-down" onclick="rankDown('.$id.');"></i></span>'.$button.'</span></li> ';
+                                echo '<li><span class="task-main"><a class="delete-btn" href="src/delete_task.php?id='.$id.'"><i class="fas fa-trash"></i></a> '.$task.'</span><span class="manipulation"><span class="change-rank">'.$rank_up_button.$rank_down_button.'</span>'.$button.'</span></li> ';
+                                $prev_id = $id;
                             }
                         ?>
                     </ul>
