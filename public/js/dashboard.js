@@ -55,3 +55,19 @@ $(document).ready(function() {
         $(".add-submit-btn").val(prev_taskid + "and" + taskid);
     });
 });
+
+function selectTask(id, listNumber) {
+    if($('#check-' + id)[0].checked) {
+        $('.check-box').attr("disabled", true);
+        $('#check-' + id).attr("disabled", false);
+        $('#rank-up').attr("onclick", "rankUp(" + id + ", " + listNumber + ");");
+        $('#rank-down').attr("onclick", "rankDown(" + id + ", " + listNumber + ");");
+        $('#finish-btn').attr("href", "src/move_task.php?id=" + id + "&list=3");
+        $('#postpone-btn').attr("href", "src/move_task.php?id=" + id + "&list=1");
+        $('#resume-btn').attr("href", "src/move_task.php?id=" + id + "&list=2");
+    }
+    else {
+        $('.check-box').attr("disabled", false);
+    }
+    $('.action-btns').toggle("slow");
+}
