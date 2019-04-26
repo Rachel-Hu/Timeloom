@@ -7,6 +7,7 @@
         if($_POST['task'] != ""){
             $task = $_POST['task'];
             print_r($_POST);
+            print_r($_SESSION);
             $userid = $_SESSION['userid'];
             $listid = $_SESSION['listid'];
             $ids = explode("and", $_POST['add-submit-btn']);
@@ -23,9 +24,29 @@
                 die("QUERY FAILED ".mysqli.error($connect));
             }
             $userid = mysqli_fetch_assoc($user_result)['id'];
+            
+            // Insert above the first task
+            if($prev_taskid == 0 && $next_taskid == 0) {
+                $find_highest_query = "SELECT * FROM task ORDER BY display_score DESC";
+                $find_highest_result = mysqli_query($connect, $find_highest_query);
+                if(!$find_highest_result) {
+                    echo "Failed!";
+                    die("QUERY FAILED ".mysqli.error($connect));
+                }                
+                $higest = mysqli_fetch_assoc($find_highest_result)['display_score'];
+                $task_score = $higest + 1;
+                $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties) VALUES ('{$task}', 0, 0, ".$task_score.", ".$listid.", ".$userid.", '{}')";
+                echo $add_task_query;
+                $add_result = mysqli_query($connect, $add_task_query);
+                if(!$add_result) {
+                    echo "Failed!";
+                    die("QUERY FAILED ".mysqli.error($connect));
+                }
+            }            
+
             // If the clicked task is not the first one, the new task will
             // be placed on top of it.
-            if($prev_taskid != 0){
+            else if($prev_taskid != 0){
                 $prev_score_query = "SELECT * FROM task WHERE id = $prev_taskid";
                 $prev_score_result = mysqli_query($connect, $prev_score_query);
                 if(!$prev_score_result) {

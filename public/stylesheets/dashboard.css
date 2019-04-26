@@ -2,6 +2,7 @@
     background-color: #f7f7f7;
     margin: 200px auto;
     padding: 0;
+    border: none;
 }
 
 h1 {
@@ -23,11 +24,12 @@ h3 {
 
 #tab {
     padding: 0;
+    font-size: 1.2em;
 }
 
 #tab li {
-    margin: 10px;
-    padding: 10px;
+    /* margin: 10px; */
+    padding: 20px 26.5px;
 }
 
 ul {
@@ -140,4 +142,26 @@ div.alert {
 
 #rank-up, #rank-down, #finish-btn, #postpone-btn, #resume-btn {
     margin-left: 0.5rem;
+}
+
+.current-list {
+    background-color: #d9534f;
+    color: white;
+    border-top-left-radius: 10%;
+    border-top-right-radius: 10%;
+}
+
+.nav-tabs {
+    border: none;
+}
+
+ul li a {
+    text-decoration: none; 
+    color: inherit; 
+    font-size: 1em; 
+}
+
+ul li a:hover {
+    /* text-decoration: none;  */
+    color: inherit;  
 }

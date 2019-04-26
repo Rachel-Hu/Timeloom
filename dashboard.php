@@ -14,19 +14,22 @@
             <div class="row">
                 <div class="col-lg-6" id="list">
                     <div id="tab" class="container">	
-                        <ul class="nav nav-tabs flex-row justify-content-center">
-                            <li class="active mx-auto">
-                                <a href="#" onclick="switchList(2);">Active</a>
-                            </li>
-                            <li class="mx-auto">
-                                <a href="#" onclick="switchList(1);">Latent</a>
-                            </li>
-                            <li class="mx-auto">
-                                <a href="#" onclick="switchList(3);">Completed</a>
-                            </li>
-                            <li class="mx-auto">
-                                <a href="#" onclick="switchList(4);">Expired</a>
-                            </li>
+                        <ul class="nav nav-tabs flex-row justify-content-around">
+                            <?php
+                                $list_arr = array("Latent", "Active", "Completed", "Expired");
+                                for($i = 0; $i < count($list_arr); ++$i) {
+                                    if($i + 1 == $_SESSION['listid']) {
+                                        echo '<li class="active current-list">
+                                                <a href="#" onclick="switchList('.($i + 1).');">'.$list_arr[$i].'</a>
+                                                </li>';
+                                    }
+                                    else {
+                                        echo '<li class="active">
+                                                <a href="#" onclick="switchList('.($i + 1).');">'.$list_arr[$i].'</a>
+                                                </li>';
+                                    }
+                                }
+                            ?>
                         </ul>
                     </div>
                     <h1>Task List <a class="btn add-task-btn" id="init-btn" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus fa-lg"></i></a></h1>                  
@@ -85,12 +88,14 @@
                                 $_SESSION['listid'] = 2;
                             }
                             $list_id = $_SESSION['listid'];
+                            $username = $_SESSION['username'];
                             if(!isset($_SESSION['userid'])){
                                 $userid_query = "SELECT *
                                                 FROM user
                                                 WHERE user.username = '$username'";
                                 $user_result = mysqli_query($connect, $userid_query);
                                 if(!$user_result) {
+                                    echo "Failed!";
                                     die("QUERY FAILED ".mysqli.error($connect));
                                 }
                                 $userid = mysqli_fetch_assoc($user_result)['id'];
@@ -99,37 +104,16 @@
                             $userid = $_SESSION['userid'];
                             $query = "SELECT *
                                         FROM task
-                                        WHERE task.user_id = '$userid' AND task.task_list_id = $list_id";
+                                        WHERE task.user_id = '$userid' AND task.task_list_id = $list_id ORDER BY display_score DESC";
                             $tasks = mysqli_query($connect, $query);
-                            $rows = [];
+                            $prev_id = 0;
 
                             while($row = mysqli_fetch_assoc($tasks)) {
-                                array_push($rows, $row);
-                            }
-                            usort($rows, function($a, $b) {
-                                return -($a['display_score'] <=> $b['display_score']);
-                            });
-
-                            $prev_id = 0;
-                            foreach($rows as $row){
                                 $task = $row['display_label'];
                                 $id = $row['id'];
                                 $check = '<input type="checkbox" class="form-check-input check-box" id="check-'.$id.'" onclick="selectTask('.$id.', '.$list_id.');">';
                                 // Design different buttons for different lists.
                                 $add_button = '<a id="add-task-before-'.$id.'-and-after-'.$prev_id.'" class="btn list-btn text-btn add-task-btn" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus fa-lg add-task-btn"></i></a>';
-                                // $finish_button = '<a class="btn btn-sm list-btn" href="src/move_task.php?id='.$id.'&list=3"><i class="fas fa-check"></i></a>';
-                                // $delay_button = '<a class="btn btn-sm btn-outline-danger list-btn text-btn" href="src/move_task.php?id='.$id.'&list=1">Postpone</a>';
-                                // $resume_button = '<a class="btn btn-sm btn-outline-danger list-btn text-btn" href="src/move_task.php?id='.$id.'&list=2">Resume</a>';
-                                // $rank_up_button = '<i class="fas fa-arrow-circle-up" onclick="rankUp('.$id.', '.$list_id.');"></i>';
-                                // $rank_down_button = '<i class="fas fa-arrow-circle-down" onclick="rankDown('.$id.', '.$list_id.');"></i>';
-                                // $button = $finish_button.$add_button.$delay_button;
-                                // if($list_id == 1){
-                                //     $button = $finish_button;
-                                // }
-                                // else if($list_id == 3){
-                                //     $button = $resume_button;
-                                // }
-                                // echo '<li><span class="task-main"><a class="delete-btn" href="src/delete_task.php?id='.$id.'"><i class="fas fa-trash"></i></a> '.$task.'</span><span class="manipulation"><span class="change-rank">'.$rank_up_button.$rank_down_button.'</span>'.$button.'</span></li> ';
                                 echo '<li><span class="task-main"><a class="delete-btn" href="src/delete_task.php?id='.$id.'"><i class="fas fa-trash"></i></a> '.$task.'</span><span class="manipulation">'.$add_button.$check.'</span></li> ';
                                 $prev_id = $id;
                             }
