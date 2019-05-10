@@ -44,8 +44,8 @@
                 }
             }            
 
-            // If the clicked task is not the first one, the new task will
-            // be placed on top of it.
+            // If the clicked task is not the last one, the new task will
+            // be placed below it.
             else if($prev_taskid != 0){
                 $prev_score_query = "SELECT * FROM task WHERE id = $prev_taskid";
                 $prev_score_result = mysqli_query($connect, $prev_score_query);
@@ -68,15 +68,15 @@
                     die("QUERY FAILED ".mysqli.error($connect));
                 }
             }
-            // If the task clicked is the first one, add the new task on top of the list.
+            // If the task clicked is the last one, add the new task at the bottom of the list.
             else {
-                $next_score_query = "SELECT * FROM task WHERE id = $next_taskid";
+                $next_score_query = "SELECT * FROM task WHERE id = $prev_taskid";
                 $next_score_result = mysqli_query($connect, $next_score_query);
                 if(!$next_score_result) {
                     die("QUERY FAILED ".mysqli.error($connect));
                 }
                 $next_task_score = mysqli_fetch_assoc($next_score_result)['display_score'];
-                $task_score = $next_task_score + 1;
+                $task_score = $next_task_score - 1;
                 $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id) VALUES ('{$task}', 0, 0, ".$task_score.", ".$listid.", ".$userid.")";
                 echo $add_task_query;
                 $add_result = mysqli_query($connect, $add_task_query);

@@ -106,17 +106,31 @@
                                         FROM task
                                         WHERE task.user_id = '$userid' AND task.task_list_id = $list_id ORDER BY display_score DESC";
                             $tasks = mysqli_query($connect, $query);
-                            $prev_id = 0;
+                            $prev_row = null;
 
                             while($row = mysqli_fetch_assoc($tasks)) {
-                                $task = $row['display_label'];
-                                $id = $row['id'];
-                                $check = '<input type="checkbox" class="form-check-input check-box" id="check-'.$id.'" onclick="selectTask('.$id.', '.$list_id.');">';
-                                // Design different buttons for different lists.
-                                $add_button = '<a id="add-task-before-'.$id.'-and-after-'.$prev_id.'" class="btn list-btn text-btn add-task-btn" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus fa-lg add-task-btn"></i></a>';
-                                echo '<li><span class="task-main"><a class="delete-btn" href="src/delete_task.php?id='.$id.'"><i class="fas fa-trash"></i></a> '.$task.'</span><span class="manipulation">'.$add_button.$check.'</span></li> ';
-                                $prev_id = $id;
+                                if($prev_row == null) {
+                                    $prev_row = $row;
+                                    continue;
+                                }
+                                else {
+                                    $task = $prev_row['display_label'];
+                                    $id = $prev_row['id'];
+                                    $next_id = $row['id'];
+                                    $check = '<input type="checkbox" class="form-check-input check-box" id="check-'.$id.'" onclick="selectTask('.$id.', '.$list_id.');">';
+                                    // Design different buttons for different lists.
+                                    $add_button = '<a id="add-task-before-'.$next_id.'-and-after-'.$id.'" class="btn list-btn text-btn add-task-btn" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus fa-lg add-task-btn"></i></a>';
+                                    echo '<li><span class="task-main"><a class="delete-btn" href="src/delete_task.php?id='.$id.'"><i class="fas fa-trash"></i></a> '.$task.'</span><span class="manipulation">'.$add_button.$check.'</span></li> ';
+                                    $prev_row = $row;
+                                }
                             }
+                            $task = $prev_row['display_label'];
+                            $id = $prev_row['id'];
+                            $next_id = 0;
+                            $check = '<input type="checkbox" class="form-check-input check-box" id="check-'.$id.'" onclick="selectTask('.$id.', '.$list_id.');">';
+                            // Design different buttons for different lists.
+                            $add_button = '<a id="add-task-before-'.$next_id.'-and-after-'.$id.'" class="btn list-btn text-btn add-task-btn" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus fa-lg add-task-btn"></i></a>';
+                            echo '<li><span class="task-main"><a class="delete-btn" href="src/delete_task.php?id='.$id.'"><i class="fas fa-trash"></i></a> '.$task.'</span><span class="manipulation">'.$add_button.$check.'</span></li> ';
                         ?>
                     </ul>
                 </div>
