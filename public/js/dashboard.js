@@ -72,9 +72,16 @@ function selectTask(id, listNumber) {
     $('.action-btns').toggle("slow");
 }
 
+var propertyNum = 0;
+
 $(document).ready(function() {
     $('.add-properties').click(function(){
-        $('.dynamic-element').first().clone().appendTo('.dynamic-properties').show();
+        var col = $('.dynamic-element').first().clone();
+        col[0].childNodes[1].firstElementChild.lastElementChild.setAttribute('name', 'property-' + propertyNum);
+        col[0].childNodes[1].firstElementChild.nextElementSibling.lastElementChild.setAttribute('name', 'property-value-' + + propertyNum);
+        console.log(col[0].childNodes[1]);
+        col.appendTo('.dynamic-properties').show();
+        propertyNum++;
         attachDelete();
     });
 });
@@ -83,5 +90,6 @@ function attachDelete(){
     $('.delete-properties').off();
     $('.delete-properties').click(function(){
       $(this).closest('.form-group').remove();
+      propertyNum--;
     });
 }

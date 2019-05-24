@@ -86,7 +86,7 @@
                 }
             }
             $_SESSION['message'] = '<div class="alert alert-success" role="alert">Successfully added a task!</div>';
-            header('Location: ../dashboard.php');
+            // header('Location: ../dashboard.php');
         }
         else {
             $_SESSION['message'] = '<div class="alert alert-danger" role="alert">Task cannot be empty!</div>';

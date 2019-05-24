@@ -80,20 +80,19 @@
                                             <!-- Hidden forms -->
                                             <div class="form-group dynamic-element" style="display:none">
                                                 <div class="row">
-                                            <!-- Replace these fields -->
-                                                <div class="col-md-5">
-                                                    <label for="property" class="col-form-label">Property:</label>
-                                                    <input type="text" class="form-control" id="property" placeholder="Add new property" name="property">
+                                                    <div class="col-md-5">
+                                                        <label for="property" class="col-form-label">Property:</label>
+                                                        <input type="text" class="form-control" id="property" placeholder="Add new property">
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <label for="property-value" class="col-form-label">Value:</label>
+                                                        <input type="text" class="form-control" id="property-value" placeholder="New property value">
+                                                    </div>
+                                                    <!-- End of fields-->
+                                                    <div class="col-md-2">
+                                                        <p class="delete-properties"><i class="fas fa-minus-square fa-lg"></i></i></p>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-5">
-                                                    <label for="property-value" class="col-form-label">Value:</label>
-                                                    <input type="text" class="form-control" id="property-value" placeholder="New property value" name="property-value">
-                                                </div>
-                                                <!-- End of fields-->
-                                                <div class="col-md-2">
-                                                    <p class="delete-properties"><i class="fas fa-minus-square fa-lg"></i></i></p>
-                                                </div>
-                                            </div>
                                             </div>
 
                                             <div class="dynamic-properties">
