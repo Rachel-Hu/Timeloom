@@ -71,3 +71,17 @@ function selectTask(id, listNumber) {
     }
     $('.action-btns').toggle("slow");
 }
+
+$(document).ready(function() {
+    $('.add-properties').click(function(){
+        $('.dynamic-element').first().clone().appendTo('.dynamic-properties').show();
+        attachDelete();
+    });
+});
+
+function attachDelete(){
+    $('.delete-properties').off();
+    $('.delete-properties').click(function(){
+      $(this).closest('.form-group').remove();
+    });
+}

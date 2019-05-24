@@ -72,7 +72,33 @@
                                             <div class="form-group">
                                                 <label for="task-label" class="col-form-label">New Task:</label>
                                                 <input type="text" class="form-control" id="task-label" placeholder="Add new task" name="task">
-                                            </div>  
+                                            </div> 
+                                            <div>
+                                                <p class="add-properties"><i class="fas fa-plus-circle"></i> Add properties</p>
+                                            </div> 
+
+                                            <!-- Hidden forms -->
+                                            <div class="form-group dynamic-element" style="display:none">
+                                                <div class="row">
+                                            <!-- Replace these fields -->
+                                                <div class="col-md-5">
+                                                    <label for="property" class="col-form-label">Property:</label>
+                                                    <input type="text" class="form-control" id="property" placeholder="Add new property" name="property">
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <label for="property-value" class="col-form-label">Value:</label>
+                                                    <input type="text" class="form-control" id="property-value" placeholder="New property value" name="property-value">
+                                                </div>
+                                                <!-- End of fields-->
+                                                <div class="col-md-2">
+                                                    <p class="delete-properties"><i class="fas fa-minus-square fa-lg"></i></i></p>
+                                                </div>
+                                            </div>
+                                            </div>
+
+                                            <div class="dynamic-properties">
+                                                <!-- Dynamic columns will appear here -->
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
