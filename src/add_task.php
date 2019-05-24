@@ -7,13 +7,28 @@
         if($_POST['task'] != ""){
             $task = $_POST['task'];
             print_r($_POST);
-            print_r($_SESSION);
+            // print_r($_SESSION);
             $userid = $_SESSION['userid'];
             $listid = $_SESSION['listid'];
             $ids = explode("and", $_POST['add-submit-btn']);
             $prev_taskid = (int)$ids[0];
             $next_taskid = (int)$ids[1];
             $username = $_SESSION['username'];
+
+            // Separate properties
+            $properties = array();
+            $property = '';
+            $property_value = '';
+            foreach($_POST as $key => $value) {
+                if (strpos($key, 'property-') !== false && strpos($key, 'property-value-') === false) {
+                    $property = $value;
+                }
+                else if(strpos($key, 'property-value-') !== false) {
+                    $properties[$property] = $value;
+                }
+            }
+            if(count($properties) == 0) $json = '{}';
+            else $json = json_encode($properties);
 
             // Find the userid of current user.
             $userid_query = "SELECT *
@@ -35,7 +50,7 @@
                 }                
                 $higest = mysqli_fetch_assoc($find_highest_result)['display_score'];
                 $task_score = $higest + 1;
-                $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties) VALUES ('{$task}', 0, 0, ".$task_score.", ".$listid.", ".$userid.", '{}')";
+                $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties) VALUES ('{$task}', 0, 0, ".$task_score.", ".$listid.", ".$userid.", '".$json."')";
                 echo $add_task_query;
                 $add_result = mysqli_query($connect, $add_task_query);
                 if(!$add_result) {
@@ -60,7 +75,7 @@
                 }
                 $next_task_score = mysqli_fetch_assoc($next_score_result)['display_score'];
                 $task_score = ($prev_task_score + $next_task_score) / 2;
-                $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id) VALUES ('{$task}', 0, 0, ".$task_score.", ".$listid.", ".$userid.")";
+                $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties) VALUES ('{$task}', 0, 0, ".$task_score.", ".$listid.", ".$userid.", '".$json."')";
                 echo $add_task_query;
                 $add_result = mysqli_query($connect, $add_task_query);
                 if(!$add_result) {
@@ -77,7 +92,7 @@
                 }
                 $next_task_score = mysqli_fetch_assoc($next_score_result)['display_score'];
                 $task_score = $next_task_score - 1;
-                $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id) VALUES ('{$task}', 0, 0, ".$task_score.", ".$listid.", ".$userid.")";
+                $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties) VALUES ('{$task}', 0, 0, ".$task_score.", ".$listid.", ".$userid.", '".$json."')";
                 echo $add_task_query;
                 $add_result = mysqli_query($connect, $add_task_query);
                 if(!$add_result) {
@@ -86,7 +101,7 @@
                 }
             }
             $_SESSION['message'] = '<div class="alert alert-success" role="alert">Successfully added a task!</div>';
-            // header('Location: ../dashboard.php');
+            header('Location: ../dashboard.php');
         }
         else {
             $_SESSION['message'] = '<div class="alert alert-danger" role="alert">Task cannot be empty!</div>';
