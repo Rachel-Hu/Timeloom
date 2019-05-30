@@ -80,17 +80,28 @@
                                             <!-- Hidden forms -->
                                             <div class="form-group dynamic-element" style="display:none">
                                                 <div class="row">
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-6">
                                                         <label for="property" class="col-form-label">Property:</label>
                                                         <input type="text" class="form-control" id="property" placeholder="Add new property">
                                                     </div>
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-6">
+                                                        <label for="property-type" class="col-form-label">Type:</label>
+                                                        <select class="form-control" id="property-type" class="property-type">
+                                                            <option>Choose...</option>
+                                                            <option value="text">Text</option>
+                                                            <option value="datetime-local">Date and time</option>
+                                                            <option value="number">Number</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-10">
                                                         <label for="property-value" class="col-form-label">Value:</label>
                                                         <input type="text" class="form-control" id="property-value" placeholder="New property value">
                                                     </div>
                                                     <!-- End of fields-->
                                                     <div class="col-md-2">
-                                                        <p class="delete-properties"><i class="fas fa-minus-square fa-lg"></i></i></p>
+                                                        <i class="fas fa-minus-square fa-lg delete-properties align-content-center"></i>
                                                     </div>
                                                 </div>
                                             </div>

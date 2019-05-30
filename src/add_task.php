@@ -6,7 +6,7 @@
     if(isset($_POST['task'])){
         if($_POST['task'] != ""){
             $task = $_POST['task'];
-            print_r($_POST);
+            // print_r($_POST);
             // print_r($_SESSION);
             $userid = $_SESSION['userid'];
             $listid = $_SESSION['listid'];
@@ -17,15 +17,21 @@
 
             // Separate properties
             $properties = array();
-            $property = '';
+            $property = array();
             $property_value = '';
             foreach($_POST as $key => $value) {
-                if (strpos($key, 'property-') !== false && strpos($key, 'property-value-') === false) {
-                    $property = $value;
+                if (strpos($key, 'property-') !== false && (strpos($key, 'property-value-') === false && strpos($key, 'property-type-') === false)) {
+                    $property['name'] = $value;
+                }
+                else if(strpos($key, 'property-type-') !== false) {
+                    $property['type'] = $value;
                 }
                 else if(strpos($key, 'property-value-') !== false) {
-                    $properties[$property] = $value;
+                    $property['value'] = $value;
+                    array_push($properties, $property);
+                    $property = array();
                 }
+
             }
             if(count($properties) == 0) $json = '{}';
             else $json = json_encode($properties);

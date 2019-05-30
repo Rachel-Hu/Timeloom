@@ -174,4 +174,6 @@ ul li a:hover {
 .delete-properties {
     color: #d9534f;
     cursor: pointer;
+    text-align: center;
+    margin-top: 3rem;
 }

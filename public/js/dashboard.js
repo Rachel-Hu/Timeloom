@@ -77,9 +77,16 @@ var propertyNum = 0;
 $(document).ready(function() {
     $('.add-properties').click(function(){
         var col = $('.dynamic-element').first().clone();
-        col[0].childNodes[1].firstElementChild.lastElementChild.setAttribute('name', 'property-' + propertyNum);
-        col[0].childNodes[1].firstElementChild.nextElementSibling.lastElementChild.setAttribute('name', 'property-value-' + + propertyNum);
-        console.log(col[0].childNodes[1]);
+        var property = col[0].childNodes[1].firstElementChild.lastElementChild;
+        property.setAttribute('name', 'property-' + propertyNum);
+        property.setAttribute('id', 'property-' + propertyNum);
+        var type = col[0].childNodes[1].firstElementChild.nextElementSibling.lastElementChild;
+        type.setAttribute('name', 'property-type-' + + propertyNum);
+        type.setAttribute('id', 'property-type-' + + propertyNum);
+        var value = col[0].childNodes[3].firstElementChild.lastElementChild;
+        value.setAttribute('name', 'property-value-' + + propertyNum);
+        value.setAttribute('id', 'property-value-' + + propertyNum);
+        // console.log(col[0].childNodes[1]);
         col.appendTo('.dynamic-properties').show();
         propertyNum++;
         attachDelete();
@@ -89,7 +96,17 @@ $(document).ready(function() {
 function attachDelete(){
     $('.delete-properties').off();
     $('.delete-properties').click(function(){
-      $(this).closest('.form-group').remove();
-      propertyNum--;
+        $(this).closest('.form-group').remove();
+        propertyNum--;
     });
 }
+
+
+$(document).on("change", "select", function() {
+    var type = this.value;
+    if(type == "number" || type == "datetime-local") {
+        var id = this.id.split('-')[2];
+        $('#property-value-' + id).attr('type', type);
+    }
+})
+
