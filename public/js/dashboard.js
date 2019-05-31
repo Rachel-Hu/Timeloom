@@ -62,6 +62,7 @@ function selectTask(id, listNumber) {
         $('#check-' + id).attr("disabled", false);
         $('#rank-up').attr("onclick", "rankUp(" + id + ", " + listNumber + ");");
         $('#rank-down').attr("onclick", "rankDown(" + id + ", " + listNumber + ");");
+        $('#edit-btn').attr("onclick", "editTask(" + id + ");");
         $('#finish-btn').attr("href", "src/move_task.php?id=" + id + "&list=3");
         $('#postpone-btn').attr("href", "src/move_task.php?id=" + id + "&list=1");
         $('#resume-btn').attr("href", "src/move_task.php?id=" + id + "&list=2");
@@ -71,6 +72,59 @@ function selectTask(id, listNumber) {
     }
     $('.action-btns').toggle("slow");
 }
+
+var propertyNumEdit = 0;
+var presentOldProperties = false;
+
+function editTask(id) {
+    var properties = $('#properties-' + id).val();
+    var task = $('#properties-' + id).attr('name');
+    $('#task-label-edit').attr('value', task);
+    if(properties != '{}' && !presentOldProperties) {
+        properties = JSON.parse(properties);
+        properties.forEach(function(element) {
+            console.log(element);
+            var col = $('.dynamic-element-edit').first().clone();
+            var property = col[0].childNodes[1].firstElementChild.lastElementChild;
+            property.setAttribute('name', 'property-' + propertyNumEdit);
+            property.setAttribute('value', element.name);
+            property.setAttribute('id', 'property-' + propertyNumEdit);
+            var type = col[0].childNodes[1].firstElementChild.nextElementSibling.lastElementChild;
+            type.setAttribute('name', 'property-type-' + + propertyNumEdit);
+            type.value = element.type;
+            type.setAttribute('id', 'property-type-' + + propertyNumEdit);
+            var value = col[0].childNodes[3].firstElementChild.lastElementChild;
+            value.setAttribute('name', 'property-value-' + + propertyNumEdit);
+            value.setAttribute('value', element.value);
+            value.setAttribute('type', element.type);
+            value.setAttribute('id', 'property-value-' + + propertyNumEdit);
+            col.appendTo('.dynamic-properties-edit').show();
+            propertyNumEdit++;
+            attachDeleteEdit();
+        });
+    }
+    presentOldProperties = true;
+    $(".edit-submit-btn").val(id);
+}
+
+$(document).ready(function() {
+    $('.add-properties-edit').click(function(){
+        var col = $('.dynamic-element-edit').first().clone();
+        var property = col[0].childNodes[1].firstElementChild.lastElementChild;
+        property.setAttribute('name', 'property-' + propertyNumEdit);
+        property.setAttribute('id', 'property-' + propertyNumEdit);
+        var type = col[0].childNodes[1].firstElementChild.nextElementSibling.lastElementChild;
+        type.setAttribute('name', 'property-type-' + + propertyNumEdit);
+        type.setAttribute('id', 'property-type-' + + propertyNumEdit);
+        var value = col[0].childNodes[3].firstElementChild.lastElementChild;
+        value.setAttribute('name', 'property-value-' + + propertyNumEdit);
+        value.setAttribute('id', 'property-value-' + + propertyNumEdit);
+        // console.log(col[0].childNodes[1]);
+        col.appendTo('.dynamic-properties-edit').show();
+        propertyNum++;
+        attachDelete();
+    });
+});
 
 var propertyNum = 0;
 
@@ -98,6 +152,14 @@ function attachDelete(){
     $('.delete-properties').click(function(){
         $(this).closest('.form-group').remove();
         propertyNum--;
+    });
+}
+
+function attachDeleteEdit(){
+    $('.delete-properties').off();
+    $('.delete-properties').click(function(){
+        $(this).closest('.form-group').remove();
+        propertyNumEdit--;
     });
 }
 

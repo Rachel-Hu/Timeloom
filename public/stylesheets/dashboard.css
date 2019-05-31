@@ -140,7 +140,7 @@ div.alert {
     display: none;
 }
 
-#rank-up, #rank-down, #finish-btn, #postpone-btn, #resume-btn {
+#rank-up, #rank-down, #edit-btn, #finish-btn, #postpone-btn, #resume-btn {
     margin-left: 0.5rem;
 }
 
@@ -166,7 +166,7 @@ ul li a:hover {
     color: inherit;  
 }
 
-.add-properties{
+.add-properties, .add-properties-edit{
     color: green;
     cursor: pointer;
 }
