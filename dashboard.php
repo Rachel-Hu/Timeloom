@@ -74,7 +74,35 @@
                                             <div class="form-group">
                                                 <label for="task-label" class="col-form-label">New Task:</label>
                                                 <input type="text" class="form-control" id="task-label" placeholder="Add new task" name="task">
+                                                <!-- Fixed properties -->
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label for="due-date" class="col-form-label">Property:</label>
+                                                        <input type="text" class="form-control" id="due-date" value="Due date" readonly>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="due-date-value" class="col-form-label">Value:</label>
+                                                        <input type="datetime-local" class="form-control" name="due-date" id="due-date-value">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label for="priority" class="col-form-label">Property:</label>
+                                                        <input type="text" class="form-control" id="priority" value="Priority" readonly>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="priority-value" class="col-form-label">Value:</label>
+                                                        <select class="form-control" id="priority-value" class="property-type" name="priority">
+                                                            <option>Choose...</option>
+                                                            <option value="urgent">Urgent</option>
+                                                            <option value="high">High</option>
+                                                            <option value="medium">Medium</option>
+                                                            <option value="low">Low</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div> 
+                                            <!-- User defined properties -->
                                             <div>
                                                 <p class="add-properties"><i class="fas fa-plus-circle"></i> Add properties</p>
                                             </div> 
@@ -136,7 +164,34 @@
                                             <div class="form-group">
                                                 <label for="task-label" class="col-form-label">Task:</label>
                                                 <input type="text" class="form-control" id="task-label-edit" placeholder="Add new task" name="task">
-                                            </div> 
+                                                <!-- Fixed properties -->
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label for="due-date-edit" class="col-form-label">Property:</label>
+                                                        <input type="text" class="form-control" id="due-date-edit" value="Due date" readonly>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="due-date-value-edit" class="col-form-label">Value:</label>
+                                                        <input type="datetime-local" class="form-control" name="due-date" id="due-date-value-edit">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label for="priority-edit" class="col-form-label">Property:</label>
+                                                        <input type="text" class="form-control" id="priority-edit" value="Priority" readonly>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="priority-value-edit" class="col-form-label">Value:</label>
+                                                        <select class="form-control" id="priority-value-edit" class="property-type" name="priority">
+                                                            <option>Choose...</option>
+                                                            <option value="urgent">Urgent</option>
+                                                            <option value="high">High</option>
+                                                            <option value="medium">Medium</option>
+                                                            <option value="low">Low</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>    
                                             <div>
                                                 <p class="add-properties-edit"><i class="fas fa-plus-circle"></i> Add properties</p>
                                             </div> 
@@ -144,22 +199,11 @@
                                             <!-- Hidden forms -->
                                             <div class="form-group dynamic-element-edit" style="display:none">
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-5">
                                                         <label for="property" class="col-form-label">Property:</label>
                                                         <input type="text" class="form-control" id="property" placeholder="Add new property">
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <label for="property-type" class="col-form-label">Type:</label>
-                                                        <select class="form-control" id="property-type" class="property-type">
-                                                            <option>Choose...</option>
-                                                            <option value="text">Text</option>
-                                                            <option value="datetime-local">Date and time</option>
-                                                            <option value="number">Number</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-10">
+                                                    <div class="col-md-5">
                                                         <label for="property-value" class="col-form-label">Value:</label>
                                                         <input type="text" class="form-control" id="property-value" placeholder="New property value">
                                                     </div>

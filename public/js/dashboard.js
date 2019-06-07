@@ -82,18 +82,17 @@ function editTask(id) {
     $('#task-label-edit').attr('value', task);
     if(properties != '{}' && !presentOldProperties) {
         properties = JSON.parse(properties);
-        properties.forEach(function(element) {
+        // First, parse fixed properties
+        $('#due-date-value-edit').attr('value', properties.fixed.due_date);
+        $('#priority-value-edit')[0].value = properties.fixed.priority;
+        properties.user.forEach(function(element) {
             console.log(element);
             var col = $('.dynamic-element-edit').first().clone();
             var property = col[0].childNodes[1].firstElementChild.lastElementChild;
             property.setAttribute('name', 'property-' + propertyNumEdit);
             property.setAttribute('value', element.name);
             property.setAttribute('id', 'property-' + propertyNumEdit);
-            var type = col[0].childNodes[1].firstElementChild.nextElementSibling.lastElementChild;
-            type.setAttribute('name', 'property-type-' + + propertyNumEdit);
-            type.value = element.type;
-            type.setAttribute('id', 'property-type-' + + propertyNumEdit);
-            var value = col[0].childNodes[3].firstElementChild.lastElementChild;
+            var value = col[0].childNodes[1].firstElementChild.nextElementSibling.lastElementChild;
             value.setAttribute('name', 'property-value-' + + propertyNumEdit);
             value.setAttribute('value', element.value);
             value.setAttribute('type', element.type);
@@ -109,7 +108,7 @@ function editTask(id) {
 
 $(document).ready(function() {
     $('.add-properties-edit').click(function(){
-        var col = $('.dynamic-element-edit').first().clone();
+        var col = $('.dynamic-element').first().clone();
         var property = col[0].childNodes[1].firstElementChild.lastElementChild;
         property.setAttribute('name', 'property-' + propertyNumEdit);
         property.setAttribute('id', 'property-' + propertyNumEdit);

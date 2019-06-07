@@ -17,6 +17,8 @@
 
             // Separate properties
             $properties = array();
+            $properties['fixed'] = array('due_date' => $_POST['due-date'], 'priority' => $_POST['priority']);
+            $properties['user'] = array();
             $property = array();
             $property_value = '';
             foreach($_POST as $key => $value) {
@@ -28,13 +30,15 @@
                 }
                 else if(strpos($key, 'property-value-') !== false) {
                     $property['value'] = $value;
-                    array_push($properties, $property);
+                    array_push($properties['user'], $property);
                     $property = array();
                 }
 
             }
             if(count($properties) == 0) $json = '{}';
             else $json = json_encode($properties);
+
+            // echo $json;
 
             // Find the userid of current user.
             $userid_query = "SELECT *
