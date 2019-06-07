@@ -165,9 +165,7 @@ function attachDeleteEdit(){
 
 $(document).on("change", "select", function() {
     var type = this.value;
-    if(type == "number" || type == "datetime-local") {
-        var id = this.id.split('-')[2];
-        $('#property-value-' + id).attr('type', type);
-    }
+    var id = this.id.split('-')[2];
+    $('#property-value-' + id).attr('type', type);
 })
 
