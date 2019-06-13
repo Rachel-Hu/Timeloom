@@ -19,9 +19,11 @@
             $priority = array('name' => 'priority', 'type' => 'text', 'value' => $_POST['priority'], 'user_defined' => false);
             array_push($properties, $priority);
             $property = array();
+            $property_names = array();
             foreach($_POST as $key => $value) {
                 if (strpos($key, 'property-') !== false && (strpos($key, 'property-value-') === false && strpos($key, 'property-type-') === false)) {
                     $property['name'] = $value;
+                    array_push($property_names, $value);
                 }
                 else if(strpos($key, 'property-type-') !== false) {
                     $property['type'] = $value;
@@ -29,13 +31,30 @@
                 else if(strpos($key, 'property-value-') !== false) {
                     $property['value'] = $value;
                     $property['user_defined'] = true;
-                    array_push($properties['user'], $property);
+                    array_push($properties, $property);
                     $property = array();
                 }
 
             }
             if(count($properties) == 0) $json = '{}';
             else $json = json_encode($properties);
+
+            // Update property table. Only user defined properties need to be added.
+            foreach($property_names as $name){
+                $property_query = "SELECT * FROM task_properties WHERE label = '$name'";
+                $search_result = mysqli_query($connect, $property_query);
+                if(!$search_result) {
+                    die("QUERY FAILED ".mysqli.error($connect));
+                }
+                $entry = mysqli_fetch_assoc($search_result);
+                if($entry == null){
+                    $add_property_query = "INSERT INTO task_properties (label, user_defined, count) VALUES ('$name', 1, 1)";
+                    $add_property_result = mysqli_query($connect, $add_property_query);
+                    if(!$add_property_result) {
+                        die("QUERY FAILED ".mysqli.error($connect));
+                    }
+                }
+            }
 
             // Find the userid of current user.
             $userid_query = "SELECT *

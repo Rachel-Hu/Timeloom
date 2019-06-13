@@ -116,7 +116,11 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <label for="property" class="col-form-label">Property:</label>
-                                                        <input type="text" class="form-control" id="property" placeholder="Add new property">
+                                                        <div class="search-box">
+                                                            <input type="text" class="form-control" id="property" autocomplete="off" placeholder="Add new property">
+                                                            <div class="result"></div>
+                                                        </div>
+                                                        <!-- <input type="text" class="form-control" id="property" placeholder="Add new property"> -->
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label for="property-type" class="col-form-label">Type:</label>
@@ -205,7 +209,11 @@
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <label for="property" class="col-form-label">Property:</label>
-                                                        <input type="text" class="form-control" id="property" placeholder="Add new property">
+                                                        <div class="search-box">
+                                                            <input type="text" class="form-control" id="property" autocomplete="off" placeholder="Add new property">
+                                                            <div class="result"></div>
+                                                        </div>
+                                                        <!-- <input type="text" class="form-control" id="property" placeholder="Add new property"> -->
                                                     </div>
                                                     <div class="col-md-5">
                                                         <label for="property-value" class="col-form-label">Value:</label>

@@ -177,3 +177,22 @@ ul li a:hover {
     text-align: center;
     margin-top: 3rem;
 }
+
+/* Formatting search box */
+.result{
+    position: absolute;        
+    z-index: 999;
+    top: 100%;
+    background: white;
+}
+/* Formatting result items */
+.result div{
+    margin: 0;
+    padding: 7px 10px;
+    border: 1px solid #CCCCCC;
+    border-top: none;
+    cursor: pointer;
+}
+.result div:hover{
+    background: #f2f2f2;
+}

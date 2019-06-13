@@ -92,7 +92,7 @@ function editTask(id) {
             }
             else {
                 var col = $('.dynamic-element-edit').first().clone();
-                var property = col[0].childNodes[1].firstElementChild.lastElementChild;
+                var property = col[0].childNodes[1].firstElementChild.lastElementChild.firstElementChild;
                 property.setAttribute('name', 'property-' + propertyNumEdit);
                 property.setAttribute('value', element.name);
                 property.setAttribute('id', 'property-' + propertyNumEdit);
@@ -114,7 +114,7 @@ function editTask(id) {
 $(document).ready(function() {
     $('.add-properties-edit').click(function(){
         var col = $('.dynamic-element').first().clone();
-        var property = col[0].childNodes[1].firstElementChild.lastElementChild;
+        var property = col[0].childNodes[1].firstElementChild.lastElementChild.firstElementChild;
         property.setAttribute('name', 'property-' + propertyNumEdit);
         property.setAttribute('id', 'property-' + propertyNumEdit);
         var type = col[0].childNodes[1].firstElementChild.nextElementSibling.lastElementChild;
@@ -127,6 +127,25 @@ $(document).ready(function() {
         col.appendTo('.dynamic-properties-edit').show();
         propertyNum++;
         attachDelete();
+        $('.search-box input[type="text"]').on("keyup input", function(){
+            /* Get input value on change */
+            var inputVal = $(this).val();
+            var resultDropdown = $(this).siblings(".result");
+            if(inputVal.length){
+                $.get("src/search_properties.php", {term: inputVal}).done(function(data){
+                    // Display the returned data in browser
+                    resultDropdown.html(data);
+                });
+            } else{
+                resultDropdown.empty();
+            }
+        });
+        
+        // Set search input value on click of result item
+        $(document).on("click", ".result div", function(){
+            $(this).parents(".search-box").find('input[type="text"]').val($(this).text());
+            $(this).parent(".result").empty();
+        });
     });
 });
 
@@ -135,7 +154,7 @@ var propertyNum = 0;
 $(document).ready(function() {
     $('.add-properties').click(function(){
         var col = $('.dynamic-element').first().clone();
-        var property = col[0].childNodes[1].firstElementChild.lastElementChild;
+        var property = col[0].childNodes[1].firstElementChild.lastElementChild.firstElementChild;
         property.setAttribute('name', 'property-' + propertyNum);
         property.setAttribute('id', 'property-' + propertyNum);
         var type = col[0].childNodes[1].firstElementChild.nextElementSibling.lastElementChild;
@@ -148,6 +167,25 @@ $(document).ready(function() {
         col.appendTo('.dynamic-properties').show();
         propertyNum++;
         attachDelete();
+        $('.search-box input[type="text"]').on("keyup input", function(){
+            /* Get input value on change */
+            var inputVal = $(this).val();
+            var resultDropdown = $(this).siblings(".result");
+            if(inputVal.length){
+                $.get("src/search_properties.php", {term: inputVal}).done(function(data){
+                    // Display the returned data in browser
+                    resultDropdown.html(data);
+                });
+            } else{
+                resultDropdown.empty();
+            }
+        });
+        
+        // Set search input value on click of result item
+        $(document).on("click", ".result div", function(){
+            $(this).parents(".search-box").find('input[type="text"]').val($(this).text());
+            $(this).parent(".result").empty();
+        });
     });
 });
 
@@ -173,4 +211,3 @@ $(document).on("change", "select", function() {
     var id = this.id.split('-')[2];
     $('#property-value-' + id).attr('type', type);
 })
-
