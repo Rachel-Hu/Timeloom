@@ -14,10 +14,11 @@
 
             // Separate properties
             $properties = array();
-            $properties['fixed'] = array('due_date' => $_POST['due-date'], 'priority' => $_POST['priority']);
-            $properties['user'] = array();
+            $due_date = array('name' => 'due_date', 'type' => 'datetime-local', 'value' => $_POST['due-date'], 'user_defined' => false);
+            array_push($properties, $due_date);
+            $priority = array('name' => 'priority', 'type' => 'text', 'value' => $_POST['priority'], 'user_defined' => false);
+            array_push($properties, $priority);
             $property = array();
-            $property_value = '';
             foreach($_POST as $key => $value) {
                 if (strpos($key, 'property-') !== false && (strpos($key, 'property-value-') === false && strpos($key, 'property-type-') === false)) {
                     $property['name'] = $value;
@@ -27,6 +28,7 @@
                 }
                 else if(strpos($key, 'property-value-') !== false) {
                     $property['value'] = $value;
+                    $property['user_defined'] = true;
                     array_push($properties['user'], $property);
                     $property = array();
                 }

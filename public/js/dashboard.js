@@ -83,23 +83,28 @@ function editTask(id) {
     if(properties != '{}' && !presentOldProperties) {
         properties = JSON.parse(properties);
         // First, parse fixed properties
-        $('#due-date-value-edit').attr('value', properties.fixed.due_date);
-        $('#priority-value-edit')[0].value = properties.fixed.priority;
-        properties.user.forEach(function(element) {
-            console.log(element);
-            var col = $('.dynamic-element-edit').first().clone();
-            var property = col[0].childNodes[1].firstElementChild.lastElementChild;
-            property.setAttribute('name', 'property-' + propertyNumEdit);
-            property.setAttribute('value', element.name);
-            property.setAttribute('id', 'property-' + propertyNumEdit);
-            var value = col[0].childNodes[1].firstElementChild.nextElementSibling.lastElementChild;
-            value.setAttribute('name', 'property-value-' + + propertyNumEdit);
-            value.setAttribute('value', element.value);
-            value.setAttribute('type', element.type);
-            value.setAttribute('id', 'property-value-' + + propertyNumEdit);
-            col.appendTo('.dynamic-properties-edit').show();
-            propertyNumEdit++;
-            attachDeleteEdit();
+        properties.forEach(function(element) {
+            if(element.name == 'due_date') {
+                $('#due-date-value-edit').attr('value', element.value);
+            }
+            else if(element.name == 'priority') {
+                $('#priority-value-edit')[0].value = element.value;
+            }
+            else {
+                var col = $('.dynamic-element-edit').first().clone();
+                var property = col[0].childNodes[1].firstElementChild.lastElementChild;
+                property.setAttribute('name', 'property-' + propertyNumEdit);
+                property.setAttribute('value', element.name);
+                property.setAttribute('id', 'property-' + propertyNumEdit);
+                var value = col[0].childNodes[1].firstElementChild.nextElementSibling.lastElementChild;
+                value.setAttribute('name', 'property-value-' + + propertyNumEdit);
+                value.setAttribute('value', element.value);
+                value.setAttribute('type', element.type);
+                value.setAttribute('id', 'property-value-' + + propertyNumEdit);
+                col.appendTo('.dynamic-properties-edit').show();
+                propertyNumEdit++;
+                attachDeleteEdit();
+            }
         });
     }
     presentOldProperties = true;
