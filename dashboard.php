@@ -81,8 +81,13 @@
                                                         <input type="text" class="form-control" id="due-date" value="Due date" readonly>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label for="due-date-value" class="col-form-label">Value:</label>
-                                                        <input type="datetime-local" class="form-control" name="due-date" id="due-date-value">
+                                                        <label for="due-date-value" class="col-form-label">Value: </label>
+                                                        <input type="datetime-local" class="form-control" name="due-date" id="due-date-value" 
+                                                                value=<?php 
+                                                                        $current = date("Y-m-d\TH:i:s");
+                                                                        $default = date("Y-m-d\TH:i:s", strtotime('+1 day', strtotime($current)));
+                                                                        echo $default;
+                                                                      ?>>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -93,10 +98,9 @@
                                                     <div class="col-md-6">
                                                         <label for="priority-value" class="col-form-label">Value:</label>
                                                         <select class="form-control" id="priority-value" class="property-type" name="priority">
-                                                            <option>Choose...</option>
+                                                            <option value="medium">Medium</option>
                                                             <option value="urgent">Urgent</option>
                                                             <option value="high">High</option>
-                                                            <option value="medium">Medium</option>
                                                             <option value="low">Low</option>
                                                         </select>
                                                     </div>
