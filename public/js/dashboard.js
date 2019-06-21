@@ -56,20 +56,22 @@ $(document).ready(function() {
     });
 });
 
+var tasks = new Array();
+
 function selectTask(id, listNumber) {
-    if($('#check-' + id)[0].checked) {
-        $('.check-box').attr("disabled", true);
-        $('#check-' + id).attr("disabled", false);
-        $('#rank-up').attr("onclick", "rankUp(" + id + ", " + listNumber + ");");
-        $('#rank-down').attr("onclick", "rankDown(" + id + ", " + listNumber + ");");
-        $('#edit-btn').attr("onclick", "editTask(" + id + ");");
-        $('#finish-btn').attr("href", "src/move_task.php?id=" + id + "&list=3");
-        $('#postpone-btn').attr("href", "src/move_task.php?id=" + id + "&list=1");
-        $('#resume-btn').attr("href", "src/move_task.php?id=" + id + "&list=2");
-    }
-    else {
-        $('.check-box').attr("disabled", false);
-    }
+    tasks.push(id);
+    var ids = '';
+    tasks.forEach(function(id) {
+        ids = ids + id + '_';
+    });
+    ids = ids.substring(0, ids.length - 1);
+    // console.log(ids);
+    $('#rank-up').attr("onclick", "rankUp(" + id + ", " + listNumber + ");");
+    $('#rank-down').attr("onclick", "rankDown(" + id + ", " + listNumber + ");");
+    $('#edit-btn').attr("onclick", "editTask(" + id + ");");
+    $('#finish-btn').attr("href", "src/move_task.php?id=" + ids + "&list=3");
+    $('#postpone-btn').attr("href", "src/move_task.php?id=" + ids + "&list=1");
+    $('#resume-btn').attr("href", "src/move_task.php?id=" + ids + "&list=2");
     $('.action-btns').toggle("slow");
 }
 

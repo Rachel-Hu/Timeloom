@@ -140,7 +140,7 @@ div.alert {
     display: none;
 }
 
-#rank-up, #rank-down, #edit-btn, #finish-btn, #postpone-btn, #resume-btn {
+#rank-up, #rank-down, #edit-btn {
     margin-left: 0.5rem;
 }
 
@@ -195,4 +195,8 @@ ul li a:hover {
 }
 .result div:hover{
     background: #f2f2f2;
+}
+
+.move-task {
+    display: inline;
 }

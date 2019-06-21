@@ -36,6 +36,8 @@
                     <h3>
                         Actions
                         <span class="manipulation action-btns">
+                            
+
                             <?php
                                 if(!isset($_SESSION['listid'])){
                                     $_SESSION['listid'] = 2;
@@ -44,17 +46,23 @@
                                 $rank_up = '<i class="fas fa-arrow-circle-up" onclick="rankUp();" id="rank-up"></i>';
                                 $rank_down = '<i class="fas fa-arrow-circle-down" onclick="rankDown();" id="rank-down"></i>';
                                 $edit_btn = '<a data-toggle="modal" data-target="#edit-form"><i class="fas fa-edit" id="edit-btn" onclick="editTask();"></i></a>';
-                                $finish_btn = '<a class="btn btn-sm btn-outline-light list-btn text-btn" href="" id="finish-btn">Finish</i></a>';
-                                $postpone_btn = '<a class="btn btn-sm btn-outline-light list-btn text-btn" href="" id="postpone-btn">Postpone</a>';
-                                $resume_btn = '<a class="btn btn-sm btn-outline-light list-btn text-btn" href="" id="resume-btn">Resume</a> ';
-                                $button = $rank_up.$rank_down.$edit_btn.$finish_btn.$postpone_btn;
+                                $finish_btn = '<a class="dropdown-item" href="" id="finish-btn">Completed</i></a>';
+                                $postpone_btn = '<a class="dropdown-item" href="" id="postpone-btn">Postpone</a>';
+                                $resume_btn = '<a class="dropdown-item" href="" id="resume-btn">Resume</a> ';
+                                $button = $finish_btn.$postpone_btn;
                                 if($list_id == 1){
-                                    $button = $rank_up.$rank_down.$edit_btn.$finish_btn;
+                                    $button = $finish_btn;
                                 }
                                 else if($list_id == 3){
-                                    $button = $rank_up.$rank_down.$edit_btn.$resume_btn;
+                                    $button = $resume_btn;
                                 }
-                                echo $button;
+                                $dropdown = '<div class="dropdown move-task">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="moveTask" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Move to...
+                                                </button>
+                                            <div class="dropdown-menu" aria-labelledby="moveTask">'.$button.'</div>
+                                            </div>';
+                                echo $rank_up.$rank_down.$edit_btn.$dropdown;
                             ?>
                         </span>  
                     </h3>
