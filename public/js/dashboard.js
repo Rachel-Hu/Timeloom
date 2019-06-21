@@ -59,7 +59,15 @@ $(document).ready(function() {
 var tasks = new Array();
 
 function selectTask(id, listNumber) {
-    tasks.push(id);
+    if($('#check-' + id)[0].checked) {
+        tasks.push(id);
+        $('.action-btns').show();
+    }
+    else {
+        tasks.splice(tasks.indexOf(id), 1);
+        // console.log(tasks);
+        if(tasks.length == 0) $('.action-btns').hide();
+    }
     var ids = '';
     tasks.forEach(function(id) {
         ids = ids + id + '_';
@@ -72,7 +80,7 @@ function selectTask(id, listNumber) {
     $('#finish-btn').attr("href", "src/move_task.php?id=" + ids + "&list=3");
     $('#postpone-btn').attr("href", "src/move_task.php?id=" + ids + "&list=1");
     $('#resume-btn').attr("href", "src/move_task.php?id=" + ids + "&list=2");
-    $('.action-btns').toggle("slow");
+        
 }
 
 var propertyNumEdit = 0;
