@@ -1,35 +1,3 @@
-function rankUp(id, listNumber) {
-    var task = id;
-    var list = listNumber;
-    $.ajax({
-        url: "src/change_rank.php",
-        type: "POST",
-        data: {
-            taskId: task,
-            listId: list,
-            addDisplayScore: 1
-        },
-        dataType: "json",
-    });
-    location.reload();
-}
-
-function rankDown(id, listNumber) {
-    var task = id;
-    var list = listNumber;
-    $.ajax({
-        url: "src/change_rank.php",
-        type: "POST",
-        data: {
-            taskId: task,
-            listId: list,
-            addDisplayScore: -1
-        },
-        dataType: "json"
-    });
-    location.reload();
-}
-
 function switchList(list) {
     var listId = list;
     $.ajax({
@@ -58,6 +26,36 @@ $(document).ready(function() {
 
 var tasks = new Array();
 
+function rankUp(listNumber) {
+    var list = listNumber;
+    $.ajax({
+        url: "src/change_rank.php",
+        type: "POST",
+        data: {
+            taskIds: tasks,
+            listId: list,
+            addDisplayScore: 1
+        },
+        dataType: "json",
+    });
+    location.reload();
+}
+
+function rankDown(listNumber) {
+    var list = listNumber;
+    $.ajax({
+        url: "src/change_rank.php",
+        type: "POST",
+        data: {
+            taskIds: tasks,
+            listId: list,
+            addDisplayScore: -1
+        },
+        dataType: "json"
+    });
+    location.reload();
+}
+
 function selectTask(id, listNumber) {
     if($('#check-' + id)[0].checked) {
         tasks.push(id);
@@ -74,13 +72,13 @@ function selectTask(id, listNumber) {
     });
     ids = ids.substring(0, ids.length - 1);
     // console.log(ids);
-    $('#rank-up').attr("onclick", "rankUp(" + id + ", " + listNumber + ");");
-    $('#rank-down').attr("onclick", "rankDown(" + id + ", " + listNumber + ");");
+    $('#rank-up').attr("onclick", "rankUp(" + listNumber + ");");
+    $('#rank-down').attr("onclick", "rankDown(" + listNumber + ");");
     $('#edit-btn').attr("onclick", "editTask(" + id + ");");
     $('#finish-btn').attr("href", "src/move_task.php?id=" + ids + "&list=3");
     $('#postpone-btn').attr("href", "src/move_task.php?id=" + ids + "&list=1");
     $('#resume-btn').attr("href", "src/move_task.php?id=" + ids + "&list=2");
-        
+    $('#expire-btn').attr("href", "src/move_task.php?id=" + ids + "&list=4");   
 }
 
 var propertyNumEdit = 0;
