@@ -74,21 +74,21 @@ function selectTask(id, listNumber) {
     // console.log(ids);
     $('#rank-up').attr("onclick", "rankUp(" + listNumber + ");");
     $('#rank-down').attr("onclick", "rankDown(" + listNumber + ");");
-    $('#edit-btn').attr("onclick", "editTask(" + id + ");");
     $('#finish-btn').attr("href", "src/move_task.php?id=" + ids + "&list=3");
     $('#postpone-btn').attr("href", "src/move_task.php?id=" + ids + "&list=1");
     $('#resume-btn').attr("href", "src/move_task.php?id=" + ids + "&list=2");
     $('#expire-btn').attr("href", "src/move_task.php?id=" + ids + "&list=4");   
+    $('#delete-btn').attr("href", "src/delete_task.php?id=" + ids);   
 }
 
 var propertyNumEdit = 0;
-var presentOldProperties = false;
 
 function editTask(id) {
+    console.log(id);
     var properties = $('#properties-' + id).val();
     var task = $('#properties-' + id).attr('name');
     $('#task-label-edit').attr('value', task);
-    if(properties != '{}' && !presentOldProperties) {
+    if(properties != '{}') {
         properties = JSON.parse(properties);
         // First, parse fixed properties
         properties.forEach(function(element) {
@@ -115,8 +115,14 @@ function editTask(id) {
             }
         });
     }
-    presentOldProperties = true;
     $(".edit-submit-btn").val(id);
+}
+
+// Reset edit form when closing 
+function resetEditForm() {
+    $('#due-date-value-edit').attr('value', '');
+    $('#priority-value-edit')[0].value ='Choose...';
+    $('.dynamic-properties-edit').html('');
 }
 
 $(document).ready(function() {

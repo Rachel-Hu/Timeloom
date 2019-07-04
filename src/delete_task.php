@@ -4,12 +4,14 @@
 
 <?php 
     if(isset($_GET['id'])) {
-        $id = $_GET['id'];
-        
-        $query = "DELETE FROM task WHERE id = '{$id}' ";
-        $delete_task_query = mysqli_query($connect, $query);
-        if(!$delete_task_query) {
-            die("QUERY FAILED ".mysqli.error($connect)).' '.msqli_errno($connect);
+        $id_str = $_GET['id'];
+        $ids = explode('_', $id_str);
+        foreach ($ids as $id){
+            $query = "DELETE FROM task WHERE id = '{$id}' ";
+            $delete_task_query = mysqli_query($connect, $query);
+            if(!$delete_task_query) {
+                die("QUERY FAILED ".mysqli.error($connect)).' '.msqli_errno($connect);
+            }
         }
 
         $_SESSION['message'] = '<div class="alert alert-success" role="alert">Task Deleted!</div>';

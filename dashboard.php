@@ -45,11 +45,11 @@
                                 $list_id = $_SESSION['listid'];
                                 $rank_up = '<i class="fas fa-arrow-circle-up" onclick="rankUp();" id="rank-up"></i>';
                                 $rank_down = '<i class="fas fa-arrow-circle-down" onclick="rankDown();" id="rank-down"></i>';
-                                $edit_btn = '<a data-toggle="modal" data-target="#edit-form"><i class="fas fa-edit" id="edit-btn" onclick="editTask();"></i></a>';
                                 $finish_btn = '<a class="dropdown-item" href="" id="finish-btn">Completed</i></a>';
                                 $postpone_btn = '<a class="dropdown-item" href="" id="postpone-btn">Latent</a>';
                                 $resume_btn = '<a class="dropdown-item" href="" id="resume-btn">Active</a>';
                                 $expire_btn = '<a class="dropdown-item" href="" id="expire-btn">Expired</a>';
+                                $delete_btn = '<a href="" id="delete-btn"><i class="fas fa-trash"></i></a>';
                                 $button = $finish_btn.$postpone_btn.$expire_btn;
                                 if($list_id == 1){
                                     $button = $finish_btn.$resume_btn.$expire_btn;
@@ -66,7 +66,7 @@
                                                 </button>
                                             <div class="dropdown-menu" aria-labelledby="moveTask">'.$button.'</div>
                                             </div>';
-                                echo $rank_up.$rank_down.$edit_btn.$dropdown;
+                                echo $rank_up.$rank_down.$delete_btn.$dropdown;
                             ?>
                         </span>  
                     </h3>
@@ -175,7 +175,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="edit-form-label">Edit Task</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetEditForm()">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
@@ -292,7 +292,8 @@
                                     // Design different buttons for different lists.
                                     $hidden = '<input type="hidden" id="properties-'.$id.'" name="'.$task.'" value="'.$properties.'">';
                                     $add_button = '<a id="add-task-before-'.$next_id.'-and-after-'.$id.'" class="btn list-btn text-btn add-task-btn" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus fa-lg add-task-btn"></i></a>';
-                                    echo '<li><span class="task-main"><a class="delete-btn" href="src/delete_task.php?id='.$id.'"><i class="fas fa-trash"></i></a> '.$task.'</span><span class="manipulation">'.$add_button.$check.'</span>'.$hidden.'</li> ';
+                                    $edit_btn = '<a data-toggle="modal" data-target="#edit-form" class="edit-btn"><i class="fas fa-edit" id="edit-btn-'.$id.'" onclick="editTask('.$id.');"></i></a>';
+                                    echo '<li><span class="task-main">'.$edit_btn.$task.'</span><span class="manipulation">'.$add_button.$check.'</span>'.$hidden.'</li> ';
                                     $prev_row = $row;
                                 }
                             }
@@ -304,9 +305,9 @@
                                 $next_id = 0;
                                 $check = '<input type="checkbox" class="form-check-input check-box" id="check-'.$id.'" onclick="selectTask('.$id.', '.$list_id.');">';
                                 $hidden = '<input type="hidden" id="properties-'.$id.'" name="properties" value="'.$properties.'">';
-                                // Design different buttons for different lists.
+                                $edit_btn = '<a data-toggle="modal" data-target="#edit-form" class="edit-btn"><i class="fas fa-edit" id="edit-btn-'.$id.'" onclick="editTask('.$id.');"></i></a>';
                                 $add_button = '<a id="add-task-before-'.$next_id.'-and-after-'.$id.'" class="btn list-btn text-btn add-task-btn" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus fa-lg add-task-btn"></i></a>';
-                                echo '<li><span class="task-main"><a class="delete-btn" href="src/delete_task.php?id='.$id.'"><i class="fas fa-trash"></i></a> '.$task.'</span><span class="manipulation">'.$add_button.$check.'</span>'.$hidden.'</li> ';
+                                echo '<li><span class="task-main">'.$edit_btn.$task.'</span><span class="manipulation">'.$add_button.$check.'</span>'.$hidden.'</li> ';
                             }
                         ?>
                     </ul>

@@ -45,7 +45,9 @@
             // echo $json;
 
             // Update property table. Only user defined properties need to be added.
-            foreach($property_names as $name){
+            foreach($properties as $property){
+                $name = $property['name'];
+                $type = $property['type'];
                 $property_query = "SELECT * FROM task_properties WHERE label = '$name'";
                 $search_result = mysqli_query($connect, $property_query);
                 if(!$search_result) {
@@ -53,9 +55,10 @@
                 }
                 $entry = mysqli_fetch_assoc($search_result);
                 if($entry == null){
-                    $add_property_query = "INSERT INTO task_properties (label, user_defined, count) VALUES ('$name', 1, 1)";
+                    $add_property_query = "INSERT INTO task_properties (label, type, user_defined, keywords, count) VALUES ('$name', '$type', 1, '', 1)";
                     $add_property_result = mysqli_query($connect, $add_property_query);
                     if(!$add_property_result) {
+                        echo "Failed!!";
                         die("QUERY FAILED ".mysqli.error($connect));
                     }
                 }
@@ -68,16 +71,6 @@
                     }
                 }
             }
-
-            // Find the userid of current user.
-            $userid_query = "SELECT *
-                        FROM user
-                        WHERE user.id = '$userid'";
-            $user_result = mysqli_query($connect, $userid_query);
-            if(!$user_result) {
-                die("QUERY FAILED ".mysqli.error($connect));
-            }
-            $userid = mysqli_fetch_assoc($user_result)['id'];
             
             // Insert above the first task
             if($prev_taskid == 0 && $next_taskid == 0) {

@@ -49,8 +49,8 @@ ul {
     height: 40px;
 }
 
-.delete-btn {
-    background-color: #d9534f;
+.edit-btn {
+    background-color: #5cb85c;
     color: white;
     text-decoration: none;
     text-align: center;
@@ -140,8 +140,13 @@ div.alert {
     display: none;
 }
 
-#rank-up, #rank-down, #edit-btn {
+#rank-up, #rank-down, #edit-btn, #delete-btn {
     margin-left: 0.5rem;
+}
+
+#delete-btn {
+    color: white;
+    text-decoration: none;
 }
 
 .current-list {
