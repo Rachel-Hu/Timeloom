@@ -84,7 +84,6 @@ function selectTask(id, listNumber) {
 var propertyNumEdit = 0;
 
 function editTask(id) {
-    console.log(id);
     var properties = $('#properties-' + id).val();
     var task = $('#properties-' + id).attr('name');
     $('#task-label-edit').attr('value', task);
@@ -125,6 +124,22 @@ function resetEditForm() {
     $('.dynamic-properties-edit').html('');
 }
 
+function autoFillProperty() {
+    // Set search input value on click of result item
+    $(document).on("click", ".result div", function(){
+        $(this).parents(".search-box").find('input[type="text"]').val($(this).text());
+        var type = $(this).next().val();
+        $(this).parents(".search-box").parent().next().remove();
+        $(this).parents(".search-box").parent().removeClass('col-md-6').addClass('col-md-5');
+        var valueBoxes = $(this).parents(".search-box").parent().parent().next().children();
+        var valueBox = valueBoxes.first();
+        valueBox.removeClass('col-md-10').addClass('col-md-5');
+        valueBox.find('input[type="text"]').attr('type', type);
+        $(this).parents(".search-box").parent().parent().append(valueBoxes);
+        $(this).parent(".result").empty();
+    });
+}
+
 $(document).ready(function() {
     $('.add-properties-edit').click(function(){
         var col = $('.dynamic-element').first().clone();
@@ -155,11 +170,7 @@ $(document).ready(function() {
             }
         });
         
-        // Set search input value on click of result item
-        $(document).on("click", ".result div", function(){
-            $(this).parents(".search-box").find('input[type="text"]').val($(this).text());
-            $(this).parent(".result").empty();
-        });
+        autoFillProperty();
     });
 });
 
@@ -188,6 +199,7 @@ $(document).ready(function() {
             if(inputVal.length){
                 $.get("src/search_properties.php", {term: inputVal}).done(function(data){
                     // Display the returned data in browser
+                    // console.log(data);
                     resultDropdown.html(data);
                 });
             } else{
@@ -195,11 +207,7 @@ $(document).ready(function() {
             }
         });
         
-        // Set search input value on click of result item
-        $(document).on("click", ".result div", function(){
-            $(this).parents(".search-box").find('input[type="text"]').val($(this).text());
-            $(this).parent(".result").empty();
-        });
+        autoFillProperty();
     });
 });
 

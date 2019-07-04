@@ -22,7 +22,7 @@
                 if(mysqli_num_rows($result) > 0){
                     // Fetch result rows as an associative array
                     while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-                        echo '<div>' . $row["label"] . "</div>";
+                        echo '<div>' . $row["label"] . '</div><input type="hidden" value="'.$row['type'].'">';
                     }
                 } else{
                     echo "<div>No matches found</div>";
