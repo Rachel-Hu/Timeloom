@@ -1,3 +1,4 @@
+// Switch the list displayed to the user
 function switchList(list) {
     var listId = list;
     $.ajax({
@@ -11,21 +12,20 @@ function switchList(list) {
     location.reload();
 }
 
+// When the add button is clicked, add the id of the task it belongs to 
+// and the previous task's id to the button value
 $(document).ready(function() {
     $(".add-task-btn").click(function () {
-        // console.log($(this).attr('id'));
         var id = String($(this).attr('id'));
         var prev_taskid = id.split('-')[6];
-        // console.log(prev_taskid);
         var taskid = id.split('-')[3];
-        // console.log(taskid);
-        // console.log($(".add-submit-btn"));
         $(".add-submit-btn").val(prev_taskid + "and" + taskid);
     });
 });
 
 var tasks = new Array();
 
+// Move selected tasks up
 function rankUp(listNumber) {
     var list = listNumber;
     $.ajax({
@@ -41,6 +41,7 @@ function rankUp(listNumber) {
     location.reload();
 }
 
+// Move selected tasks down
 function rankDown(listNumber) {
     var list = listNumber;
     $.ajax({
@@ -56,6 +57,8 @@ function rankDown(listNumber) {
     location.reload();
 }
 
+/* When a task is selected, add them to the tasks array and modify the function
+ * buttons with the id of selected tasks. */
 function selectTask(id, listNumber) {
     if($('#check-' + id)[0].checked) {
         tasks.push(id);
@@ -63,7 +66,6 @@ function selectTask(id, listNumber) {
     }
     else {
         tasks.splice(tasks.indexOf(id), 1);
-        // console.log(tasks);
         if(tasks.length == 0) $('.action-btns').hide();
     }
     var ids = '';
@@ -71,7 +73,6 @@ function selectTask(id, listNumber) {
         ids = ids + id + '_';
     });
     ids = ids.substring(0, ids.length - 1);
-    // console.log(ids);
     $('#rank-up').attr("onclick", "rankUp(" + listNumber + ");");
     $('#rank-down').attr("onclick", "rankDown(" + listNumber + ");");
     $('#finish-btn').attr("href", "src/move_task.php?id=" + ids + "&list=3");
@@ -83,6 +84,8 @@ function selectTask(id, listNumber) {
 
 var propertyNumEdit = 0;
 
+/* When the edit button is clicked, display the properties stored in the hidden
+ * value of the task. */
 function editTask(id) {
     var properties = $('#properties-' + id).val();
     var task = $('#properties-' + id).attr('name');
@@ -124,6 +127,8 @@ function resetEditForm() {
     $('.dynamic-properties-edit').html('');
 }
 
+/* If a property is found in the database, autofill the type of the property in 
+ * the input box's type. */
 function autoFillProperty() {
     // Set search input value on click of result item
     $(document).on("click", ".result div", function(){
@@ -134,12 +139,29 @@ function autoFillProperty() {
         var valueBoxes = $(this).parents(".search-box").parent().parent().next().children();
         var valueBox = valueBoxes.first();
         valueBox.removeClass('col-md-10').addClass('col-md-5');
-        valueBox.find('input[type="text"]').attr('type', type);
+        // Change the type of the input box
+        if(type == 'float') {
+            valueBox.find('input[type="text"]').attr('type', 'number');
+            valueBox.find('input[type="number"]').attr('step', 'any');
+        }
+        else if(type == 'string') {
+            var id = valueBox.find('input[type="text"]')[0].id;
+            var name = valueBox.find('input[type="text"]')[0].name;
+            valueBox.find('input[type="text"]').replaceWith('<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>');
+            valueBox.find('textarea').attr('name', name);
+            valueBox.find('textarea').attr('id', id);
+        }
+        else if(type == "string array") {
+            valueBox.find('input[type="text"]').attr('type', 'text');
+        }
+        else valueBox.find('input[type="text"]').attr('type', type);
         $(this).parents(".search-box").parent().parent().append(valueBoxes);
         $(this).parent(".result").empty();
     });
 }
 
+/* When the add property button of the edit form is clicked, add the input boxes
+ * for it. */
 $(document).ready(function() {
     $('.add-properties-edit').click(function(){
         var col = $('.dynamic-element').first().clone();
@@ -152,10 +174,10 @@ $(document).ready(function() {
         var value = col[0].childNodes[3].firstElementChild.lastElementChild;
         value.setAttribute('name', 'property-value-' + + propertyNumEdit);
         value.setAttribute('id', 'property-value-' + + propertyNumEdit);
-        // console.log(col[0].childNodes[1]);
         col.appendTo('.dynamic-properties-edit').show();
         propertyNum++;
         attachDelete();
+        // Search the property in the database
         $('.search-box input[type="text"]').on("keyup input", function(){
             /* Get input value on change */
             var inputVal = $(this).val();
@@ -176,6 +198,8 @@ $(document).ready(function() {
 
 var propertyNum = 0;
 
+/* When the add property button of the add form is clicked, add the input boxes
+ * for it. */
 $(document).ready(function() {
     $('.add-properties').click(function(){
         var col = $('.dynamic-element').first().clone();
@@ -188,7 +212,6 @@ $(document).ready(function() {
         var value = col[0].childNodes[3].firstElementChild.lastElementChild;
         value.setAttribute('name', 'property-value-' + + propertyNum);
         value.setAttribute('id', 'property-value-' + + propertyNum);
-        // console.log(col[0].childNodes[1]);
         col.appendTo('.dynamic-properties').show();
         propertyNum++;
         attachDelete();
@@ -198,8 +221,6 @@ $(document).ready(function() {
             var resultDropdown = $(this).siblings(".result");
             if(inputVal.length){
                 $.get("src/search_properties.php", {term: inputVal}).done(function(data){
-                    // Display the returned data in browser
-                    // console.log(data);
                     resultDropdown.html(data);
                 });
             } else{
@@ -211,6 +232,7 @@ $(document).ready(function() {
     });
 });
 
+// Attach delete button to the properties in the add task form
 function attachDelete(){
     $('.delete-properties').off();
     $('.delete-properties').click(function(){
@@ -219,6 +241,7 @@ function attachDelete(){
     });
 }
 
+// Attach delete button to the properties in the edit task form
 function attachDeleteEdit(){
     $('.delete-properties').off();
     $('.delete-properties').click(function(){
@@ -227,7 +250,7 @@ function attachDeleteEdit(){
     });
 }
 
-
+// Change the type of the input box when the type is selected by the user
 $(document).on("change", "select", function() {
     var type = this.value;
     var id = this.id.split('-')[2];

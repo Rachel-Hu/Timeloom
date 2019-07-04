@@ -17,6 +17,7 @@
                         <ul class="nav nav-tabs flex-row justify-content-around">
                             <?php
                                 $list_arr = array("Latent", "Active", "Completed", "Expired");
+                                if(!isset($_SESSION['listid'])) $_SESSION['listid'] = 2;
                                 for($i = 0; $i < count($list_arr); ++$i) {
                                     if($i + 1 == $_SESSION['listid']) {
                                         echo '<li class="active current-list">

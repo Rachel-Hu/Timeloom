@@ -13,7 +13,6 @@
             $ids = explode("and", $_POST['add-submit-btn']);
             $prev_taskid = (int)$ids[0];
             $next_taskid = (int)$ids[1];
-            $username = $_SESSION['username'];
 
             // Separate properties
             $properties = array();
@@ -55,7 +54,7 @@
                 }
                 $entry = mysqli_fetch_assoc($search_result);
                 if($entry == null){
-                    $add_property_query = "INSERT INTO task_properties (label, type, user_defined, keywords, count) VALUES ('$name', '$type', 1, '', 1)";
+                    $add_property_query = "INSERT INTO task_properties (label, type, user_defined, keywords, default_value, frequency) VALUES ('$name', '$type', 1, '', '', 1)";
                     $add_property_result = mysqli_query($connect, $add_property_query);
                     if(!$add_property_result) {
                         echo "Failed!!";
@@ -64,7 +63,7 @@
                 }
                 else {
                     $count = $entry['count'] + 1;
-                    $update_property_query = "UPDATE task_properties SET count = {$count} WHERE label = '$name'";
+                    $update_property_query = "UPDATE task_properties SET frequency = {$count} WHERE label = '$name'";
                     $update_property_result = mysqli_query($connect, $update_property_query);
                     if(!$update_property_result) {
                         die("QUERY FAILED ".mysqli.error($connect));

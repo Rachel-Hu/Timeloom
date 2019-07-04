@@ -10,7 +10,6 @@
             $userid = $_SESSION['userid'];
             $listid = $_SESSION['listid'];
             $id = $_POST['edit-submit-btn'];
-            $username = $_SESSION['username'];
 
             // Separate properties
             $properties = array();
@@ -50,7 +49,7 @@
                 }
                 $entry = mysqli_fetch_assoc($search_result);
                 if($entry == null){
-                    $add_property_query = "INSERT INTO task_properties (label, type, user_defined, keywords, count) VALUES ('$name', '$type', 1, '', 1)";
+                    $add_property_query = "INSERT INTO task_properties (label, type, user_defined, keywords, default_value, frequency) VALUES ('$name', '$type', 1, '', '', 1)";
                     $add_property_result = mysqli_query($connect, $add_property_query);
                     if(!$add_property_result) {
                         die("QUERY FAILED ".mysqli.error($connect));
