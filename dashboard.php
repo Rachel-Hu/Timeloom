@@ -88,36 +88,50 @@
                                                 <label for="task-label" class="col-form-label">New Task:</label>
                                                 <input type="text" class="form-control" id="task-label" placeholder="Add new task" name="task">
                                                 <!-- Fixed properties -->
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <label for="due-date" class="col-form-label">Property:</label>
-                                                        <input type="text" class="form-control" id="due-date" value="Due date" readonly>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="due-date-value" class="col-form-label">Value: </label>
-                                                        <input type="datetime-local" class="form-control" name="due-date" id="due-date-value" 
-                                                                value=<?php 
-                                                                        $current = date("Y-m-d\TH:i:s");
-                                                                        $default = date("Y-m-d\TH:i:s", strtotime('+1 day', strtotime($current)));
-                                                                        echo $default;
-                                                                      ?>>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <label for="priority" class="col-form-label">Property:</label>
-                                                        <input type="text" class="form-control" id="priority" value="Priority" readonly>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="priority-value" class="col-form-label">Value:</label>
-                                                        <select class="form-control" id="priority-value" class="property-type" name="priority">
-                                                            <option value="medium">Medium</option>
-                                                            <option value="urgent">Urgent</option>
-                                                            <option value="high">High</option>
-                                                            <option value="low">Low</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
+                                                <?php
+                                                    $property_query = "SELECT * FROM task_properties WHERE user_defined = 0";
+                                                    $properties = mysqli_query($connect, $property_query);
+                                                    $count = 0;
+                                                    while($row = mysqli_fetch_assoc($properties)) {
+                                                        $value_input = '<input type="'.$row['type'].'" class="form-control" name="property-value-'.$count.'">';
+                                                        if($row['type'] == 'float') {
+                                                            $value_input = '<input type="number" step="any" class="form-control" name="property-value-'.$count.'">';
+                                                        }
+                                                        else if($row['type'] == 'string array') {
+                                                            $value_input = '<input type="text" class="form-control" name="property-value-'.$count.'">';
+                                                        }
+                                                        else if($row['type'] == 'string') {
+                                                            $value_input = '<textarea class="form-control" rows="1" name="property-value-'.$count.'"></textarea>';
+                                                        }
+                                                        // For due date, the default needs to be set as 1 day after current time
+                                                        else if($row['label'] == 'Due Date') {
+                                                            $current = date("Y-m-d\TH:i:s");
+                                                            $default = date("Y-m-d\TH:i:s", strtotime('+1 day', strtotime($current)));
+                                                            $value_input = '<input type="datetime-local" class="form-control" name="property-value-'.$count.'" value="'.$default.'">';
+                                                        }
+                                                        // For priority, it is a dropdown selection menu
+                                                        else if($row['label'] == 'Priority') {
+                                                            $value_input = '<select class="form-control" class="property-type" name="property-value-'.$count.'"'.$row['label'].'">
+                                                                                <option value="medium">Medium</option>
+                                                                                <option value="urgent">Urgent</option>
+                                                                                <option value="high">High</option>
+                                                                                <option value="low">Low</option>
+                                                                            </select>';
+                                                        }
+                                                        $columns = '<div class="row">
+                                                                        <div class="col-md-6 fixed-properties">                                            
+                                                                            <input type="text" class="form-control" name="property-'.$count.'" value="'.$row['label'].'" readonly>
+                                                                        </div>
+                                                                        <input type="hidden" name="property-type-'.$count.'" value="'.$row['type'].'">
+                                                                        <div class="col-md-6 fixed-property-values">                                                    
+                                                                            '.$value_input.'
+                                                                        </div>
+                                                                        <input type="hidden" name="user-defined-'.$count.'" value="false">
+                                                                    </div>';
+                                                        echo $columns;
+                                                        $count += 1;
+                                                    }
+                                                ?>
                                             </div> 
                                             <!-- User defined properties -->
                                             <div>
@@ -186,32 +200,50 @@
                                                 <label for="task-label" class="col-form-label">Task:</label>
                                                 <input type="text" class="form-control" id="task-label-edit" placeholder="Add new task" name="task">
                                                 <!-- Fixed properties -->
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <label for="due-date-edit" class="col-form-label">Property:</label>
-                                                        <input type="text" class="form-control" id="due-date-edit" value="Due date" readonly>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="due-date-value-edit" class="col-form-label">Value:</label>
-                                                        <input type="datetime-local" class="form-control" name="due-date" id="due-date-value-edit">
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <label for="priority-edit" class="col-form-label">Property:</label>
-                                                        <input type="text" class="form-control" id="priority-edit" value="Priority" readonly>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="priority-value-edit" class="col-form-label">Value:</label>
-                                                        <select class="form-control" id="priority-value-edit" class="property-type" name="priority">
-                                                            <option>Choose...</option>
-                                                            <option value="urgent">Urgent</option>
-                                                            <option value="high">High</option>
-                                                            <option value="medium">Medium</option>
-                                                            <option value="low">Low</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
+                                                <?php
+                                                    $property_query = "SELECT * FROM task_properties WHERE user_defined = 0";
+                                                    $properties = mysqli_query($connect, $property_query);
+                                                    $count = 0;
+                                                    while($row = mysqli_fetch_assoc($properties)) {
+                                                        $value_input = '<input type="'.$row['type'].'" class="form-control" name="property-value-'.$count.'">';
+                                                        if($row['type'] == 'float') {
+                                                            $value_input = '<input type="number" step="any" class="form-control" name="property-value-'.$count.'">';
+                                                        }
+                                                        else if($row['type'] == 'string array') {
+                                                            $value_input = '<input type="text" class="form-control" name="property-value-'.$count.'">';
+                                                        }
+                                                        else if($row['type'] == 'string') {
+                                                            $value_input = '<textarea class="form-control" rows="1" name="property-value-'.$count.'"></textarea>';
+                                                        }
+                                                        // For due date, the default needs to be set as 1 day after current time
+                                                        else if($row['label'] == 'Due Date') {
+                                                            $current = date("Y-m-d\TH:i:s");
+                                                            $default = date("Y-m-d\TH:i:s", strtotime('+1 day', strtotime($current)));
+                                                            $value_input = '<input type="datetime-local" class="form-control" name="property-value-'.$count.'" value="'.$default.'">';
+                                                        }
+                                                        // For priority, it is a dropdown selection menu
+                                                        else if($row['label'] == 'Priority') {
+                                                            $value_input = '<select class="form-control" class="property-type" name="property-value-'.$count.'"'.$row['label'].'">
+                                                                                <option value="medium">Medium</option>
+                                                                                <option value="urgent">Urgent</option>
+                                                                                <option value="high">High</option>
+                                                                                <option value="low">Low</option>
+                                                                            </select>';
+                                                        }
+                                                        $columns = '<div class="row">
+                                                                        <div class="col-md-6 fixed-properties">
+                                                                            <input type="text" class="form-control" id="'.$row['label'].'" name="property-'.$count.'" value="'.$row['label'].'" readonly>
+                                                                        </div>
+                                                                        <input type="hidden" name="property-type-'.$count.'" value="'.$row['type'].'">
+                                                                        <div class="col-md-6 fixed-property-values-edit">
+                                                                            '.$value_input.'
+                                                                        </div>
+                                                                        <input type="hidden" name="user-defined-'.$count.'" value="false">
+                                                                    </div>';
+                                                        echo $columns;
+                                                        $count += 1;
+                                                    }
+                                                ?>
                                             </div>    
                                             <div>
                                                 <p class="add-properties-edit"><i class="fas fa-plus-circle"></i> Add properties</p>
@@ -305,7 +337,7 @@
                                 $id = $prev_row['id'];
                                 $next_id = 0;
                                 $check = '<input type="checkbox" class="form-check-input check-box" id="check-'.$id.'" onclick="selectTask('.$id.', '.$list_id.');">';
-                                $hidden = '<input type="hidden" id="properties-'.$id.'" name="properties" value="'.$properties.'">';
+                                $hidden = '<input type="hidden" id="properties-'.$id.'" name="'.$task.'" value="'.$properties.'">';
                                 $edit_btn = '<a data-toggle="modal" data-target="#edit-form" class="edit-btn"><i class="fas fa-edit" id="edit-btn-'.$id.'" onclick="editTask('.$id.');"></i></a>';
                                 $add_button = '<a id="add-task-before-'.$next_id.'-and-after-'.$id.'" class="btn list-btn text-btn add-task-btn" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus fa-lg add-task-btn"></i></a>';
                                 echo '<li><span class="task-main">'.$edit_btn.$task.'</span><span class="manipulation">'.$add_button.$check.'</span>'.$hidden.'</li> ';

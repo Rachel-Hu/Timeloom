@@ -1,3 +1,6 @@
+// Number of predefined properties
+const PREDEFINED = 9;
+
 // Switch the list displayed to the user
 function switchList(list) {
     var listId = list;
@@ -82,11 +85,12 @@ function selectTask(id, listNumber) {
     $('#delete-btn').attr("href", "src/delete_task.php?id=" + ids);   
 }
 
-var propertyNumEdit = 0;
+var propertyNumEdit = PREDEFINED;
 
 /* When the edit button is clicked, display the properties stored in the hidden
  * value of the task. */
 function editTask(id) {
+    console.log(id);
     var properties = $('#properties-' + id).val();
     var task = $('#properties-' + id).attr('name');
     $('#task-label-edit').attr('value', task);
@@ -94,11 +98,15 @@ function editTask(id) {
         properties = JSON.parse(properties);
         // First, parse fixed properties
         properties.forEach(function(element) {
-            if(element.name == 'due_date') {
-                $('#due-date-value-edit').attr('value', element.value);
-            }
-            else if(element.name == 'priority') {
-                $('#priority-value-edit')[0].value = element.value;
+            if(!element.user_defined) {
+                // Fill in the predefined properties
+                var value = $("[id='" + element.name + "']").parent().next().next(); // Some ids might have blank space 
+                if(element.name == 'Priority') {
+                    value[0].firstElementChild.value = element.value;
+                }
+                else {
+                    value[0].firstElementChild.setAttribute('value', element.value);
+                }
             }
             else {
                 var col = $('.dynamic-element-edit').first().clone();
@@ -122,9 +130,11 @@ function editTask(id) {
 
 // Reset edit form when closing 
 function resetEditForm() {
-    $('#due-date-value-edit').attr('value', '');
-    $('#priority-value-edit')[0].value ='Choose...';
     $('.dynamic-properties-edit').html('');
+    var valuesToReset = $('.fixed-property-values-edit');
+    for(var i = 0; i < valuesToReset.length; i++) {
+        valuesToReset[i].firstElementChild.setAttribute('value', '');
+    }
 }
 
 /* If a property is found in the database, autofill the type of the property in 
@@ -155,6 +165,11 @@ function autoFillProperty() {
             valueBox.find('input[type="text"]').attr('type', 'text');
         }
         else valueBox.find('input[type="text"]').attr('type', type);
+        var id = valueBox.find('input[type="text"]')[0].id;
+        id = id.split('-')[2];
+        console.log(id);
+        valueBox.append('<input type="hidden" name="property-type-' + id + '" value="' + type + '">');
+        valueBox.append('<input type="hidden" name="user-defined-' + id + '" value="true">');
         $(this).parents(".search-box").parent().parent().append(valueBoxes);
         $(this).parent(".result").empty();
     });
@@ -196,7 +211,7 @@ $(document).ready(function() {
     });
 });
 
-var propertyNum = 0;
+var propertyNum = PREDEFINED;
 
 /* When the add property button of the add form is clicked, add the input boxes
  * for it. */
@@ -213,7 +228,6 @@ $(document).ready(function() {
         value.setAttribute('name', 'property-value-' + + propertyNum);
         value.setAttribute('id', 'property-value-' + + propertyNum);
         col.appendTo('.dynamic-properties').show();
-        propertyNum++;
         attachDelete();
         $('.search-box input[type="text"]').on("keyup input", function(){
             /* Get input value on change */
@@ -227,8 +241,8 @@ $(document).ready(function() {
                 resultDropdown.empty();
             }
         });
-        
         autoFillProperty();
+        propertyNum++;
     });
 });
 

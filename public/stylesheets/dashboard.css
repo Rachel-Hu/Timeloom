@@ -205,3 +205,19 @@ ul li a:hover {
 .move-task {
     display: inline;
 }
+
+.fixed-properties {
+    margin: 1em 0;
+}
+
+.fixed-property-values, .fixed-property-values-edit {
+    margin: 1em 0;
+}
+
+#task-label, #task-label-edit {
+    margin-bottom: 1em;
+}
+
+.fixed-properties .form-control[readonly] {
+    background-color: white;
+}

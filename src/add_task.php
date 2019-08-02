@@ -16,27 +16,23 @@
 
             // Separate properties
             $properties = array();
-            $due_date = array('name' => 'due_date', 'type' => 'datetime-local', 'value' => $_POST['due-date'], 'user_defined' => false);
-            array_push($properties, $due_date);
-            $priority = array('name' => 'priority', 'type' => 'text', 'value' => $_POST['priority'], 'user_defined' => false);
-            array_push($properties, $priority);
             $property = array();
-            $property_names = array();
             foreach($_POST as $key => $value) {
                 if (strpos($key, 'property-') !== false && (strpos($key, 'property-value-') === false && strpos($key, 'property-type-') === false)) {
                     $property['name'] = $value;
-                    array_push($property_names, $value);
                 }
                 else if(strpos($key, 'property-type-') !== false) {
                     $property['type'] = $value;
                 }
                 else if(strpos($key, 'property-value-') !== false) {
                     $property['value'] = $value;
-                    $property['user_defined'] = true;
+                }
+                else if(strpos($key, 'user-defined-') !== false) {
+                    if($value == 'true') $property['user_defined'] = true;
+                    else $property['user_defined'] = false;
                     array_push($properties, $property);
                     $property = array();
                 }
-
             }
             if(count($properties) == 0) $json = '{}';
             else $json = json_encode($properties);

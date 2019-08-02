@@ -13,46 +13,44 @@
 
             // Separate properties
             $properties = array();
-            $due_date = array('name' => 'due_date', 'type' => 'datetime-local', 'value' => $_POST['due-date'], 'user_defined' => false);
-            array_push($properties, $due_date);
-            $priority = array('name' => 'priority', 'type' => 'text', 'value' => $_POST['priority'], 'user_defined' => false);
-            array_push($properties, $priority);
             $property = array();
-            $property_names = array();
             foreach($_POST as $key => $value) {
                 if (strpos($key, 'property-') !== false && (strpos($key, 'property-value-') === false && strpos($key, 'property-type-') === false)) {
                     $property['name'] = $value;
-                    array_push($property_names, $value);
                 }
                 else if(strpos($key, 'property-type-') !== false) {
                     $property['type'] = $value;
                 }
                 else if(strpos($key, 'property-value-') !== false) {
                     $property['value'] = $value;
-                    $property['user_defined'] = true;
+                }
+                else if(strpos($key, 'user-defined-') !== false) {
+                    if($value == 'true') $property['user_defined'] = true;
+                    else $property['user_defined'] = false;
                     array_push($properties, $property);
                     $property = array();
                 }
-
             }
             if(count($properties) == 0) $json = '{}';
             else $json = json_encode($properties);
 
             // Update property table. Only user defined properties need to be added.
             foreach($properties as $property){
-                $name = $property['name'];
-                $type = $property['type'];
-                $property_query = "SELECT * FROM task_properties WHERE label = '$name'";
-                $search_result = mysqli_query($connect, $property_query);
-                if(!$search_result) {
-                    die("QUERY FAILED ".mysqli.error($connect));
-                }
-                $entry = mysqli_fetch_assoc($search_result);
-                if($entry == null){
-                    $add_property_query = "INSERT INTO task_properties (label, type, user_defined, keywords, default_value, frequency) VALUES ('$name', '$type', 1, '', '', 1)";
-                    $add_property_result = mysqli_query($connect, $add_property_query);
-                    if(!$add_property_result) {
+                if($property['user_defined']) {
+                    $name = $property['name'];
+                    $type = $property['type'];
+                    $property_query = "SELECT * FROM task_properties WHERE label = '$name'";
+                    $search_result = mysqli_query($connect, $property_query);
+                    if(!$search_result) {
                         die("QUERY FAILED ".mysqli.error($connect));
+                    }
+                    $entry = mysqli_fetch_assoc($search_result);
+                    if($entry == null){
+                        $add_property_query = "INSERT INTO task_properties (label, type, user_defined, keywords, default_value, frequency) VALUES ('$name', '$type', 1, '', '', 1)";
+                        $add_property_result = mysqli_query($connect, $add_property_query);
+                        if(!$add_property_result) {
+                            die("QUERY FAILED ".mysqli.error($connect));
+                        }
                     }
                 }
             }
