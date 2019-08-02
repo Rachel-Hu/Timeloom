@@ -1,20 +1,6 @@
 // Number of predefined properties
 const PREDEFINED = 9;
 
-// Switch the list displayed to the user
-function switchList(list) {
-    var listId = list;
-    $.ajax({
-        url: "src/switch_list.php",
-        type: "POST",
-        data: {
-            list: listId,
-        },
-        dataType: "json"
-    });
-    location.reload();
-}
-
 // When the add button is clicked, add the id of the task it belongs to 
 // and the previous task's id to the button value
 $(document).ready(function() {
@@ -40,8 +26,9 @@ function rankUp(listNumber) {
             addDisplayScore: 1
         },
         dataType: "json",
+        // Set time out for firefox
+        success: setTimeout(window.location.reload.bind(window.location), 250)
     });
-    location.reload();
 }
 
 // Move selected tasks down
@@ -55,9 +42,9 @@ function rankDown(listNumber) {
             listId: list,
             addDisplayScore: -1
         },
-        dataType: "json"
+        dataType: "json",
+        success: setTimeout(window.location.reload.bind(window.location), 250)
     });
-    location.reload();
 }
 
 /* When a task is selected, add them to the tasks array and modify the function

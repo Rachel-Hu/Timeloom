@@ -77,7 +77,7 @@
             $update_task_query = "UPDATE task 
                             SET display_score = $new_score, hint = $new_hint
                             WHERE id = $id";
-            echo $update_task_query."\n";
+            // echo $update_task_query."\n";
             $update_result = mysqli_query($connect, $update_task_query);
             if(!$update_result) {
                 echo "Failed!";

@@ -19,7 +19,7 @@
     ?>
     <?php
         if(isset($js)){
-            printf('<script src="%s"></script>', $js);
+            printf('<script type="text/javascript" src="%s"></script>', $js);
         } 
     ?>
     <title>Time Loom</title>

@@ -2,6 +2,6 @@
 <?php session_start(); ?>
 
 <?php
-    $list_id = json_decode($_POST['list']);
-    $_SESSION['listid'] = $list_id;
+    $_SESSION['listid'] = $_GET['listid'];
+    header('Location: ../dashboard.php');
 ?>

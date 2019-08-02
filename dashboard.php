@@ -21,12 +21,12 @@
                                 for($i = 0; $i < count($list_arr); ++$i) {
                                     if($i + 1 == $_SESSION['listid']) {
                                         echo '<li class="active current-list">
-                                                <a href="#" onclick="switchList('.($i + 1).');">'.$list_arr[$i].'</a>
+                                                <a href="src/switch_list.php?listid='.($i + 1).'">'.$list_arr[$i].'</a>
                                                 </li>';
                                     }
                                     else {
                                         echo '<li class="active">
-                                                <a href="#" onclick="switchList('.($i + 1).');">'.$list_arr[$i].'</a>
+                                                <a href="src/switch_list.php?listid='.($i + 1).'">'.$list_arr[$i].'</a>
                                                 </li>';
                                     }
                                 }
