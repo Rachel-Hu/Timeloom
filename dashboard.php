@@ -107,7 +107,7 @@
                                                         else if($row['label'] == 'Due Date') {
                                                             $current = date("Y-m-d\TH:i:s");
                                                             $default = date("Y-m-d\TH:i:s", strtotime('+1 day', strtotime($current)));
-                                                            $value_input = '<input type="datetime-local" class="form-control" name="property-value-'.$count.'" value="'.$default.'">';
+                                                            $value_input = '<input type="datetime-local" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="1">';
                                                         }
                                                         // For priority, it is a dropdown selection menu
                                                         else if($row['label'] == 'Priority') {
@@ -168,6 +168,7 @@
                                                     <div class="col-md-2">
                                                         <i class="fas fa-minus-square fa-lg delete-properties align-content-center"></i>
                                                     </div>
+                                                    <input type="hidden" value="true">
                                                 </div>
                                             </div>
 
@@ -258,7 +259,6 @@
                                                             <input type="text" class="form-control" id="property" autocomplete="off" placeholder="Add new property">
                                                             <div class="result"></div>
                                                         </div>
-                                                        <!-- <input type="text" class="form-control" id="property" placeholder="Add new property"> -->
                                                     </div>
                                                     <div class="col-md-5">
                                                         <label for="property-value" class="col-form-label">Value:</label>
@@ -268,6 +268,7 @@
                                                     <div class="col-md-2">
                                                         <i class="fas fa-minus-square fa-lg delete-properties align-content-center"></i>
                                                     </div>
+                                                    <input type="hidden" value="true">
                                                 </div>
                                             </div>
 

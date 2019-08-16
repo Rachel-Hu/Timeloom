@@ -43,6 +43,8 @@
                     $search_result = mysqli_query($connect, $property_query);
                     if(!$search_result) {
                         die("QUERY FAILED ".mysqli.error($connect));
+                        $_SESSION['message'] = '<div class="alert alert-success" role="alert">Property not found!</div>';
+                        header('Location: ../dashboard.php');
                     }
                     $entry = mysqli_fetch_assoc($search_result);
                     if($entry == null){
@@ -50,6 +52,8 @@
                         $add_property_result = mysqli_query($connect, $add_property_query);
                         if(!$add_property_result) {
                             die("QUERY FAILED ".mysqli.error($connect));
+                            $_SESSION['message'] = '<div class="alert alert-success" role="alert">Cannot add new property!</div>';
+                            header('Location: ../dashboard.php');
                         }
                     }
                 }
@@ -60,6 +64,8 @@
             $update_result = mysqli_query($connect, $update_query);
             if(!$update_result) {
                 die("QUERY FAILED ".mysqli.error($connect));
+                $_SESSION['message'] = '<div class="alert alert-success" role="alert">Edit failed!</div>';
+                header('Location: ../dashboard.php');
             }
             $_SESSION['message'] = '<div class="alert alert-success" role="alert">Successfully edited a task!</div>';
             header('Location: ../dashboard.php');

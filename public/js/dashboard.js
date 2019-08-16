@@ -176,6 +176,9 @@ $(document).ready(function() {
         var value = col[0].childNodes[3].firstElementChild.lastElementChild;
         value.setAttribute('name', 'property-value-' + + propertyNumEdit);
         value.setAttribute('id', 'property-value-' + + propertyNumEdit);
+        // Also set the user-defined value to be true
+        var userDefined = col[0].childNodes[3].lastElementChild;
+        userDefined.setAttribute('name', 'user-defined-' + propertyNumEdit);
         col.appendTo('.dynamic-properties-edit').show();
         propertyNum++;
         attachDelete();
@@ -204,6 +207,7 @@ var propertyNum = PREDEFINED;
  * for it. */
 $(document).ready(function() {
     $('.add-properties').click(function(){
+        console.log("Hidden value:");
         var col = $('.dynamic-element').first().clone();
         var property = col[0].childNodes[1].firstElementChild.lastElementChild.firstElementChild;
         property.setAttribute('name', 'property-' + propertyNum);
@@ -214,6 +218,9 @@ $(document).ready(function() {
         var value = col[0].childNodes[3].firstElementChild.lastElementChild;
         value.setAttribute('name', 'property-value-' + + propertyNum);
         value.setAttribute('id', 'property-value-' + + propertyNum);
+        // Also set the user-defined value to be true
+        var userDefined = col[0].childNodes[3].lastElementChild;
+        userDefined.setAttribute('name', 'user-defined-' + propertyNum);
         col.appendTo('.dynamic-properties').show();
         attachDelete();
         $('.search-box input[type="text"]').on("keyup input", function(){

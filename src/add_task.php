@@ -47,14 +47,17 @@
                 $search_result = mysqli_query($connect, $property_query);
                 if(!$search_result) {
                     die("QUERY FAILED ".mysqli.error($connect));
+                    $_SESSION['message'] = '<div class="alert alert-success" role="alert">Property not found!</div>';
+                    header('Location: ../dashboard.php');
                 }
                 $entry = mysqli_fetch_assoc($search_result);
                 if($entry == null){
                     $add_property_query = "INSERT INTO task_properties (label, type, user_defined, keywords, default_value, frequency) VALUES ('$name', '$type', 1, '', '', 1)";
                     $add_property_result = mysqli_query($connect, $add_property_query);
                     if(!$add_property_result) {
-                        echo "Failed!!";
                         die("QUERY FAILED ".mysqli.error($connect));
+                        $_SESSION['message'] = '<div class="alert alert-success" role="alert">Cannot add new property!</div>';
+                        header('Location: ../dashboard.php');
                     }
                 }
                 else {
@@ -72,7 +75,6 @@
                 $find_highest_query = "SELECT * FROM task ORDER BY display_score DESC";
                 $find_highest_result = mysqli_query($connect, $find_highest_query);
                 if(!$find_highest_result) {
-                    echo "Failed!";
                     die("QUERY FAILED ".mysqli.error($connect));
                 }                
                 $higest = mysqli_fetch_assoc($find_highest_result)['display_score'];
@@ -81,8 +83,9 @@
                 echo $add_task_query;
                 $add_result = mysqli_query($connect, $add_task_query);
                 if(!$add_result) {
-                    echo "Failed!";
                     die("QUERY FAILED ".mysqli.error($connect));
+                    $_SESSION['message'] = '<div class="alert alert-success" role="alert">Adding task failed!</div>';
+                    header('Location: ../dashboard.php');
                 }
             }            
 
@@ -106,8 +109,9 @@
                 echo $add_task_query;
                 $add_result = mysqli_query($connect, $add_task_query);
                 if(!$add_result) {
-                    echo "Failed!";
                     die("QUERY FAILED ".mysqli.error($connect));
+                    $_SESSION['message'] = '<div class="alert alert-success" role="alert">Adding task failed!</div>';
+                    header('Location: ../dashboard.php');
                 }
             }
             // If the task clicked is the last one, add the new task at the bottom of the list.
@@ -123,8 +127,9 @@
                 echo $add_task_query;
                 $add_result = mysqli_query($connect, $add_task_query);
                 if(!$add_result) {
-                    echo "Failed!";
                     die("QUERY FAILED ".mysqli.error($connect));
+                    $_SESSION['message'] = '<div class="alert alert-success" role="alert">Adding task failed!</div>';
+                    header('Location: ../dashboard.php');
                 }
             }
             $_SESSION['message'] = '<div class="alert alert-success" role="alert">Successfully added a task!</div>';
