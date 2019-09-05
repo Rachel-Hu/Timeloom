@@ -6,7 +6,7 @@
     if(isset($_POST['task'])){
         if($_POST['task'] != ""){
             $task = $_POST['task'];
-            // print_r($_POST);
+            print_r($_POST);
             // print_r($_SESSION);
             $userid = $_SESSION['userid'];
             $listid = $_SESSION['listid'];

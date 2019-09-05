@@ -96,6 +96,7 @@ function editTask(id) {
                 }
             }
             else {
+                console.log(element);
                 var col = $('.dynamic-element-edit').first().clone();
                 var property = col[0].childNodes[1].firstElementChild.lastElementChild.firstElementChild;
                 property.setAttribute('name', 'property-' + propertyNumEdit);
@@ -106,6 +107,17 @@ function editTask(id) {
                 value.setAttribute('value', element.value);
                 value.setAttribute('type', element.type);
                 value.setAttribute('id', 'property-value-' + + propertyNumEdit);
+                // Create hidden input
+                var type = document.createElement("input");
+                type.setAttribute("type", "hidden");
+                type.setAttribute("name", "property-type-" + propertyNumEdit);
+                type.setAttribute("value", element.type);
+                value.parentNode.append(type);
+                var userDefined = document.createElement("input");
+                userDefined.setAttribute("type", "hidden");
+                userDefined.setAttribute("name", "user-defined-" + propertyNumEdit);
+                userDefined.setAttribute("value", element.user_defined);
+                value.parentNode.append(userDefined);
                 col.appendTo('.dynamic-properties-edit').show();
                 propertyNumEdit++;
                 attachDeleteEdit();
@@ -124,41 +136,47 @@ function resetEditForm() {
     }
 }
 
+var filled = false;
+
 /* If a property is found in the database, autofill the type of the property in 
  * the input box's type. */
 function autoFillProperty() {
     // Set search input value on click of result item
     $(document).on("click", ".result div", function(){
-        $(this).parents(".search-box").find('input[type="text"]').val($(this).text());
-        var type = $(this).next().val();
-        $(this).parents(".search-box").parent().next().remove();
-        $(this).parents(".search-box").parent().removeClass('col-md-6').addClass('col-md-5');
-        var valueBoxes = $(this).parents(".search-box").parent().parent().next().children();
-        var valueBox = valueBoxes.first();
-        valueBox.removeClass('col-md-10').addClass('col-md-5');
-        // Change the type of the input box
-        if(type == 'float') {
-            valueBox.find('input[type="text"]').attr('type', 'number');
-            valueBox.find('input[type="number"]').attr('step', 'any');
-        }
-        else if(type == 'string') {
+        if(!filled) {
+            $(this).parents(".search-box").find('input[type="text"]').val($(this).text());
+            var type = $(this).next().val();
+            $(this).parents(".search-box").parent().next().remove();
+            $(this).parents(".search-box").parent().removeClass('col-md-6').addClass('col-md-5');
+            var valueBoxes = $(this).parents(".search-box").parent().parent().next().children();
+            var valueBox = valueBoxes.first();
+            valueBox.removeClass('col-md-10').addClass('col-md-5');
+            console.log(valueBox.find('input[type="text"]'))
             var id = valueBox.find('input[type="text"]')[0].id;
-            var name = valueBox.find('input[type="text"]')[0].name;
-            valueBox.find('input[type="text"]').replaceWith('<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>');
-            valueBox.find('textarea').attr('name', name);
-            valueBox.find('textarea').attr('id', id);
-        }
-        else if(type == "string array") {
-            valueBox.find('input[type="text"]').attr('type', 'text');
-        }
-        else valueBox.find('input[type="text"]').attr('type', type);
-        var id = valueBox.find('input[type="text"]')[0].id;
-        id = id.split('-')[2];
-        console.log(id);
-        valueBox.append('<input type="hidden" name="property-type-' + id + '" value="' + type + '">');
-        valueBox.append('<input type="hidden" name="user-defined-' + id + '" value="true">');
-        $(this).parents(".search-box").parent().parent().append(valueBoxes);
-        $(this).parent(".result").empty();
+            id = id.split('-')[2];
+            console.log(id);
+            // Change the type of the input box
+            if(type == 'float') {
+                valueBox.find('input[type="text"]').attr('type', 'number');
+                valueBox.find('input[type="number"]').attr('step', 'any');
+            }
+            else if(type == 'string') {
+                var id = valueBox.find('input[type="text"]')[0].id;
+                var name = valueBox.find('input[type="text"]')[0].name;
+                valueBox.find('input[type="text"]').replaceWith('<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>');
+                valueBox.find('textarea').attr('name', name);
+                valueBox.find('textarea').attr('id', id);
+            }
+            else if(type == "string array") {
+                valueBox.find('input[type="text"]').attr('type', 'text');
+            }
+            else valueBox.find('input[type="text"]').attr('type', type);
+            valueBox.append('<input type="hidden" name="property-type-' + id + '" value="' + type + '">');
+            valueBox.append('<input type="hidden" name="user-defined-' + id + '" value="true">');
+            $(this).parents(".search-box").parent().parent().append(valueBoxes);
+            $(this).parent(".result").empty();
+            filled = true;
+        }   
     });
 }
 
@@ -180,8 +198,8 @@ $(document).ready(function() {
         var userDefined = col[0].childNodes[3].lastElementChild;
         userDefined.setAttribute('name', 'user-defined-' + propertyNumEdit);
         col.appendTo('.dynamic-properties-edit').show();
-        propertyNum++;
-        attachDelete();
+        propertyNumEdit++;
+        attachDeleteEdit();
         // Search the property in the database
         $('.search-box input[type="text"]').on("keyup input", function(){
             /* Get input value on change */
@@ -195,8 +213,8 @@ $(document).ready(function() {
             } else{
                 resultDropdown.empty();
             }
-        });
-        
+        }); 
+        filled = false;       
         autoFillProperty();
     });
 });
@@ -207,7 +225,6 @@ var propertyNum = PREDEFINED;
  * for it. */
 $(document).ready(function() {
     $('.add-properties').click(function(){
-        console.log("Hidden value:");
         var col = $('.dynamic-element').first().clone();
         var property = col[0].childNodes[1].firstElementChild.lastElementChild.firstElementChild;
         property.setAttribute('name', 'property-' + propertyNum);
@@ -235,6 +252,7 @@ $(document).ready(function() {
                 resultDropdown.empty();
             }
         });
+        filled = false;   
         autoFillProperty();
         propertyNum++;
     });

@@ -61,6 +61,7 @@
 
             // Update task
             $update_query = "UPDATE task SET display_label = '{$task}', properties = '{$json}' WHERE id = $id";
+            echo $json;
             $update_result = mysqli_query($connect, $update_query);
             if(!$update_result) {
                 die("QUERY FAILED ".mysqli.error($connect));
