@@ -77,7 +77,6 @@ var propertyNumEdit = PREDEFINED;
 /* When the edit button is clicked, display the properties stored in the hidden
  * value of the task. */
 function editTask(id) {
-    console.log(id);
     var properties = $('#properties-' + id).val();
     var task = $('#properties-' + id).attr('name');
     $('#task-label-edit').attr('value', task);
@@ -96,7 +95,6 @@ function editTask(id) {
                 }
             }
             else {
-                console.log(element);
                 var col = $('.dynamic-element-edit').first().clone();
                 var property = col[0].childNodes[1].firstElementChild.lastElementChild.firstElementChild;
                 property.setAttribute('name', 'property-' + propertyNumEdit);
@@ -151,10 +149,8 @@ function autoFillProperty() {
             var valueBoxes = $(this).parents(".search-box").parent().parent().next().children();
             var valueBox = valueBoxes.first();
             valueBox.removeClass('col-md-10').addClass('col-md-5');
-            console.log(valueBox.find('input[type="text"]'))
             var id = valueBox.find('input[type="text"]')[0].id;
             id = id.split('-')[2];
-            console.log(id);
             // Change the type of the input box
             if(type == 'float') {
                 valueBox.find('input[type="text"]').attr('type', 'number');

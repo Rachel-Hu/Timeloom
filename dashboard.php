@@ -105,8 +105,8 @@
                                                         }
                                                         // For due date, the default needs to be set as 1 day after current time
                                                         else if($row['label'] == 'Due Date') {
-                                                            $current = date("Y-m-d\TH:i:s");
-                                                            $default = date("Y-m-d\TH:i:s", strtotime('+1 day', strtotime($current)));
+                                                            $current = date("Y-m-d\TH:i");
+                                                            $default = date("Y-m-d\TH:i", strtotime('+1 day', strtotime($current)));
                                                             $value_input = '<input type="datetime-local" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="1">';
                                                         }
                                                         // For priority, it is a dropdown selection menu
@@ -218,8 +218,8 @@
                                                         }
                                                         // For due date, the default needs to be set as 1 day after current time
                                                         else if($row['label'] == 'Due Date') {
-                                                            $current = date("Y-m-d\TH:i:s");
-                                                            $default = date("Y-m-d\TH:i:s", strtotime('+1 day', strtotime($current)));
+                                                            $current = date("Y-m-d\TH:i");
+                                                            $default = date("Y-m-d\TH:i", strtotime('+1 day', strtotime($current)));
                                                             $value_input = '<input type="datetime-local" class="form-control" name="property-value-'.$count.'" value="'.$default.'">';
                                                         }
                                                         // For priority, it is a dropdown selection menu
