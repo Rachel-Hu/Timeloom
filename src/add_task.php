@@ -6,7 +6,7 @@
     if(isset($_POST['task'])){
         if($_POST['task'] != ""){
             $task = $_POST['task'];
-            print_r($_POST);
+            // print_r($_POST);
             // print_r($_SESSION);
             $userid = $_SESSION['userid'];
             $listid = $_SESSION['listid'];
@@ -60,8 +60,9 @@
                         header('Location: ../dashboard.php');
                     }
                 }
-                else {
-                    $count = $entry['count'] + 1;
+                // Update user defined property
+                else if($entry['user_defined'] == 1) {
+                    $count = $entry['frequency'] + 1;
                     $update_property_query = "UPDATE task_properties SET frequency = {$count} WHERE label = '$name'";
                     $update_property_result = mysqli_query($connect, $update_property_query);
                     if(!$update_property_result) {

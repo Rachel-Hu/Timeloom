@@ -1,5 +1,5 @@
 // Number of predefined properties
-const PREDEFINED = 9;
+const PREDEFINED = 10;
 
 // When the add button is clicked, add the id of the task it belongs to 
 // and the previous task's id to the button value

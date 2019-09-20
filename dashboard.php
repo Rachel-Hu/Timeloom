@@ -92,31 +92,60 @@
                                                     $property_query = "SELECT * FROM task_properties WHERE user_defined = 0";
                                                     $properties = mysqli_query($connect, $property_query);
                                                     $count = 0;
+                                                    $current = date("Y-m-d\TH:i");
                                                     while($row = mysqli_fetch_assoc($properties)) {
-                                                        $value_input = '<input type="'.$row['type'].'" class="form-control" name="property-value-'.$count.'">';
-                                                        if($row['type'] == 'float') {
-                                                            $value_input = '<input type="number" step="any" class="form-control" name="property-value-'.$count.'">';
-                                                        }
-                                                        else if($row['type'] == 'string array') {
-                                                            $value_input = '<input type="text" class="form-control" name="property-value-'.$count.'">';
-                                                        }
-                                                        else if($row['type'] == 'string') {
-                                                            $value_input = '<textarea class="form-control" rows="1" name="property-value-'.$count.'"></textarea>';
-                                                        }
-                                                        // For due date, the default needs to be set as 1 day after current time
-                                                        else if($row['label'] == 'Due Date') {
-                                                            $current = date("Y-m-d\TH:i");
-                                                            $default = date("Y-m-d\TH:i", strtotime('+1 day', strtotime($current)));
-                                                            $value_input = '<input type="datetime-local" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="1">';
-                                                        }
-                                                        // For priority, it is a dropdown selection menu
-                                                        else if($row['label'] == 'Priority') {
-                                                            $value_input = '<select class="form-control" class="property-type" name="property-value-'.$count.'"'.$row['label'].'">
-                                                                                <option value="medium">Medium</option>
-                                                                                <option value="urgent">Urgent</option>
-                                                                                <option value="high">High</option>
-                                                                                <option value="low">Low</option>
-                                                                            </select>';
+                                                        switch($row['label']) {
+                                                            // For due date, the default needs to be set as 2 day after current time
+                                                            case 'Due Date':
+                                                                $default = date("Y-m-d\TH:i", strtotime('+2 day', strtotime($current)));
+                                                                $value_input = '<input type="datetime-local" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="1">';
+                                                                break;
+                                                            // Start time is the current time
+                                                            case 'Start Time':
+                                                                $default = date("Y-m-d\TH:i");
+                                                                $value_input = '<input type="datetime-local" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="1">';
+                                                                break;
+                                                            // Done by is the last time the task will be valid. The default is 5 days later.
+                                                            case 'Done by':
+                                                                $default = date("Y-m-d\TH:i", strtotime('+5 day', strtotime($current)));
+                                                                $value_input = '<input type="datetime-local" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="1">';
+                                                                break;
+                                                            // For priority, it is a dropdown selection menu
+                                                            case 'Priority':
+                                                                $value_input = '<select class="form-control" class="property-type" name="property-value-'.$count.'"'.$row['label'].'">
+                                                                                    <option value="medium">Medium</option>
+                                                                                    <option value="urgent">Urgent</option>
+                                                                                    <option value="high">High</option>
+                                                                                    <option value="low">Low</option>
+                                                                                </select>';
+                                                                break;
+                                                            // For repeat, it is also a dropdown selection menu
+                                                            case 'Repeat':
+                                                                $value_input = '<select class="form-control" class="property-type" name="property-value-'.$count.'"'.$row['label'].'">
+                                                                                    <option value="never">Never</option>
+                                                                                    <option value="daily">Every Day</option>
+                                                                                    <option value="weekly">Every week</option>
+                                                                                    <option value="biweekly">Every 2 Weeks</option>
+                                                                                    <option value="monthly">Every Month</option>
+                                                                                    <option value="yearly">Every Year</option>
+                                                                                    <option value="custom">Custom</option>
+                                                                                </select>';
+                                                                break;
+                                                            case 'Elasticity':
+                                                                $value_input = '<input type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5>';
+                                                                break;
+                                                            case 'Difficulty':
+                                                                $value_input = '<input type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5>';
+                                                                break;
+                                                            case 'Enjoyable':
+                                                                $value_input = '<input type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5>';
+                                                                break;
+                                                            case 'Tags':
+                                                                $value_input = '<input type="text" class="form-control" name="property-value-'.$count.'">';
+                                                                break;
+                                                            case 'Description':
+                                                                $value_input = '<textarea class="form-control" rows="1" name="property-value-'.$count.'"></textarea>';
+                                                                break;
                                                         }
                                                         $columns = '<div class="row">
                                                                         <div class="col-md-6 fixed-properties">                                            
@@ -229,6 +258,18 @@
                                                                                 <option value="urgent">Urgent</option>
                                                                                 <option value="high">High</option>
                                                                                 <option value="low">Low</option>
+                                                                            </select>';
+                                                        }
+                                                        // For repeat, it is also a dropdown selection menu
+                                                        else if($row['label'] == 'Repeat') {
+                                                            $value_input = '<select class="form-control" class="property-type" name="property-value-'.$count.'"'.$row['label'].'">
+                                                                                <option value="never">Never</option>
+                                                                                <option value="daily">Every Day</option>
+                                                                                <option value="weekly">Every week</option>
+                                                                                <option value="biweekly">Every 2 Weeks</option>
+                                                                                <option value="monthly">Every Month</option>
+                                                                                <option value="yearly">Every Year</option>
+                                                                                <option value="custom">Custom</option>
                                                                             </select>';
                                                         }
                                                         $columns = '<div class="row">
