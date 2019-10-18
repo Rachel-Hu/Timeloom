@@ -36,13 +36,16 @@
                     <h1>Task List <a class="btn add-task-btn" id="init-btn" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus fa-lg"></i></a></h1>                  
                     <h3>
                         Actions
-                        <span class="manipulation action-btns">
-                            
-
+                        <span class="manipulation">
+                            <span class="search-box">
+                                <i class="fas fa-search"></i><input type="text" id="search-tags" placeholder="Search by tags">
+                            </span>
+                            <span class="action-btns">
                             <?php
                                 if(!isset($_SESSION['listid'])){
                                     $_SESSION['listid'] = 2;
                                 }
+                                // Hidden functional buttons
                                 $list_id = $_SESSION['listid'];
                                 $rank_up = '<i class="fas fa-arrow-circle-up" onclick="rankUp();" id="rank-up"></i>';
                                 $rank_down = '<i class="fas fa-arrow-circle-down" onclick="rankDown();" id="rank-down"></i>';
@@ -69,6 +72,7 @@
                                             </div>';
                                 echo $rank_up.$rank_down.$delete_btn.$dropdown;
                             ?>
+                            </span>
                         </span>  
                     </h3>
                     <ul id="list-item">

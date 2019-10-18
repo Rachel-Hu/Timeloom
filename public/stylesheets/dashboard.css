@@ -221,3 +221,9 @@ ul li a:hover {
 .fixed-properties .form-control[readonly] {
     background-color: white;
 }
+
+#search-tags {
+    width: 10em;
+    padding: 0.2em 0.6em;
+    margin-left: 0.6em;
+}

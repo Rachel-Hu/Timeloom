@@ -80,7 +80,7 @@
                 }                
                 $higest = mysqli_fetch_assoc($find_highest_result)['display_score'];
                 $task_score = $higest + 1;
-                $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties) VALUES ('{$task}', 0, 0, ".$task_score.", ".$listid.", ".$userid.", '".$json."')";
+                $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties) VALUES ('{$task}', 0, '{}', ".$task_score.", ".$listid.", ".$userid.", '".$json."')";
                 echo $add_task_query;
                 $add_result = mysqli_query($connect, $add_task_query);
                 if(!$add_result) {
@@ -106,7 +106,7 @@
                 }
                 $next_task_score = mysqli_fetch_assoc($next_score_result)['display_score'];
                 $task_score = ($prev_task_score + $next_task_score) / 2;
-                $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties) VALUES ('{$task}', 0, 0, ".$task_score.", ".$listid.", ".$userid.", '".$json."')";
+                $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties) VALUES ('{$task}', 0, '{}', ".$task_score.", ".$listid.", ".$userid.", '".$json."')";
                 echo $add_task_query;
                 $add_result = mysqli_query($connect, $add_task_query);
                 if(!$add_result) {
@@ -124,7 +124,7 @@
                 }
                 $next_task_score = mysqli_fetch_assoc($next_score_result)['display_score'];
                 $task_score = $next_task_score - 1;
-                $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties) VALUES ('{$task}', 0, 0, ".$task_score.", ".$listid.", ".$userid.", '".$json."')";
+                $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties) VALUES ('{$task}', 0, '{}', ".$task_score.", ".$listid.", ".$userid.", '".$json."')";
                 echo $add_task_query;
                 $add_result = mysqli_query($connect, $add_task_query);
                 if(!$add_result) {

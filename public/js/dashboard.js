@@ -17,13 +17,15 @@ var tasks = new Array();
 // Move selected tasks up
 function rankUp(listNumber) {
     var list = listNumber;
+    var time = new Date().toLocaleString();
     $.ajax({
         url: "src/change_rank.php",
         type: "POST",
         data: {
             taskIds: tasks,
             listId: list,
-            addDisplayScore: 1
+            addDisplayScore: 1,
+            timestamp: time,
         },
         dataType: "json",
         // Set time out for firefox
@@ -34,18 +36,27 @@ function rankUp(listNumber) {
 // Move selected tasks down
 function rankDown(listNumber) {
     var list = listNumber;
+    var time = new Date().toLocaleString();
     $.ajax({
         url: "src/change_rank.php",
         type: "POST",
         data: {
             taskIds: tasks,
             listId: list,
-            addDisplayScore: -1
+            addDisplayScore: -1,
+            timestamp: time,
         },
         dataType: "json",
         success: setTimeout(window.location.reload.bind(window.location), 250)
     });
 }
+
+$(document).ready(function(){
+    function searchTags() {
+        console.log("Searching...");
+    }
+    $("#search-tags").click(searchTags);
+});
 
 /* When a task is selected, add them to the tasks array and modify the function
  * buttons with the id of selected tasks. */

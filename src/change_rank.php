@@ -6,6 +6,7 @@
     $taskIds = $_POST['taskIds'];
     $listid = json_decode($_POST['listId']);
     $userid = $_SESSION['userid'];
+    $timestamp = $_POST['timestamp'];
 
     $query = "SELECT *
                 FROM task
@@ -44,8 +45,17 @@
         // echo $id."\n";
         $ids = array_column($rows, 'id');
         $found_task = array_search($id, $ids);
-        $hint = $rows[$found_task]['hint'];
-        $new_hint = $hint + $add_display_score;
+        $hint = json_decode($rows[$found_task]['hint'], true);
+        // To be compatible with previous numeric hint
+        // Convert to json with current time stamp
+        if(is_numeric($rows[$found_task]['hint'])) {
+            $hint = Array();
+            $num_hint = $rows[$found_task]['hint'];
+            $hint[$timestamp] = $add_display_score + $num_hint;
+        }
+        else
+            $hint[$timestamp] = $add_display_score;
+        $hint = json_encode($hint);
         $task_count = count($rows);
         
         // When the task is already the first one, do nothing.
@@ -75,7 +85,7 @@
         // echo $new_score."\n";
         if($new_score != null) {
             $update_task_query = "UPDATE task 
-                            SET display_score = $new_score, hint = $new_hint
+                            SET display_score = $new_score, hint = '$hint'
                             WHERE id = $id";
             // echo $update_task_query."\n";
             $update_result = mysqli_query($connect, $update_task_query);
