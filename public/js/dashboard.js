@@ -97,7 +97,7 @@ function editTask(id) {
         properties.forEach(function(element) {
             if(!element.user_defined) {
                 // Fill in the predefined properties
-                var value = $("[id='" + element.name + "']").parent().next().next(); // Some ids might have blank space 
+                var value = $("[id='" + element.name.trim() + "']").parent().next().next(); // Some ids might have blank space 
                 if(element.name == 'Priority') {
                     value[0].firstElementChild.value = element.value;
                 }

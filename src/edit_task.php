@@ -60,10 +60,11 @@
             }
 
             // Update task
-            $update_query = "UPDATE task SET display_label = '{$task}', properties = '{$json}' WHERE id = $id";
-            echo $json;
+            $update_query = "UPDATE task SET display_label = '{$task}', properties = '$json' WHERE id = $id";
+            // echo $json;
             $update_result = mysqli_query($connect, $update_query);
             if(!$update_result) {
+                echo "Failed!!";
                 die("QUERY FAILED ".mysqli.error($connect));
                 $_SESSION['message'] = '<div class="alert alert-success" role="alert">Edit failed!</div>';
                 header('Location: ../dashboard.php');
