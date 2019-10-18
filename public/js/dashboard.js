@@ -51,11 +51,23 @@ function rankDown(listNumber) {
     });
 }
 
+// Exhibit tasks which includes the tag entered by user in the search box
 $(document).ready(function(){
     function searchTags() {
-        console.log("Searching...");
+        var key = $(this).val();
+        console.log(key);
+        var all_properties = $('.properties');
+        for(var i = 0; i < all_properties.length; i++) {
+            var item = all_properties[i].parentElement;
+            item.style.display = "block";
+            var properties = JSON.parse(all_properties[i].value);
+            properties.forEach(function(p) {
+                if(p.name.trim() == 'Tags' && !p.value.includes(key)) 
+                    item.style.display = "none";
+            });
+        }
     }
-    $("#search-tags").click(searchTags);
+    $("#search-tags").on("key input", searchTags);
 });
 
 /* When a task is selected, add them to the tasks array and modify the function

@@ -369,7 +369,7 @@
                                     $next_id = $row['id'];
                                     $check = '<input type="checkbox" class="form-check-input check-box" id="check-'.$id.'" onclick="selectTask('.$id.', '.$list_id.');">';
                                     // Design different buttons for different lists.
-                                    $hidden = '<input type="hidden" id="properties-'.$id.'" name="'.$task.'" value="'.$properties.'">';
+                                    $hidden = '<input type="hidden" class="properties" id="properties-'.$id.'" name="'.$task.'" value="'.$properties.'">';
                                     $add_button = '<a id="add-task-before-'.$next_id.'-and-after-'.$id.'" class="btn list-btn text-btn add-task-btn" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus fa-lg add-task-btn"></i></a>';
                                     $edit_btn = '<a data-toggle="modal" data-target="#edit-form" class="edit-btn"><i class="fas fa-edit" id="edit-btn-'.$id.'" onclick="editTask('.$id.');"></i></a>';
                                     echo '<li><span class="task-main">'.$edit_btn.$task.'</span><span class="manipulation">'.$add_button.$check.'</span>'.$hidden.'</li> ';
@@ -383,7 +383,7 @@
                                 $id = $prev_row['id'];
                                 $next_id = 0;
                                 $check = '<input type="checkbox" class="form-check-input check-box" id="check-'.$id.'" onclick="selectTask('.$id.', '.$list_id.');">';
-                                $hidden = '<input type="hidden" id="properties-'.$id.'" name="'.$task.'" value="'.$properties.'">';
+                                $hidden = '<input type="hidden" class="properties" id="properties-'.$id.'" name="'.$task.'" value="'.$properties.'">';
                                 $edit_btn = '<a data-toggle="modal" data-target="#edit-form" class="edit-btn"><i class="fas fa-edit" id="edit-btn-'.$id.'" onclick="editTask('.$id.');"></i></a>';
                                 $add_button = '<a id="add-task-before-'.$next_id.'-and-after-'.$id.'" class="btn list-btn text-btn add-task-btn" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus fa-lg add-task-btn"></i></a>';
                                 echo '<li><span class="task-main">'.$edit_btn.$task.'</span><span class="manipulation">'.$add_button.$check.'</span>'.$hidden.'</li> ';
