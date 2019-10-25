@@ -301,3 +301,7 @@ $(document).on("change", "select", function() {
     var id = this.id.split('-')[2];
     $('#property-value-' + id).attr('type', type);
 })
+
+$(document).ready(function(){
+    $('input').tooltip({'trigger':'hover'});
+});

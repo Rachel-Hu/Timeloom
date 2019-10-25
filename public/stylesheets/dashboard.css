@@ -227,3 +227,8 @@ ul li a:hover {
     padding: 0.2em 0.6em;
     margin-left: 0.6em;
 }
+
+.tooltip-inner {
+    background-color: #000; 
+    color: #fff;
+}
