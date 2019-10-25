@@ -14,23 +14,85 @@
             <div class="row">
                 <div class="col-lg-6" id="list">
                     <div id="tab" class="container">	
-                        <ul class="nav nav-tabs flex-row justify-content-around">
+                        <ul class="nav nav-tabs flex-row justify-content-around list-tabs">
                             <?php
+                                // Fetch user id if not in session
+                                if(!isset($_SESSION['userid'])){
+                                    $userid_query = "SELECT *
+                                                    FROM user
+                                                    WHERE user.username = '$username'";
+                                    $user_result = mysqli_query($connect, $userid_query);
+                                    if(!$user_result) {
+                                        echo "Failed!";
+                                        die("QUERY FAILED ".mysqli.error($connect));
+                                    }
+                                    $userid = mysqli_fetch_assoc($user_result)['id'];
+                                    $_SESSION['userid'] = $userid;
+                                }
+                                // First, list all pre-defined lists
                                 $list_arr = array("Latent", "Active", "Completed", "Expired");
                                 if(!isset($_SESSION['listid'])) $_SESSION['listid'] = 2;
                                 for($i = 0; $i < count($list_arr); ++$i) {
                                     if($i + 1 == $_SESSION['listid']) {
-                                        echo '<li class="active current-list">
+                                        echo '<li class="current-list">
                                                 <a href="src/switch_list.php?listid='.($i + 1).'">'.$list_arr[$i].'</a>
                                                 </li>';
                                     }
                                     else {
-                                        echo '<li class="active">
+                                        echo '<li>
                                                 <a href="src/switch_list.php?listid='.($i + 1).'">'.$list_arr[$i].'</a>
                                                 </li>';
                                     }
                                 }
+                                // List all self-defined lists
+                                $userid = $_SESSION['userid'];
+                                $user_list_query = "SELECT *
+                                                    FROM task_list
+                                                    WHERE task_list.user_id = '$userid'";
+                                $list_result = mysqli_query($connect, $user_list_query);
+                                if(!$list_result) {
+                                    die("QUERY FAILED ".mysqli.error($connect));
+                                }
+                                while($list = mysqli_fetch_assoc($list_result)) {
+                                    $id = $list['id'];
+                                    if($id == $_SESSION['listid']) {
+                                        echo '<li class="current-list">
+                                        <a href="src/switch_list.php?listid='.$id.'">'.$list['name'].'</a>
+                                        </li>';
+                                    }
+                                    else {
+                                        echo '<li>
+                                        <a href="src/switch_list.php?listid='.$id.'">'.$list['name'].'</a>
+                                        </li>';
+                                    }
+                                }
+                                // Button to add user-defined list
+                                echo '<li><a data-toggle="modal" data-target="#add-list"><i class="fas fa-plus fa-lg"></i></a></li>'
                             ?>
+                            <form action="src/add_list.php" method="post">
+                                <div class="modal fade" id="add-list" tabindex="-1" role="dialog" aria-labelledby="AddListTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="AddListTitle">Add New List</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="AddNewList">Add New List</label>
+                                                    <input type="text" class="form-control" id="AddNewList" placeholder="New List Name" name="newlist">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Add</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </ul>
                     </div>
                     <h1>Task List <a class="btn add-task-btn" id="init-btn" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus fa-lg"></i></a></h1>                  
@@ -353,18 +415,6 @@
                             }
                             $list_id = $_SESSION['listid'];
                             $username = $_SESSION['username'];
-                            if(!isset($_SESSION['userid'])){
-                                $userid_query = "SELECT *
-                                                FROM user
-                                                WHERE user.username = '$username'";
-                                $user_result = mysqli_query($connect, $userid_query);
-                                if(!$user_result) {
-                                    echo "Failed!";
-                                    die("QUERY FAILED ".mysqli.error($connect));
-                                }
-                                $userid = mysqli_fetch_assoc($user_result)['id'];
-                                $_SESSION['userid'] = $userid;
-                            }
                             $userid = $_SESSION['userid'];
                             $query = "SELECT *
                                         FROM task
