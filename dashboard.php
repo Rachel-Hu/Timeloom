@@ -198,13 +198,13 @@
                                                                                 </select>';
                                                                 break;
                                                             case 'Elasticity':
-                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" title="Range: 0~1" type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5>';
+                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" title="Range: 0~1" type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5 min="0" max="1">';
                                                                 break;
                                                             case 'Difficulty':
-                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" title="Range: 0~1" type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5>';
+                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" title="Range: 0~1" type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5 min="0" max="1">';
                                                                 break;
                                                             case 'Enjoyable':
-                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" title="Range: 0~1" type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5>';
+                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" title="Range: 0~1" type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5 min="0" max="1">';
                                                                 break;
                                                             case 'Tags':
                                                                 $value_input = '<input type="text" class="form-control" name="property-value-'.$count.'">';
@@ -340,13 +340,13 @@
                                                                                 </select>';
                                                                 break;
                                                             case 'Elasticity':
-                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" title="Range: 0~1" type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5>';
+                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" title="Range: 0~1" type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5 min="0" max="1">';
                                                                 break;
                                                             case 'Difficulty':
-                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" title="Range: 0~1" type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5>';
+                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" title="Range: 0~1" type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5 min="0" max="1">';
                                                                 break;
                                                             case 'Enjoyable':
-                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" title="Range: 0~1" type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5>';
+                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" title="Range: 0~1" type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5 min="0" max="1">';
                                                                 break;
                                                             case 'Tags':
                                                                 $value_input = '<input type="text" class="form-control" name="property-value-'.$count.'">';
