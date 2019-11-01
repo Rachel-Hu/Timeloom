@@ -88,10 +88,10 @@ function selectTask(id, listNumber) {
     ids = ids.substring(0, ids.length - 1);
     $('#rank-up').attr("onclick", "rankUp(" + listNumber + ");");
     $('#rank-down').attr("onclick", "rankDown(" + listNumber + ");");
-    $('#finish-btn').attr("href", "src/move_task.php?id=" + ids + "&list=3");
-    $('#postpone-btn').attr("href", "src/move_task.php?id=" + ids + "&list=1");
-    $('#resume-btn').attr("href", "src/move_task.php?id=" + ids + "&list=2");
-    $('#expire-btn').attr("href", "src/move_task.php?id=" + ids + "&list=4");   
+    $('#finish-btn').attr("href", "src/move_task.php?id=" + ids + "&list=3&prev=" + listNumber);
+    $('#postpone-btn').attr("href", "src/move_task.php?id=" + ids + "&list=1&prev=" + listNumber);
+    $('#resume-btn').attr("href", "src/move_task.php?id=" + ids + "&list=2&prev=" + listNumber);
+    $('#expire-btn').attr("href", "src/move_task.php?id=" + ids + "&list=4&prev=" + listNumber);   
     $('#delete-btn').attr("href", "src/delete_task.php?id=" + ids);  
     var userLists = $(".user-list");
     console.log(userLists);
@@ -99,7 +99,7 @@ function selectTask(id, listNumber) {
         var list = userLists[i];
         var listId = list.id.split("-")[1];
         console.log(list.id);
-        $('#' + list.id).attr("href", "src/move_task.php?id=" + ids + "&list=" + listId); 
+        $('#' + list.id).attr("href", "src/move_task.php?id=" + ids + "&list=" + listId + "&prev=" + listNumber); 
     }
 }
 
