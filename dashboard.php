@@ -276,6 +276,7 @@
                                                             <option value="text">Text</option>
                                                             <option value="datetime-local">Date and time</option>
                                                             <option value="number">Number</option>
+                                                            <option value="boolean">Boolean</option>
                                                         </select>
                                                     </div>
                                                 </div>

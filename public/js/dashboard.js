@@ -132,10 +132,30 @@ function editTask(id) {
                 property.setAttribute('value', element.name);
                 property.setAttribute('id', 'property-' + propertyNumEdit);
                 var value = col[0].childNodes[1].firstElementChild.nextElementSibling.lastElementChild;
-                value.setAttribute('name', 'property-value-' + + propertyNumEdit);
-                value.setAttribute('value', element.value);
-                value.setAttribute('type', element.type);
-                value.setAttribute('id', 'property-value-' + + propertyNumEdit);
+                if(element.type == "boolean") {
+                    var newNode = document.createElement("SELECT");
+                    var parent = value.parentNode;
+                    newNode.innerHTML = '<select>' + 
+                                            '<option value="true">True</option>' +
+                                            '<option value="false">False</option>' + 
+                                        '</select>';
+                    ;
+                    newNode.setAttribute('name', 'property-value-' + + propertyNumEdit);
+                    newNode.setAttribute('value', element.value);
+                    newNode.setAttribute('id', 'property-value-' + + propertyNumEdit);
+                    newNode.setAttribute('class', 'form-control');
+                    parent.append(newNode);
+                    parent.removeChild(value);
+                    value = newNode;
+                    console.log(value);
+                    newNode.value = element.value;
+                }
+                else {
+                    value.setAttribute('name', 'property-value-' + + propertyNumEdit);
+                    value.setAttribute('value', element.value);
+                    value.setAttribute('type', element.type);
+                    value.setAttribute('id', 'property-value-' + + propertyNumEdit);
+                }
                 // Create hidden input
                 var type = document.createElement("input");
                 type.setAttribute("type", "hidden");
@@ -196,6 +216,16 @@ function autoFillProperty() {
             }
             else if(type == "string array") {
                 valueBox.find('input[type="text"]').attr('type', 'text');
+            }
+            else if(type == "boolean") {
+                var id = valueBox.find('input[type="text"]')[0].id;
+                var name = valueBox.find('input[type="text"]')[0].name;
+                valueBox.find('input[type="text"]').replaceWith('<select class="form-control">' + 
+                                                                    '<option value="true">True</option>' +
+                                                                    '<option value="false">False</option>' + 
+                                                                '</select>');
+                valueBox.find('select').attr('name', name);
+                valueBox.find('select').attr('id', id);
             }
             else valueBox.find('input[type="text"]').attr('type', type);
             valueBox.append('<input type="hidden" name="property-type-' + id + '" value="' + type + '">');
@@ -304,10 +334,19 @@ function attachDeleteEdit(){
 }
 
 // Change the type of the input box when the type is selected by the user
-$(document).on("change", "select", function() {
+$(document).on("change", "select .property-type", function() {
     var type = this.value;
     var id = this.id.split('-')[2];
-    $('#property-value-' + id).attr('type', type);
+    console.log(type);
+    if(type != "boolean")
+        $('#property-value-' + id).replaceWith('<input type="' + type + '" class="form-control" id="property-value-' + id + '" placeholder="New property value" name="property-value-' + id + '">');
+    else {
+        $('#property-value-' + id).replaceWith(
+        '<select id="property-value-' + id + '" class="form-control" name="property-value-' + id + '">' + 
+            '<option value="true">True</option>' +
+            '<option value="false">False</option>' + 
+        '</select>');
+    }
 })
 
 $(document).ready(function(){
