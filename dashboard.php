@@ -116,15 +116,40 @@
                                 $resume_btn = '<a class="dropdown-item" href="" id="resume-btn">Active</a>';
                                 $expire_btn = '<a class="dropdown-item" href="" id="expire-btn">Expired</a>';
                                 $delete_btn = '<a href="" id="delete-btn"><i class="fas fa-trash"></i></a>';
-                                $button = $finish_btn.$postpone_btn.$expire_btn;
-                                if($list_id == 1){
-                                    $button = $finish_btn.$resume_btn.$expire_btn;
+                                $button = '';
+                                switch ($list_id) {
+                                    case 1:
+                                        $button = $finish_btn.$resume_btn.$expire_btn;
+                                        break;
+                                    case 2:
+                                        $button = $finish_btn.$postpone_btn.$expire_btn;
+                                        break;
+                                    case 3:
+                                        $button = $resume_btn.$postpone_btn.$expire_btn;
+                                        break;
+                                    case 4:
+                                        $button = $postpone_btn.$resume_btn.$finish_btn;
+                                        break;
+                                    default:
+                                        $button = $finish_btn.$postpone_btn.$resume_btn.$expire_btn;
+                                        break;
                                 }
-                                else if($list_id == 3){
-                                    $button = $resume_btn.$postpone_btn.$expire_btn;
+                                // Add user-defined lists
+                                // List all self-defined lists
+                                $userid = $_SESSION['userid'];
+                                $user_list_query = "SELECT *
+                                                    FROM task_list
+                                                    WHERE task_list.user_id = '$userid'";
+                                $list_result = mysqli_query($connect, $user_list_query);
+                                if(!$list_result) {
+                                    die("QUERY FAILED ".mysqli.error($connect));
                                 }
-                                else {
-                                    $button = $postpone_btn.$resume_btn.$finish_btn;
+                                while($list = mysqli_fetch_assoc($list_result)) {
+                                    $id = $list['id'];
+                                    if($id == $list_id) 
+                                        continue;
+                                    else 
+                                        $button .= '<a class="dropdown-item user-list" href="" id="list-'.$id.'-btn">'.$list['name'].'</a>';
                                 }
                                 $dropdown = '<div class="dropdown move-task">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="moveTask" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

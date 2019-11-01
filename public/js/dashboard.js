@@ -92,7 +92,15 @@ function selectTask(id, listNumber) {
     $('#postpone-btn').attr("href", "src/move_task.php?id=" + ids + "&list=1");
     $('#resume-btn').attr("href", "src/move_task.php?id=" + ids + "&list=2");
     $('#expire-btn').attr("href", "src/move_task.php?id=" + ids + "&list=4");   
-    $('#delete-btn').attr("href", "src/delete_task.php?id=" + ids);   
+    $('#delete-btn').attr("href", "src/delete_task.php?id=" + ids);  
+    var userLists = $(".user-list");
+    console.log(userLists);
+    for(var i = 0; i < userLists.length; i++) {
+        var list = userLists[i];
+        var listId = list.id.split("-")[1];
+        console.log(list.id);
+        $('#' + list.id).attr("href", "src/move_task.php?id=" + ids + "&list=" + listId); 
+    }
 }
 
 var propertyNumEdit = PREDEFINED;
