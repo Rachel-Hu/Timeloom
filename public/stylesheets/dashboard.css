@@ -184,18 +184,20 @@ ul li a:hover {
 }
 
 /* Formatting search box */
+
 .result{
     position: absolute;        
     z-index: 999;
-    top: 100%;
+    /* top: 100%; */
     background: white;
+    bottom: 50%;
 }
 /* Formatting result items */
 .result div{
     margin: 0;
     padding: 7px 10px;
     border: 1px solid #CCCCCC;
-    border-top: none;
+    border-bottom: none;
     cursor: pointer;
 }
 .result div:hover{

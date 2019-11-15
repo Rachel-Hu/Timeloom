@@ -17,6 +17,8 @@
             // Separate properties
             $properties = array();
             $property = array();
+            $user_properties = array();
+            $user_property_names = array();
             foreach($_POST as $key => $value) {
                 if (strpos($key, 'property-') !== false && (strpos($key, 'property-value-') === false && strpos($key, 'property-type-') === false)) {
                     $property['name'] = $value;
@@ -28,12 +30,31 @@
                     $property['value'] = $value;
                 }
                 else if(strpos($key, 'user-defined-') !== false) {
-                    if($value == 'true') $property['user_defined'] = true;
-                    else $property['user_defined'] = false;
-                    array_push($properties, $property);
+                    if($value == 'true') {
+                        $property['user_defined'] = true;
+                        if(array_search(strtolower($property['name']), $user_property_names) === false) {
+                            array_push($user_property_names, strtolower($property['name']));
+                            array_push($user_properties, $property);
+                        }
+                        // Update the property by the latter one
+                        else {
+                            $index = array_search(strtolower($property['name']), $user_property_names);
+                            $user_properties[$index] = $property;
+                        } 
+                    }
+                    else {
+                        $property['user_defined'] = false;
+                        array_push($properties, $property);
+                    }
                     $property = array();
                 }
             }
+            // Sort and eliminate replicated properties
+            $names = array_column($user_properties, 'name');
+            $names_lowercase = array_map('strtolower', $names);
+            array_multisort($names_lowercase, SORT_ASC, $user_properties);
+            $properties = array_merge($properties, $user_properties);
+
             if(count($properties) == 0) $json = '{}';
             else $json = json_encode($properties);
 
