@@ -18,6 +18,7 @@ var tasks = new Array();
 function rankUp(listNumber) {
     var list = listNumber;
     var time = new Date().toLocaleString();
+    var ids_str = $("#all-ids").val();
     $.ajax({
         url: "src/change_rank.php",
         type: "POST",
@@ -26,6 +27,7 @@ function rankUp(listNumber) {
             listId: list,
             addDisplayScore: 1,
             timestamp: time,
+            allIds: ids_str,
         },
         dataType: "json",
         // Set time out for firefox
@@ -37,6 +39,7 @@ function rankUp(listNumber) {
 function rankDown(listNumber) {
     var list = listNumber;
     var time = new Date().toLocaleString();
+    var ids_str = $("#all-ids").val();
     $.ajax({
         url: "src/change_rank.php",
         type: "POST",
@@ -45,6 +48,7 @@ function rankDown(listNumber) {
             listId: list,
             addDisplayScore: -1,
             timestamp: time,
+            allIds: ids_str,
         },
         dataType: "json",
         success: setTimeout(window.location.reload.bind(window.location), 250)

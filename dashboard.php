@@ -448,6 +448,8 @@
                             $tasks = mysqli_query($connect, $query);
                             $prev_row = null;
 
+                            $all_ids = "";
+
                             while($row = mysqli_fetch_assoc($tasks)) {
                                 if($prev_row == null) {
                                     $prev_row = $row;
@@ -466,6 +468,7 @@
                                     $edit_btn = '<a data-toggle="modal" data-target="#edit-form" class="edit-btn"><i class="fas fa-edit" id="edit-btn-'.$id.'" onclick="editTask('.$id.');"></i></a>';
                                     echo '<li><span class="task-main">'.$edit_btn.$task.'</span><span class="manipulation">'.$add_button.$check.'</span>'.$hidden.'</li> ';
                                     $prev_row = $row;
+                                    $all_ids .= $id." ";
                                 }
                             }
                             if($prev_row) {
@@ -480,6 +483,8 @@
                                 $add_button = '<a id="add-task-before-'.$next_id.'-and-after-'.$id.'" class="btn list-btn text-btn add-task-btn" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus fa-lg add-task-btn"></i></a>';
                                 echo '<li><span class="task-main">'.$edit_btn.$task.'</span><span class="manipulation">'.$add_button.$check.'</span>'.$hidden.'</li> ';
                             }
+                            $all_ids .= $id;
+                            echo '<input type="hidden" id="all-ids" name="all-ids" value="'.$all_ids.'">';
                         ?>
                     </ul>
                 </div>

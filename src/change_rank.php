@@ -7,6 +7,10 @@
     $listid = json_decode($_POST['listId']);
     $userid = $_SESSION['userid'];
     $timestamp = $_POST['timestamp'];
+    $all_ids_str = $_POST['allIds'];
+
+    $all_ids = explode(" ", $all_ids_str);
+    // print_r($all_ids);
 
     $query = "SELECT *
                 FROM task
@@ -45,17 +49,35 @@
         // echo $id."\n";
         $ids = array_column($rows, 'id');
         $found_task = array_search($id, $ids);
-        $hint = json_decode($rows[$found_task]['hint'], true);
-        // To be compatible with previous numeric hint
-        // Convert to json with current time stamp
-        if(is_numeric($rows[$found_task]['hint'])) {
-            $hint = Array();
-            $num_hint = $rows[$found_task]['hint'];
-            $hint[$timestamp] = $add_display_score + $num_hint;
+        $hints = json_decode($rows[$found_task]['hint'], true);
+        if(empty($hints)) $hints = Array();
+        // Add the task itself
+        $hint = Array();
+        $hint['id'] = $id;
+        $hint['time'] = $timestamp;
+        $hint['move'] = $add_display_score;
+        array_push($hints, $hint);
+        // Add the neighbor affected
+        $index = array_search($id, $all_ids);
+        if($add_display_score > 0) {
+            // Move up, add the one above
+            if($index > 0) {
+                $hint = Array();
+                $hint['id'] = $all_ids[$index - 1];
+                $hint['time'] = $timestamp;
+                $hint['move'] = -1 * $add_display_score;
+                array_push($hints, $hint);
+            }
+        } else {
+            if($index < count($all_ids) - 1) {
+                $hint = Array();
+                $hint['id'] = $all_ids[$index + 1];
+                $hint['time'] = $timestamp;
+                $hint['move'] = -1 * $add_display_score;
+                array_push($hints, $hint);
+            }
         }
-        else
-            $hint[$timestamp] = $add_display_score;
-        $hint = json_encode($hint);
+        $hints = json_encode($hints);
         $task_count = count($rows);
         
         // When the task is already the first one, do nothing.
@@ -85,7 +107,7 @@
         // echo $new_score."\n";
         if($new_score != null) {
             $update_task_query = "UPDATE task 
-                            SET display_score = $new_score, hint = '$hint'
+                            SET display_score = $new_score, hint = '$hints'
                             WHERE id = $id";
             // echo $update_task_query."\n";
             $update_result = mysqli_query($connect, $update_task_query);
