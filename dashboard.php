@@ -451,7 +451,35 @@
                             $all_ids = "";
 
                             while($row = mysqli_fetch_assoc($tasks)) {
-                                if($prev_row == null) {
+                                $arr = json_decode($row['properties'], true);
+                                $due = '';
+                                foreach($arr as $p) {
+                                    if($p['name'] == 'Due Date')
+                                        $due = $p['value'];
+                                }
+                                if($list_id == 2 && strtotime($due) < time()) {
+                                    // If it is the active list and task is expired, move to expired
+                                    $id = $row['id'];
+                                    $query = "UPDATE task SET task_list_id = 4 WHERE id = $id ";
+                                    // echo $query;
+                                    $move_task_query = mysqli_query($connect, $query);
+                                    if(!$move_task_query) {
+                                        die("QUERY FAILED ".mysqli.error($connect)).' '.msqli_errno($connect);
+                                    }
+                                    continue;
+                                }
+                                else if($list_id == 4 && strtotime($due) > time()) {
+                                    // If it is the expired list and task is active, move to active
+                                    $id = $row['id'];
+                                    $query = "UPDATE task SET task_list_id = 2 WHERE id = $id ";
+                                    // echo $query;
+                                    $move_task_query = mysqli_query($connect, $query);
+                                    if(!$move_task_query) {
+                                        die("QUERY FAILED ".mysqli.error($connect)).' '.msqli_errno($connect);
+                                    }
+                                    continue;
+                                }
+                                else if($prev_row == null) {
                                     $prev_row = $row;
                                     continue;
                                 }
