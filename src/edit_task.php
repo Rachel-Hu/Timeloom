@@ -82,7 +82,7 @@
 
             // Update task
             $update_query = "UPDATE task SET display_label = '{$task}', properties = '$json' WHERE id = $id";
-            // echo $json;
+            echo $update_query;
             $update_result = mysqli_query($connect, $update_query);
             if(!$update_result) {
                 echo "Failed!!";

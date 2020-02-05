@@ -177,7 +177,7 @@
                                         <div class="modal-body">
                                             <div class="form-group">
                                                 <label for="task-label" class="col-form-label">New Task:</label>
-                                                <input type="text" class="form-control" id="task-label" placeholder="Add new task" name="task">
+                                                <input type="text" class="form-control" id="task-label" placeholder="Add new task" name="task" maxlength="150">
                                                 <!-- Fixed properties -->
                                                 <?php
                                                     $property_query = "SELECT * FROM task_properties WHERE user_defined = 0";
@@ -197,9 +197,9 @@
                                                                 $value_input = '<input type="datetime-local" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="1">';
                                                                 break;
                                                             // Done by is the last time the task will be valid. The default is 5 days later.
-                                                            case 'Done by':
-                                                                $default = date("Y-m-d\TH:i", strtotime('+5 day', strtotime($current)));
-                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" title="This is the latest date before your task becomes invalid (e.g. due date plus grace days, if any)" type="datetime-local" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="1">';
+                                                            case 'Estimated Duration':
+                                                                $default = "12:00";
+                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" type="time" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="60">';
                                                                 break;
                                                             // For priority, it is a dropdown selection menu
                                                             case 'Priority':
@@ -340,9 +340,9 @@
                                                                 $value_input = '<input type="datetime-local" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="1">';
                                                                 break;
                                                             // Done by is the last time the task will be valid. The default is 5 days later.
-                                                            case 'Done by':
-                                                                $default = date("Y-m-d\TH:i", strtotime('+5 day', strtotime($current)));
-                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" title="This is the latest date before your task becomes invalid (e.g. due date plus grace days, if any)" type="datetime-local" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="1">';
+                                                            case 'Estimated Duration':
+                                                                $default = "12:00";
+                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" type="time" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="60">';
                                                                 break;
                                                             // For priority, it is a dropdown selection menu
                                                             case 'Priority':

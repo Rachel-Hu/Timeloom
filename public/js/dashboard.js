@@ -122,7 +122,7 @@ function editTask(id) {
             if(!element.user_defined) {
                 // Fill in the predefined properties
                 var value = $("[id='" + element.name.trim() + "']").parent().next().next(); // Some ids might have blank space 
-                if(element.name == 'Priority') {
+                if(element.name == 'Priority' || element.name == 'Repeat') {
                     value[0].firstElementChild.value = element.value;
                 }
                 else {
@@ -143,7 +143,6 @@ function editTask(id) {
                                             '<option value="true">True</option>' +
                                             '<option value="false">False</option>' + 
                                         '</select>';
-                    ;
                     newNode.setAttribute('name', 'property-value-' + + propertyNumEdit);
                     newNode.setAttribute('value', element.value);
                     newNode.setAttribute('id', 'property-value-' + + propertyNumEdit);
