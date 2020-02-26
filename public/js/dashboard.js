@@ -122,7 +122,7 @@ function editTask(id) {
             if(!element.user_defined) {
                 // Fill in the predefined properties
                 var value = $("[id='" + element.name.trim() + "']").parent().next().next(); // Some ids might have blank space 
-                if(element.name == 'Priority' || element.name == 'Repeat') {
+                if(element.name == 'Priority' || element.name == 'Repeat' || element.name == 'Description') {
                     value[0].firstElementChild.value = element.value;
                 }
                 else {
