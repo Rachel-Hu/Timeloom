@@ -5,7 +5,7 @@
 <?php
     if(isset($_POST['task'])){
         if($_POST['task'] != ""){
-            $task = $_POST['task'];
+            $task = htmlspecialchars($_POST['task'], ENT_QUOTES);
             // print_r($_POST);
             // print_r($_SESSION);
             $userid = $_SESSION['userid'];
@@ -99,8 +99,8 @@
                 if(!$find_highest_result) {
                     die("QUERY FAILED ".mysqli.error($connect));
                 }                
-                $higest = mysqli_fetch_assoc($find_highest_result)['display_score'];
-                $task_score = $higest + 1;
+                $highest = mysqli_fetch_assoc($find_highest_result)['display_score'];
+                $task_score = $highest + 1;
                 $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties, model) VALUES ('{$task}', 0, '{}', ".$task_score.", ".$listid.", ".$userid.", '".$json."', '{}')";
                 echo $add_task_query;
                 $add_result = mysqli_query($connect, $add_task_query);

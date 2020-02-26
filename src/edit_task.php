@@ -6,7 +6,7 @@
     // print_r($_POST);
     if(isset($_POST['task'])){
         if($_POST['task'] != ""){
-            $task = $_POST['task'];
+            $task = htmlspecialchars($_POST['task'], ENT_QUOTES);
             $userid = $_SESSION['userid'];
             $listid = $_SESSION['listid'];
             $id = $_POST['edit-submit-btn'];
