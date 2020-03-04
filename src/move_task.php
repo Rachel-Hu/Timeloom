@@ -47,16 +47,14 @@
                     die("QUERY FAILED ".mysqli.error($connect)).' '.msqli_errno($connect);
                 }
                 $task = mysqli_fetch_assoc($task_result);
-                $properties = json_decode($task['properties']);
-                $index = array_search("Done by", array_column($properties, "name"));
+                if($task['model'] == '{}') $model = array();
+                else $model = json_decode($task['model'], true);
+                print_r($model);         
                 // Set new time
                 $current = date("Y-m-d\TH:i");
-                $due_date = (array)$properties[$index];
-                if($due_date['value'] == '') 
-                    $due_date['value'] = $current;
-                $properties[$index] = $due_date;
-                $properties = json_encode($properties);
-                $query = "UPDATE task SET task_list_id = $list, properties = '$properties' WHERE id = $id ";
+                $model['completed_time'] = $current;
+                $model = json_encode($model);
+                $query = "UPDATE task SET task_list_id = $list, model = '$model' WHERE id = $id ";
                 // echo $query;
                 $move_task_query = mysqli_query($connect, $query);
                 if(!$move_task_query) {

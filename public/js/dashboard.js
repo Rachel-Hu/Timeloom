@@ -355,3 +355,7 @@ $(document).on("change", "select .property-type", function() {
 $(document).ready(function(){
     $('input').tooltip({'trigger':'hover'});
 });
+
+setTimeout(function() {
+    document.location.reload()
+}, 120000);
