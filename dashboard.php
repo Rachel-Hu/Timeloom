@@ -198,8 +198,9 @@
                                                                 break;
                                                             // Done by is the last time the task will be valid. The default is 5 days later.
                                                             case 'Estimated Duration':
-                                                                $default = "12:00";
-                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" type="time" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="60">';
+                                                                $default = 48;
+                                                                // $value_input = '<input data-toggle="tooltip" data-placement="top" type="time" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="60">';
+                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" type="text" class="form-control" id="duration" name="property-value-'.$count.'" value="'.$default.'">';    
                                                                 break;
                                                             // For priority, it is a dropdown selection menu
                                                             case 'Priority':
@@ -341,8 +342,9 @@
                                                                 break;
                                                             // Done by is the last time the task will be valid. The default is 5 days later.
                                                             case 'Estimated Duration':
-                                                                $default = "12:00";
-                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" type="time" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="60">';
+                                                                $default = 48;
+                                                                // $value_input = '<input data-toggle="tooltip" data-placement="top" type="time" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="60">';
+                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" type="text" class="form-control" id="duration-edit" name="property-value-'.$count.'" value="'.$default.'">';
                                                                 break;
                                                             // For priority, it is a dropdown selection menu
                                                             case 'Priority':

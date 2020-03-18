@@ -1,5 +1,9 @@
 // Number of predefined properties
 const PREDEFINED = 10;
+$(document).ready(function() {
+    $('#duration').durationPicker();
+    $('#duration-edit').durationPicker();
+});
 
 // When the add button is clicked, add the id of the task it belongs to 
 // and the previous task's id to the button value
@@ -124,6 +128,14 @@ function editTask(id) {
                 var value = $("[id='" + element.name.trim() + "']").parent().next().next(); // Some ids might have blank space 
                 if(element.name == 'Priority' || element.name == 'Repeat' || element.name == 'Description') {
                     value[0].firstElementChild.value = element.value;
+                }
+                else if(element.name == 'Estimated Duration') {
+                    var hours = element.value
+                    $(".bdp-block")[3].children[0].value = Math.floor(hours / (24 * 7));
+                    hours = hours % (24 * 7);
+                    $(".bdp-block")[4].children[0].value = Math.floor(hours / 24);
+                    hours = hours % 24;
+                    $(".bdp-block")[5].children[0].value = hours;
                 }
                 else {
                     value[0].firstElementChild.setAttribute('value', element.value);
