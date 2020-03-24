@@ -198,9 +198,22 @@
                                                                 break;
                                                             // Done by is the last time the task will be valid. The default is 5 days later.
                                                             case 'Estimated Duration':
-                                                                $default = 48;
                                                                 // $value_input = '<input data-toggle="tooltip" data-placement="top" type="time" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="60">';
-                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" type="text" class="form-control" id="duration" name="property-value-'.$count.'" value="'.$default.'">';    
+                                                                $value_input = '<input type="hidden" name="property-value-'.$count.'" value="48" id="duration-value">
+                                                                                <div class="duration-input" id="duration">
+                                                                                    <div class="duration-block">
+                                                                                        <input class="form-control input-sm" type="number" min="0" value="0" data-original-title title id="duration-week">
+                                                                                        <div>week(s)</div>
+                                                                                    </div>
+                                                                                    <div class="duration-block">
+                                                                                        <input class="form-control input-sm" type="number" min="0" max="6" value="2" data-original-title title id="duration-day">
+                                                                                        <div>day(s)</div>
+                                                                                    </div>
+                                                                                    <div class="duration-block">
+                                                                                        <input class="form-control input-sm" type="number" min="0" max="23" value="0" data-original-title title id="duration-hour">
+                                                                                        <div>hour(s)</div>
+                                                                                    </div>
+                                                                                </div>';    
                                                                 break;
                                                             // For priority, it is a dropdown selection menu
                                                             case 'Priority':
@@ -342,9 +355,22 @@
                                                                 break;
                                                             // Done by is the last time the task will be valid. The default is 5 days later.
                                                             case 'Estimated Duration':
-                                                                $default = 48;
                                                                 // $value_input = '<input data-toggle="tooltip" data-placement="top" type="time" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="60">';
-                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" type="text" class="form-control" id="duration-edit" name="property-value-'.$count.'" value="'.$default.'">';
+                                                                $value_input = '<input type="hidden" name="property-value-'.$count.'" value="48" id="duration-value-edit">
+                                                                                <div class="duration-input" id="duration-edit">
+                                                                                    <div class="duration-block-edit">
+                                                                                        <input class="form-control input-sm" type="number" min="0" value="0" data-original-title title id="duration-week-edit">
+                                                                                        <div>week(s)</div>
+                                                                                    </div>
+                                                                                    <div class="duration-block-edit">
+                                                                                        <input class="form-control input-sm" type="number" min="0" max="6" value="2" data-original-title title id="duration-day-edit">
+                                                                                        <div>day(s)</div>
+                                                                                    </div>
+                                                                                    <div class="duration-block-edit">
+                                                                                        <input class="form-control input-sm" type="number" min="0" max="23" value="0" data-original-title title id="duration-hour-edit">
+                                                                                        <div>hour(s)</div>
+                                                                                    </div>
+                                                                                </div>';   
                                                                 break;
                                                             // For priority, it is a dropdown selection menu
                                                             case 'Priority':

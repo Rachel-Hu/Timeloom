@@ -1,9 +1,5 @@
 // Number of predefined properties
 const PREDEFINED = 10;
-$(document).ready(function() {
-    $('#duration').durationPicker();
-    $('#duration-edit').durationPicker();
-});
 
 // When the add button is clicked, add the id of the task it belongs to 
 // and the previous task's id to the button value
@@ -130,12 +126,12 @@ function editTask(id) {
                     value[0].firstElementChild.value = element.value;
                 }
                 else if(element.name == 'Estimated Duration') {
-                    var hours = element.value
-                    $(".bdp-block")[3].children[0].value = Math.floor(hours / (24 * 7));
+                    var hours = element.value;
+                    $(".duration-block-edit")[0].children[0].value = Math.floor(hours / (24 * 7));
                     hours = hours % (24 * 7);
-                    $(".bdp-block")[4].children[0].value = Math.floor(hours / 24);
+                    $(".duration-block-edit")[1].children[0].value = Math.floor(hours / 24);
                     hours = hours % 24;
-                    $(".bdp-block")[5].children[0].value = hours;
+                    $(".duration-block-edit")[2].children[0].value = hours;
                 }
                 else {
                     value[0].firstElementChild.setAttribute('value', element.value);
@@ -366,6 +362,22 @@ $(document).on("change", "select .property-type", function() {
 
 $(document).ready(function(){
     $('input').tooltip({'trigger':'hover'});
+});
+
+$(document).ready(function(){
+    $(".duration-block-edit input").change(function() {
+        var duration = parseInt($("#duration-week-edit").val()) * 7 * 24 + parseInt($("#duration-day-edit").val()) * 24 + parseInt($("#duration-hour-edit").val());
+        $("#duration-value-edit").val(duration);
+        console.log($("#duration-value-edit").val());
+    });
+});
+
+$(document).ready(function(){
+    $(".duration-block input").change(function() {
+        var duration = parseInt($("#duration-week").val()) * 7 * 24 + parseInt($("#duration-day").val()) * 24 + parseInt($("#duration-hour").val());
+        $("#duration-value").val(duration);
+        console.log($("#duration-value").val());
+    });
 });
 
 setTimeout(function() {
