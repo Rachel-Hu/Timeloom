@@ -6,6 +6,11 @@
     if(isset($_POST['task'])){
         if($_POST['task'] != ""){
             $task = htmlspecialchars($_POST['task'], ENT_QUOTES);
+            $description = "";
+            if(strlen($task) > 40) {
+                $description = substr($task, 40);
+                $task = substr($task, 0, 40);
+            }
             // print_r($_POST);
             // print_r($_SESSION);
             $userid = $_SESSION['userid'];
@@ -55,6 +60,11 @@
             array_multisort($names_lowercase, SORT_ASC, $user_properties);
             $properties = array_merge($properties, $user_properties);
 
+            // Put extra task label (> 40 characters) into description
+            $index = array_search("Description", array_column($properties, 'name'));
+            $original_description = $properties[$index]["value"];
+            $properties[$index]["value"] = $description." Original decription: ".$original_description;
+            
             if(count($properties) == 0) $json = '{}';
             else $json = json_encode($properties);
 
