@@ -393,3 +393,17 @@ $(document).ready(function() {
         clearTimeout(timer);
     });
 });
+
+$(document).ready(function() {
+    $('#exampleModal').on('shown.bs.modal', function(){
+        clearTimeout(timer);
+    });
+});
+
+$(document).ready(function() {
+    $('#exampleModal').on('hidden.bs.modal', function(){
+        timer = setTimeout(function() {
+            document.location.reload()
+        }, 120000);
+    });
+});
