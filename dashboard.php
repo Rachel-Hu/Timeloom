@@ -217,7 +217,7 @@
                                                                 break;
                                                             // For priority, it is a dropdown selection menu
                                                             case 'Priority':
-                                                                $value_input = '<select class="form-control" class="property-type" name="property-value-'.$count.'"'.$row['label'].'">
+                                                                $value_input = '<select class="form-control" name="property-value-'.$count.'"'.$row['label'].'">
                                                                                     <option value="medium">Medium</option>
                                                                                     <option value="urgent">Urgent</option>
                                                                                     <option value="high">High</option>
@@ -226,7 +226,7 @@
                                                                 break;
                                                             // For repeat, it is also a dropdown selection menu
                                                             case 'Repeat':
-                                                                $value_input = '<select class="form-control" class="property-type" name="property-value-'.$count.'"'.$row['label'].'">
+                                                                $value_input = '<select class="form-control" name="property-value-'.$count.'"'.$row['label'].'">
                                                                                     <option value="never">Never</option>
                                                                                     <option value="daily">Every Day</option>
                                                                                     <option value="weekly">Every week</option>
@@ -326,7 +326,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="edit-form-label">Edit Task</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetEditForm()">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
@@ -374,7 +374,7 @@
                                                                 break;
                                                             // For priority, it is a dropdown selection menu
                                                             case 'Priority':
-                                                                $value_input = '<select class="form-control" class="property-type" name="property-value-'.$count.'"'.$row['label'].'">
+                                                                $value_input = '<select class="form-control" name="property-value-'.$count.'"'.$row['label'].'">
                                                                                     <option value="medium">Medium</option>
                                                                                     <option value="urgent">Urgent</option>
                                                                                     <option value="high">High</option>
@@ -383,7 +383,7 @@
                                                                 break;
                                                             // For repeat, it is also a dropdown selection menu
                                                             case 'Repeat':
-                                                                $value_input = '<select class="form-control" class="property-type" name="property-value-'.$count.'"'.$row['label'].'">
+                                                                $value_input = '<select class="form-control" name="property-value-'.$count.'"'.$row['label'].'">
                                                                                     <option value="never">Never</option>
                                                                                     <option value="daily">Every Day</option>
                                                                                     <option value="weekly">Every week</option>

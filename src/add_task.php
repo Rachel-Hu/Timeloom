@@ -22,7 +22,7 @@
             
             $task_query = "SELECT * FROM task WHERE display_label = '$task' AND user_id = '$userid'";
             $search_result = mysqli_query($connect, $task_query);
-            if($search_result) {
+            if($search_result->num_rows != 0) {
                 $_SESSION['message'] = '<div class="alert alert-danger" role="alert">Task already existed!</div>';
                 header('Location: ../dashboard.php');
             }
@@ -69,9 +69,11 @@
                 $properties = array_merge($properties, $user_properties);
 
                 // Put extra task label (> 40 characters) into description
-                $index = array_search("Description", array_column($properties, 'name'));
-                $original_description = $properties[$index]["value"];
-                $properties[$index]["value"] = $description." Original decription: ".$original_description;
+                if($description != "") {
+                    $index = array_search("Description", array_column($properties, 'name'));
+                    $original_description = $properties[$index]["value"];
+                    $properties[$index]["value"] = $description." Original decription: ".$original_description;
+                }
                 
                 if(count($properties) == 0) $json = '{}';
                 else $json = json_encode($properties);

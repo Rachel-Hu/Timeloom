@@ -1,5 +1,8 @@
 // Number of predefined properties
 const PREDEFINED = 10;
+var timer = setTimeout(function() {
+    document.location.reload()
+}, 120000);
 
 // When the add button is clicked, add the id of the task it belongs to 
 // and the previous task's id to the button value
@@ -188,13 +191,17 @@ function editTask(id) {
 }
 
 // Reset edit form when closing 
-function resetEditForm() {
-    $('.dynamic-properties-edit').html('');
-    var valuesToReset = $('.fixed-property-values-edit');
-    for(var i = 0; i < valuesToReset.length; i++) {
-        valuesToReset[i].firstElementChild.setAttribute('value', '');
-    }
-}
+$(document).ready(function() {
+    $('#edit-form').on('hidden.bs.modal', function(){
+        $('.dynamic-properties-edit').html('');
+        var valuesToReset = $('.fixed-property-values-edit');
+        for(var i = 0; i < valuesToReset.length; i++) 
+            valuesToReset[i].firstElementChild.setAttribute('value', '');
+        timer = setTimeout(function() {
+            document.location.reload()
+        }, 120000);
+    });
+});
 
 var filled = false;
 
@@ -257,11 +264,12 @@ $(document).ready(function() {
         property.setAttribute('name', 'property-' + propertyNumEdit);
         property.setAttribute('id', 'property-' + propertyNumEdit);
         var type = col[0].childNodes[1].firstElementChild.nextElementSibling.lastElementChild;
-        type.setAttribute('name', 'property-type-' + + propertyNumEdit);
-        type.setAttribute('id', 'property-type-' + + propertyNumEdit);
+        type.setAttribute('name', 'property-type-' + propertyNumEdit);
+        type.setAttribute('id', 'property-type-' + propertyNumEdit);
+        type.setAttribute('class', 'form-control property-type');
         var value = col[0].childNodes[3].firstElementChild.lastElementChild;
-        value.setAttribute('name', 'property-value-' + + propertyNumEdit);
-        value.setAttribute('id', 'property-value-' + + propertyNumEdit);
+        value.setAttribute('name', 'property-value-' + propertyNumEdit);
+        value.setAttribute('id', 'property-value-' + propertyNumEdit);
         // Also set the user-defined value to be true
         var userDefined = col[0].childNodes[3].lastElementChild;
         userDefined.setAttribute('name', 'user-defined-' + propertyNumEdit);
@@ -345,7 +353,7 @@ function attachDeleteEdit(){
 }
 
 // Change the type of the input box when the type is selected by the user
-$(document).on("change", "select .property-type", function() {
+$(document).on("change", ".property-type", function() {
     var type = this.value;
     var id = this.id.split('-')[2];
     console.log(type);
@@ -380,6 +388,8 @@ $(document).ready(function(){
     });
 });
 
-setTimeout(function() {
-    document.location.reload()
-}, 120000);
+$(document).ready(function() {
+    $('#edit-form').on('shown.bs.modal', function(){
+        clearTimeout(timer);
+    });
+});
