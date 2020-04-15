@@ -17,6 +17,7 @@
             printf('<link rel="stylesheet" type="text/css" href="%s" />', $css);
         }    
     ?>
+    <script type="text/javascript">const PREDEFINED = <?= $predefined ?>;</script>
     <?php
         if(isset($js)){
             printf('<script type="text/javascript" src="%s"></script>', $js);

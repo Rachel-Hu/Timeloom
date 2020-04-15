@@ -1,11 +1,19 @@
 <?php include 'includes/db.php'?>
 <?php session_start(); ?>
+<?php 
+    $predefined_query = "SELECT COUNT(*) FROM task_properties WHERE task_properties.user_defined = 0";
+    $predefined_result = mysqli_query($connect, $predefined_query);
+    if(!$predefined_result) {
+        echo "Failed!";
+        die("QUERY FAILED ".mysqli.error($connect));
+    }
+    $predefined = mysqli_fetch_assoc($predefined_result)['COUNT(*)'];
+?>
 <?php
     $css = 'public/stylesheets/dashboard.css';
     $js = 'public/js/dashboard.js';
     include 'includes/dropdown.php'; 
 ?>
-
         <div class="container">
             <?php if(isset($_SESSION['message'])) {
                 echo $_SESSION['message'];

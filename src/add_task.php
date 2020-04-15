@@ -122,7 +122,7 @@
                     $highest = mysqli_fetch_assoc($find_highest_result)['display_score'];
                     $task_score = $highest + 1;
                     $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties, model) VALUES ('{$task}', 0, '{}', ".$task_score.", ".$listid.", ".$userid.", '".$json."', '{}')";
-                    echo $add_task_query;
+                    // echo $add_task_query;
                     $add_result = mysqli_query($connect, $add_task_query);
                     if(!$add_result) {
                         die("QUERY FAILED ".mysqli.error($connect));
@@ -148,7 +148,7 @@
                     $next_task_score = mysqli_fetch_assoc($next_score_result)['display_score'];
                     $task_score = ($prev_task_score + $next_task_score) / 2;
                     $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties, model) VALUES ('{$task}', 0, '{}', ".$task_score.", ".$listid.", ".$userid.", '".$json."', '{}')";
-                    echo $add_task_query;
+                    // echo $add_task_query;
                     $add_result = mysqli_query($connect, $add_task_query);
                     if(!$add_result) {
                         die("QUERY FAILED ".mysqli.error($connect));
@@ -166,7 +166,7 @@
                     $next_task_score = mysqli_fetch_assoc($next_score_result)['display_score'];
                     $task_score = $next_task_score - 1;
                     $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties, model) VALUES ('{$task}', 0, '{}', ".$task_score.", ".$listid.", ".$userid.", '".$json."', '{}')";
-                    echo $add_task_query;
+                    // echo $add_task_query;
                     $add_result = mysqli_query($connect, $add_task_query);
                     if(!$add_result) {
                         die("QUERY FAILED ".mysqli.error($connect));
