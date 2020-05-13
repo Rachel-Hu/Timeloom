@@ -2,7 +2,6 @@
 <?php session_start(); ?>
 <?php 
     $add_display_score = json_decode($_POST['addDisplayScore']);
-    // $taskIds = json_decode($_POST['taskIds']);
     $taskIds = $_POST['taskIds'];
     $listid = json_decode($_POST['listId']);
     $userid = $_SESSION['userid'];
@@ -10,7 +9,6 @@
     $all_ids_str = $_POST['allIds'];
 
     $all_ids = explode(" ", $all_ids_str);
-    // print_r($all_ids);
 
     $query = "SELECT *
                 FROM task
@@ -41,12 +39,10 @@
             return ($a['score'] <=> $b['score']);
         });
     }
-    // print_r($sorted_tasks);
+
     $sorted_ids = array_column($sorted_tasks, 'id');
-    // print_r($sorted_ids);
     $new_score = null;
     foreach($sorted_ids as $id) {
-        // echo $id."\n";
         $ids = array_column($rows, 'id');
         $found_task = array_search($id, $ids);
         $hints = json_decode($rows[$found_task]['hint'], true);
@@ -104,12 +100,10 @@
             }
         }
         
-        // echo $new_score."\n";
         if($new_score != null) {
             $update_task_query = "UPDATE task 
                             SET display_score = $new_score, hint = '$hints'
                             WHERE id = $id";
-            // echo $update_task_query."\n";
             $update_result = mysqli_query($connect, $update_task_query);
             if(!$update_result) {
                 echo "Failed!";

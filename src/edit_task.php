@@ -3,7 +3,6 @@
 <?php session_start(); ?>
 
 <?php
-    // print_r($_POST);
     if(isset($_POST['task'])){
         if($_POST['task'] != ""){
             $task = htmlspecialchars($_POST['task'], ENT_QUOTES);
@@ -94,7 +93,6 @@
 
             // Update task
             $update_query = "UPDATE task SET display_label = '{$task}', properties = '$json' WHERE id = $id";
-            // echo $update_query;
             $update_result = mysqli_query($connect, $update_query);
             if(!$update_result) {
                 echo "Failed!!";

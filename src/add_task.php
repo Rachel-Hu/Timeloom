@@ -7,13 +7,13 @@
         if($_POST['task'] != ""){
             $task = htmlspecialchars($_POST['task'], ENT_QUOTES);
             $description = "";
+            // If the task label has more than 40 characters, move extra characters
+            // to description
             if(strlen($task) > 40) {
                 $description = substr($task, 40);
                 $task = substr($task, 0, 40);
             }
 
-            // print_r($_POST);
-            // print_r($_SESSION);
             $userid = $_SESSION['userid'];
             $listid = $_SESSION['listid'];
             $ids = explode("and", $_POST['add-submit-btn']);
@@ -22,6 +22,7 @@
             
             $task_query = "SELECT * FROM task WHERE display_label = '$task' AND user_id = '$userid'";
             $search_result = mysqli_query($connect, $task_query);
+            // If a task with the same label already existed, return to dashboard with an error
             if($search_result->num_rows != 0) {
                 $_SESSION['message'] = '<div class="alert alert-danger" role="alert">Task already existed!</div>';
                 header('Location: ../dashboard.php');
@@ -78,8 +79,6 @@
                 if(count($properties) == 0) $json = '{}';
                 else $json = json_encode($properties);
 
-                // echo $json;
-
                 // Update property table. Only user defined properties need to be added.
                 foreach($properties as $property){
                     $name = $property['name'];
@@ -121,8 +120,7 @@
                     }                
                     $highest = mysqli_fetch_assoc($find_highest_result)['display_score'];
                     $task_score = $highest + 1;
-                    $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties, model) VALUES ('{$task}', 0, '{}', ".$task_score.", ".$listid.", ".$userid.", '".$json."', '{}')";
-                    // echo $add_task_query;
+                    $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties, model) VALUES ('{$task}', ".$task_score.", '{}', ".$task_score.", ".$listid.", ".$userid.", '".$json."', '{}')";
                     $add_result = mysqli_query($connect, $add_task_query);
                     if(!$add_result) {
                         die("QUERY FAILED ".mysqli.error($connect));
@@ -147,8 +145,7 @@
                     }
                     $next_task_score = mysqli_fetch_assoc($next_score_result)['display_score'];
                     $task_score = ($prev_task_score + $next_task_score) / 2;
-                    $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties, model) VALUES ('{$task}', 0, '{}', ".$task_score.", ".$listid.", ".$userid.", '".$json."', '{}')";
-                    // echo $add_task_query;
+                    $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties, model) VALUES ('{$task}', ".$task_score.", '{}', ".$task_score.", ".$listid.", ".$userid.", '".$json."', '{}')";
                     $add_result = mysqli_query($connect, $add_task_query);
                     if(!$add_result) {
                         die("QUERY FAILED ".mysqli.error($connect));
@@ -165,8 +162,7 @@
                     }
                     $next_task_score = mysqli_fetch_assoc($next_score_result)['display_score'];
                     $task_score = $next_task_score - 1;
-                    $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties, model) VALUES ('{$task}', 0, '{}', ".$task_score.", ".$listid.", ".$userid.", '".$json."', '{}')";
-                    // echo $add_task_query;
+                    $add_task_query = "INSERT INTO task (display_label, score, hint, display_score, task_list_id, user_id, properties, model) VALUES ('{$task}', ".$task_score.", '{}', ".$task_score.", ".$listid.", ".$userid.", '".$json."', '{}')";
                     $add_result = mysqli_query($connect, $add_task_query);
                     if(!$add_result) {
                         die("QUERY FAILED ".mysqli.error($connect));

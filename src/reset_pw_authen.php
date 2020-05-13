@@ -4,7 +4,6 @@
 
 <?php
     if(isset($_POST['resetpw'])){
-        // echo $_POST['password'];
         $new_pw = $_POST['password'];
         $query = "UPDATE user SET password = ".$new_pw."
                     WHERE username = '{$_POST['username']}'";

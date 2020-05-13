@@ -1,6 +1,7 @@
 <?php include 'includes/db.php'?>
 <?php session_start(); ?>
 <?php 
+// Retrieve the number of all predefined properties from database
     $predefined_query = "SELECT COUNT(*) FROM task_properties WHERE task_properties.user_defined = 0";
     $predefined_result = mysqli_query($connect, $predefined_query);
     if(!$predefined_result) {
@@ -10,11 +11,13 @@
     $predefined = mysqli_fetch_assoc($predefined_result)['COUNT(*)'];
 ?>
 <?php
+// link to css and js file for this page in a modular way
     $css = 'public/stylesheets/dashboard.css';
     $js = 'public/js/dashboard.js';
     include 'includes/dropdown.php'; 
 ?>
         <div class="container">
+        <!-- Check if any message (failure, success, etc.) is stored in session -->
             <?php if(isset($_SESSION['message'])) {
                 echo $_SESSION['message'];
                 $_SESSION['message'] = null;
@@ -204,9 +207,8 @@
                                                                 $default = date("Y-m-d\TH:i");
                                                                 $value_input = '<input type="datetime-local" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="1">';
                                                                 break;
-                                                            // Done by is the last time the task will be valid. The default is 5 days later.
+                                                            // The default estimated Duration is 2 days.
                                                             case 'Estimated Duration':
-                                                                // $value_input = '<input data-toggle="tooltip" data-placement="top" type="time" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="60">';
                                                                 $value_input = '<input type="hidden" name="property-value-'.$count.'" value="48" id="duration-value">
                                                                                 <div class="duration-input" id="duration">
                                                                                     <div class="duration-block">
@@ -245,7 +247,7 @@
                                                                                 </select>';
                                                                 break;
                                                             case 'Elasticity':
-                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" title="Range: 0~1" type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5 min="0" max="1">';
+                                                                $value_input = '<input data-toggle="tooltip" data-placement="top" title="Range: 0~1" type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0 min="0" max="1">';
                                                                 break;
                                                             case 'Difficulty':
                                                                 $value_input = '<input data-toggle="tooltip" data-placement="top" title="Range: 0~1" type="number" step="any" class="form-control" name="property-value-'.$count.'" value=0.5 min="0" max="1">';
@@ -289,7 +291,6 @@
                                                             <input type="text" class="form-control" id="property" autocomplete="off" placeholder="Add new property">
                                                             <div class="result"></div>
                                                         </div>
-                                                        <!-- <input type="text" class="form-control" id="property" placeholder="Add new property"> -->
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label for="property-type" class="col-form-label">Type:</label>
@@ -320,7 +321,6 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
                                             <button type="submit" class="btn btn-primary add-submit-btn" name="add-submit-btn" value="">Add</button>
                                         </div>
                                     </form>
@@ -329,6 +329,7 @@
                         </div>
 
                         <!-- form to edit task -->
+                        <!-- Exactly the same as the form to add task. Could be simplified in the future -->
                         <div class="modal fade" id="edit-form" tabindex="-1" role="dialog" aria-labelledby="edit-form-label" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
@@ -361,9 +362,8 @@
                                                                 $default = date("Y-m-d\TH:i");
                                                                 $value_input = '<input type="datetime-local" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="1">';
                                                                 break;
-                                                            // Done by is the last time the task will be valid. The default is 5 days later.
+                                                            // The default estimated duration is 2 days later.
                                                             case 'Estimated Duration':
-                                                                // $value_input = '<input data-toggle="tooltip" data-placement="top" type="time" class="form-control" name="property-value-'.$count.'" value="'.$default.'" step="60">';
                                                                 $value_input = '<input type="hidden" name="property-value-'.$count.'" value="48" id="duration-value-edit">
                                                                                 <div class="duration-input" id="duration-edit">
                                                                                     <div class="duration-block-edit">
@@ -471,7 +471,7 @@
                         </div>
 
                         <?php
-                            // Fetch the user id if not in session.
+                            // Fetch the current list id if not in session.
                             if(!isset($_SESSION['listid'])){
                                 $_SESSION['listid'] = 2;
                             }
@@ -485,7 +485,8 @@
                             $prev_row = null;
 
                             $all_ids = "";
-
+                            // When fetching each task, store all info in a hidden field, 
+                            // Also store the ids of previous and next task for easier task move (up/down)
                             while($row = mysqli_fetch_assoc($tasks)) {
                                 $arr = json_decode($row['properties'], true);
                                 $due = '';
@@ -497,7 +498,6 @@
                                     // If it is the active list and task is expired, move to expired
                                     $id = $row['id'];
                                     $query = "UPDATE task SET task_list_id = 4 WHERE id = $id ";
-                                    // echo $query;
                                     $move_task_query = mysqli_query($connect, $query);
                                     if(!$move_task_query) {
                                         die("QUERY FAILED ".mysqli.error($connect)).' '.msqli_errno($connect);
@@ -508,7 +508,6 @@
                                     // If it is the expired list and task is active, move to active
                                     $id = $row['id'];
                                     $query = "UPDATE task SET task_list_id = 2 WHERE id = $id ";
-                                    // echo $query;
                                     $move_task_query = mysqli_query($connect, $query);
                                     if(!$move_task_query) {
                                         die("QUERY FAILED ".mysqli.error($connect)).' '.msqli_errno($connect);
@@ -535,6 +534,7 @@
                                     $all_ids .= $id." ";
                                 }
                             }
+
                             if($prev_row) {
                                 $task = $prev_row['display_label'];
                                 $properties = htmlspecialchars($prev_row['properties'], ENT_QUOTES);

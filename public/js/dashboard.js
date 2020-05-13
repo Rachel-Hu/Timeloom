@@ -1,5 +1,4 @@
-// Number of predefined properties
-// const PREDEFINED = $('#predefined').val();
+// Refresh the page every 2 minutes
 var timer = setTimeout(function() {
     document.location.reload()
 }, 120000);
@@ -101,11 +100,9 @@ function selectTask(id, listNumber) {
     $('#expire-btn').attr("href", "src/move_task.php?id=" + ids + "&list=4&prev=" + listNumber);   
     $('#delete-btn').attr("href", "src/delete_task.php?id=" + ids);  
     var userLists = $(".user-list");
-    // console.log(userLists);
     for(var i = 0; i < userLists.length; i++) {
         var list = userLists[i];
         var listId = list.id.split("-")[1];
-        // console.log(list.id);
         $('#' + list.id).attr("href", "src/move_task.php?id=" + ids + "&list=" + listId + "&prev=" + listNumber); 
     }
 }
@@ -129,6 +126,7 @@ function editTask(id) {
                     value[0].firstElementChild.value = element.value;
                 }
                 else if(element.name == 'Estimated Duration') {
+                    // Present estimated duration in the form of weeks/days/hours
                     var hours = element.value;
                     $('#duration-value-edit').attr('value', hours);
                     $(".duration-block-edit")[0].children[0].value = Math.floor(hours / (24 * 7));
@@ -162,7 +160,6 @@ function editTask(id) {
                     parent.append(newNode);
                     parent.removeChild(value);
                     value = newNode;
-                    // console.log(value);
                     newNode.value = element.value;
                 }
                 else {
@@ -357,7 +354,6 @@ function attachDeleteEdit(){
 $(document).on("change", ".property-type", function() {
     var type = this.value;
     var id = this.id.split('-')[2];
-    // console.log(type);
     if(type != "boolean")
         $('#property-value-' + id).replaceWith('<input type="' + type + '" class="form-control" id="property-value-' + id + '" placeholder="New property value" name="property-value-' + id + '">');
     else {
@@ -369,38 +365,42 @@ $(document).on("change", ".property-type", function() {
     }
 })
 
+// Present tips for each input box from add/edit form
 $(document).ready(function(){
     $('input').tooltip({'trigger':'hover'});
 });
 
+// Calculate weeks/days/hours for estimated duration in add form
 $(document).ready(function(){
     $(".duration-block-edit input").change(function() {
         var duration = parseInt($("#duration-week-edit").val()) * 7 * 24 + parseInt($("#duration-day-edit").val()) * 24 + parseInt($("#duration-hour-edit").val());
         $("#duration-value-edit").val(duration);
-        // console.log($("#duration-value-edit").val());
     });
 });
 
+// Calculate weeks/days/hours for estimated duration in edit form
 $(document).ready(function(){
     $(".duration-block input").change(function() {
         var duration = parseInt($("#duration-week").val()) * 7 * 24 + parseInt($("#duration-day").val()) * 24 + parseInt($("#duration-hour").val());
         $("#duration-value").val(duration);
-        // console.log($("#duration-value").val());
     });
 });
 
+// If the edit form is opened, stop auto refreshing
 $(document).ready(function() {
     $('#edit-form').on('shown.bs.modal', function(){
         clearTimeout(timer);
     });
 });
 
+// If the add form is opened, stop auto refreshing
 $(document).ready(function() {
     $('#exampleModal').on('shown.bs.modal', function(){
         clearTimeout(timer);
     });
 });
 
+// If either form is closed, start auto refreshing
 $(document).ready(function() {
     $('#exampleModal').on('hidden.bs.modal', function(){
         timer = setTimeout(function() {

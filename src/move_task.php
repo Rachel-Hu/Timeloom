@@ -2,12 +2,13 @@
 
 <?php session_start(); ?>
 
+<!-- Move task to other lists -->
+
 <?php 
     if(isset($_GET['id'])) {
         $id_str = $_GET['id'];
         $list = $_GET['list'];
         $prev_list = $_GET['prev'];
-        // print_r($_GET);
         $ids = explode('_', $id_str);
         // Expired to active
         if($prev_list == 4 && $list == 2) {
@@ -29,7 +30,6 @@
                 $properties[$index] = $due_date;
                 $properties = json_encode($properties);
                 $query = "UPDATE task SET task_list_id = $list, properties = '$properties' WHERE id = $id ";
-                // echo $query;
                 $move_task_query = mysqli_query($connect, $query);
                 if(!$move_task_query) {
                     die("QUERY FAILED ".mysqli.error($connect)).' '.msqli_errno($connect);
@@ -55,7 +55,6 @@
                 $model['completed_time'] = $current;
                 $model = json_encode($model);
                 $query = "UPDATE task SET task_list_id = $list, model = '$model' WHERE id = $id ";
-                // echo $query;
                 $move_task_query = mysqli_query($connect, $query);
                 if(!$move_task_query) {
                     die("QUERY FAILED ".mysqli.error($connect)).' '.msqli_errno($connect);

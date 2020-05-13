@@ -2,6 +2,8 @@
 
 <?php session_start(); ?>
 
+<!-- add a user defined list -->
+
 <?php
     print_r($_POST);
     if(isset($_POST['newlist'])){

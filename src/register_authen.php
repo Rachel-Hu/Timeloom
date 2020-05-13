@@ -15,8 +15,6 @@
         foreach($user_info as $key => $value) {
             $value = mysqli_real_escape_string($connect, $value);
         }
-        
-        // print_r($user_info);
 
         $query_1 = "INSERT INTO user (";
         $query_2 = "VALUES (";

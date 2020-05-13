@@ -1,5 +1,5 @@
 <?php include 'includes/header.php'?>
-        
+        <!-- Dropdown menu module -->
             <div class="dropdown ml-auto">
                 <button type="button" class="btn btn-danger dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <?php echo $_SESSION['username']; ?>
