@@ -7,7 +7,7 @@
 
 ## Use Case Diagram
 The following covers the main use cases of [Timeloom interface](https://timeloom.mcs.cmu.edu/).
-![](https://lh3.googleusercontent.com/UEFEfXw3U3j9fUVi4tTw-duLfx01u7nvY3GuuYsOfN5vRzmO9wkW-kAoIFoYtPdoYjJMcXaC3KyDBn0yvK7yto-C4iVvTswxQ1EiPuNWmWbNtZIhv-AQVYWCMYhP-Q077j_0MOTEaVmvbP0pW-h-y0aVBwZr8CaX7BHLJX55Z-UQvebaACLs9TbeQQnw5-ypmvv2y9AC49go9bL7MPZhcz6ccMXdIbXxhNCrhPxY2VFJ4BReIFr1vQ1ioto6B0Aj_mQOgzjPsjeAgQ_frXuDBq-MnxE7pJyq71sP9Eo0u0XyAHcH8nyak8PhFdRNuyNpDH2YQRa-KBZetjlgU4RsLEdXWkOrlWH2KZ5M3APB5NERVS06RnXb8-E4hdEObI1kcrC1_fZzm0ylNxJQ5KbMyXF6Enm8bhp1W8Rj4O5BAjz6QArSWo5gxafu3CqmefxhKDTimDXKWXDgde8ynCIQvyxDtdUdztUIFaELDdk6OfmR86YEzCi2IhDFVr2tl5-pKHRdkoqIQNredpX90cEfxOypQz2aSlyONyYTPMOPTZbvb7idCdk6-RpvZSqCnZAU9rR-I90_jG5KlxUA8AZdwICPu79W8QtY8eOkObS9N-xXktACXsiX-mF_emnJLpurIWXrYR1Gx4VMc5zCVu83HPARByxGSfgvKxi-UzNPASPgVR0gY9AnuPVak6k=w519-h692-no?authuser=2)
+![](https://i.ibb.co/jJcK2B4/user-case.png)
 
 
 ## Repo Structures
